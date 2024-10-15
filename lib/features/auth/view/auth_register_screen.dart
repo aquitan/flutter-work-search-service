@@ -18,6 +18,7 @@ class _AuthRegisterScreen extends State<AuthRegisterScreen> {
     return Scaffold(
       appBar: AppBar(
           toolbarHeight: 100,
+          centerTitle: true,
           surfaceTintColor: Colors.white,
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
@@ -32,12 +33,7 @@ class _AuthRegisterScreen extends State<AuthRegisterScreen> {
             ),
           )
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          AuthTabRegisterSwitcher()
-        ],
-      ),
+      body: AuthTabRegisterSwitcher(),
     );
   }
 }

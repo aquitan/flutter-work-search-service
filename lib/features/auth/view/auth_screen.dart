@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ia_ma/features/auth/view/auth_otp_check.dart';
 import 'package:ia_ma/features/auth/widgets/widgets.dart';
 
 class AuthScreen extends StatefulWidget {

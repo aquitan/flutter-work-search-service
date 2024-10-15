@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ia_ma/features/auth/view/auth_register_screen.dart';
-import 'package:ia_ma/features/auth/view/view.dart';
+import 'package:ia_ma/features/auth/view/auth_gate.dart';
 import 'package:ia_ma/ui/theme.dart';
 
 class IamaApp extends StatelessWidget {
@@ -10,10 +9,13 @@ class IamaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'YaMa',
       theme: lightThemeData,
-      // home: AuthScreen(),
-      home: AuthRegisterScreen(),
+      routes: {
+        '/': (context) => const AuthGate(),
+      },
+      // home: const AuthGate(),
     );
   }
 }
