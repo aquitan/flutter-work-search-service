@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ia_ma/features/auth/view/auth_gate.dart';
+import 'package:ia_ma/features/home/view/home_screen.dart';
 import 'package:ia_ma/ui/theme.dart';
 
 class IamaApp extends StatelessWidget {
@@ -13,7 +13,7 @@ class IamaApp extends StatelessWidget {
       title: 'YaMa',
       theme: lightThemeData,
       routes: {
-        '/': (context) => const AuthGate(),
+        '/': (context) => const HomeScreen(),
       },
       // home: const AuthGate(),
     );

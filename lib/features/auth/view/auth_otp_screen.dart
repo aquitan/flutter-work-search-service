@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/features/auth/view/auth_register_screen.dart';
-import 'package:ia_ma/ui/widgets/coundown_timer.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class AuthOtpCheck extends StatefulWidget {
@@ -31,7 +29,7 @@ class _AuthOtpCheckState extends State<AuthOtpCheck> {
             surfaceTintColor: Colors.white,
             backgroundColor: Colors.white,
             foregroundColor: Colors.white,
-            title: SvgPicture.asset('assets/logo/logo.svg'),
+            title: Logo(),
             leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);

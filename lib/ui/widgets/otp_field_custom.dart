@@ -4,21 +4,21 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 class OtpFieldCustom extends StatefulWidget {
   final dynamic onSubmit;
 
-  OtpFieldCustom({super.key, required this.onSubmit});
+  const OtpFieldCustom({super.key, required this.onSubmit});
 
   @override
-  State<OtpFieldCustom> createState() => _OtpFieldCustomState(onSubmit: this.onSubmit);
+  State<OtpFieldCustom> createState() => _OtpFieldCustomState();
 }
 
 class _OtpFieldCustomState extends State<OtpFieldCustom> {
-  Function onSubmit;
 
-  _OtpFieldCustomState({required this.onSubmit});
+  _OtpFieldCustomState();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return OtpTextField(
+
       numberOfFields: 4,
       borderColor: Colors.orange,
       borderRadius: BorderRadius.circular(8),
@@ -30,9 +30,10 @@ class _OtpFieldCustomState extends State<OtpFieldCustom> {
         //handle validation or checks here
         print(code);
       },
+      focusedBorderColor: Colors.orange,
       //runs when every textfield is filled
       onSubmit: (String verificationCode) {
-        onSubmit(verificationCode);
+        widget.onSubmit(verificationCode);
       }, // end onSubmit
     );
   }

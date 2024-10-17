@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class RestorePasswordScreen extends StatefulWidget {
@@ -11,6 +10,9 @@ class RestorePasswordScreen extends StatefulWidget {
 
 class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
   bool _updateTimer = false;
+
+  final String type = 'email';
+  final String value = 'sukharevsky@ia-ma.ru';
 
   void dismissTimer() {
     setState(() {
@@ -29,7 +31,7 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
           surfaceTintColor: Colors.white,
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
-          title: SvgPicture.asset('assets/logo/logo.svg'),
+          title: Logo(),
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -45,25 +47,28 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
           SizedBox(
             height: 28,
           ),
-          Text('Подтверждение номера телефона',
+          Text('Восстановление пароля',
               textAlign: TextAlign.center, style: theme.titleLarge),
           SizedBox(
             height: 28,
           ),
           RichText(
               text: TextSpan(
-                  text: 'Вам поступит звонок на номер\n ',
+                  text: 'Мы отправили письмо с кодом на ',
                   style: theme.bodyMedium,
                   children: [
                 TextSpan(
-                    text: '+7 910 ***-**-**-13',
+                    text: 'sukharevsky@ia-ma.ru',
                     style: theme.bodyMedium!
                         .copyWith(fontWeight: FontWeight.w600)),
               ])),
           SizedBox(
             height: 28,
           ),
-          Text('Введите последние 4 цифры входящего номера',
+          Text(
+              type == 'email'
+                  ? 'Введите код'
+                  : 'Введите последние 4 цифры входящего номера',
               textAlign: TextAlign.left,
               style: theme.bodySmall!.copyWith(fontWeight: FontWeight.w600)),
           SizedBox(

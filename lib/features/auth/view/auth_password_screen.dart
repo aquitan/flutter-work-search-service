@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ia_ma/features/auth/view/view.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
@@ -11,6 +10,13 @@ class AuthPasswordScreen extends StatefulWidget {
 }
 
 class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
+
+
+  void onTap() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => FastLoginScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -22,7 +28,7 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
           surfaceTintColor: Colors.white,
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
-          title: SvgPicture.asset('assets/logo/logo.svg'),
+          title: Logo(),
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -94,6 +100,9 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
             height: 12,
           ),
           GestureDetector(
+            onTap: () {
+              onTap();
+            },
             child: Text(
               'Быстрый вход по коду',
               textAlign: TextAlign.center,

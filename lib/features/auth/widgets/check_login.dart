@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ia_ma/features/auth/view/auth_otp_screen.dart';
+import 'package:ia_ma/features/auth/view/view.dart';
 import 'package:ia_ma/features/auth/widgets/widgets.dart';
+import 'package:ia_ma/repository/auth/auth_repository.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
+
 
 class CheckLogin extends StatefulWidget {
   const CheckLogin({super.key});
@@ -22,6 +24,14 @@ class _CheckLoginState extends State<CheckLogin> {
     });
   }
 
+
+  void onTap() {
+    AuthRepository().chekUserLogin();
+
+    Route route = MaterialPageRoute(builder: (context) => AuthOtpCheck());
+    Navigator.push(context, route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -29,7 +39,7 @@ class _CheckLoginState extends State<CheckLogin> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: ListView(
           children: [
-            SvgPicture.asset('assets/logo/logo.svg'),
+            Logo(),
             SizedBox(
               height: 28,
             ),
@@ -54,8 +64,9 @@ class _CheckLoginState extends State<CheckLogin> {
               radius: 24,
               height: 48,
               onTap: () {
-                Route route = MaterialPageRoute(builder: (context) => AuthOtpCheck());
-                Navigator.push(context, route);
+                // Route route = MaterialPageRoute(builder: (context) => AuthOtpCheck());
+                // Navigator.push(context, route);
+                onTap();
               },
             ),
             SizedBox(

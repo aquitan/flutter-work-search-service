@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ia_ma/ui/widgets/otp_field_custom.dart';
+import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class FastLoginScreen extends StatefulWidget {
   const FastLoginScreen({super.key});
@@ -10,7 +9,8 @@ class FastLoginScreen extends StatefulWidget {
 }
 
 class _FastLoginScreenState extends State<FastLoginScreen> {
-  final value = 'Ivan@email.com';
+  final String value = 'Ivan@email.com';
+  final String type = 'email';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
           surfaceTintColor: Colors.white,
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
-          title: SvgPicture.asset('assets/logo/logo.svg'),
+          title: Logo(),
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -47,16 +47,21 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
           SizedBox(
             height: 32,
           ),
-          Text(
-            'Мы отправили письмо с кодом на \n $value',
-            textAlign: TextAlign.start,
-            style: theme.textTheme.bodyMedium,
-          ),
+          RichText(
+              text: TextSpan(
+                  text: 'Мы отправили письмо с кодом на ',
+                  style: theme.textTheme.bodyMedium,
+                  children: [
+                TextSpan(
+                    text: 'sukharevsky@ia-ma.ru',
+                    style: theme.textTheme.bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w600)),
+              ])),
           SizedBox(
             height: 28,
           ),
           Text(
-            'Введите код',
+            'Введите код',
             textAlign: TextAlign.start,
             style: theme.textTheme.titleMedium,
           ),
@@ -68,7 +73,8 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
           SizedBox(
             height: 32,
           ),
-          Text('Прислать новый код',
+          Text(
+            'Прислать новый код',
           textAlign: TextAlign.center,
           style: theme.textTheme.bodyLarge!.copyWith(color: theme.primaryColor),)
         ],
