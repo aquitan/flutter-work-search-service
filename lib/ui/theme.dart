@@ -17,7 +17,7 @@ final lightThemeData = ThemeData(
   textTheme: textTheme,
   useMaterial3: true,
   primaryColor: primaryColor,
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: Color.fromRGBO(244, 244, 245, 1),
   colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.light,

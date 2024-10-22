@@ -1,15 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ia_ma/features/auth/view/auth_register_screen.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
-class AuthOtpCheck extends StatefulWidget {
-  const AuthOtpCheck({super.key});
+@RoutePage()
+class AuthOtpCheckScreen extends StatefulWidget {
+  const AuthOtpCheckScreen({super.key});
 
   @override
-  State<AuthOtpCheck> createState() => _AuthOtpCheckState();
+  State<AuthOtpCheckScreen> createState() => _AuthOtpCheckScreenState();
 }
 
-class _AuthOtpCheckState extends State<AuthOtpCheck> {
+class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
   bool _updateTimer = false;
 
   void dismissTimer() {

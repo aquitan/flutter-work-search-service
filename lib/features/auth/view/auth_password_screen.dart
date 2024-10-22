@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ia_ma/features/auth/view/view.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
+@RoutePage()
 class AuthPasswordScreen extends StatefulWidget {
   const AuthPasswordScreen({super.key});
 

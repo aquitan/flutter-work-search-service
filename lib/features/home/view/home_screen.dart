@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ia_ma/features/search/view/search_screen.dart';
 
+@RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -25,6 +27,7 @@ class HomeScreen extends StatelessWidget {
                   Icons.headset_mic_outlined,
                   color: Colors.grey,
                 ),
+                tooltip: 'Работы',
                 label: 'Работы'),
             BottomNavigationBarItem(
                 icon: Icon(

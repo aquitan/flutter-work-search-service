@@ -7,15 +7,69 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i3;
-import 'package:ia_ma/features/auth/view/auth_screen.dart' as _i1;
-import 'package:ia_ma/features/search/view/search_screen.dart' as _i2;
+part of 'router.dart';
 
 /// generated route for
-/// [_i1.AuthScreen]
-class AuthRoute extends _i3.PageRouteInfo<void> {
-  const AuthRoute({List<_i3.PageRouteInfo>? children})
+/// [AuthOtpCheckScreen]
+class AuthOtpCheckRoute extends PageRouteInfo<void> {
+  const AuthOtpCheckRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthOtpCheckRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthOtpCheckRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AuthOtpCheckScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [AuthPasswordScreen]
+class AuthPasswordRoute extends PageRouteInfo<void> {
+  const AuthPasswordRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthPasswordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AuthPasswordScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [AuthRegisterScreen]
+class AuthRegisterRoute extends PageRouteInfo<void> {
+  const AuthRegisterRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRegisterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRegisterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AuthRegisterScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [AuthScreen]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
       : super(
           AuthRoute.name,
           initialChildren: children,
@@ -23,18 +77,75 @@ class AuthRoute extends _i3.PageRouteInfo<void> {
 
   static const String name = 'AuthRoute';
 
-  static _i3.PageInfo page = _i3.PageInfo(
+  static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const _i1.AuthScreen();
+      return const AuthScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i2.SearchScreen]
-class SearchRoute extends _i3.PageRouteInfo<void> {
-  const SearchRoute({List<_i3.PageRouteInfo>? children})
+/// [FastLoginScreen]
+class FastLoginRoute extends PageRouteInfo<void> {
+  const FastLoginRoute({List<PageRouteInfo>? children})
+      : super(
+          FastLoginRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FastLoginRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const FastLoginScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [HomeScreen]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HomeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [RestorePasswordScreen]
+class RestorePasswordRoute extends PageRouteInfo<void> {
+  const RestorePasswordRoute({List<PageRouteInfo>? children})
+      : super(
+          RestorePasswordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RestorePasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RestorePasswordScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [SearchScreen]
+class SearchRoute extends PageRouteInfo<void> {
+  const SearchRoute({List<PageRouteInfo>? children})
       : super(
           SearchRoute.name,
           initialChildren: children,
@@ -42,10 +153,10 @@ class SearchRoute extends _i3.PageRouteInfo<void> {
 
   static const String name = 'SearchRoute';
 
-  static _i3.PageInfo page = _i3.PageInfo(
+  static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const _i2.SearchScreen();
+      return const SearchScreen();
     },
   );
 }

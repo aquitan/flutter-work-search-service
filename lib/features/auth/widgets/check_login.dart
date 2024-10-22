@@ -28,7 +28,7 @@ class _CheckLoginState extends State<CheckLogin> {
   void onTap() {
     AuthRepository().chekUserLogin();
 
-    Route route = MaterialPageRoute(builder: (context) => AuthOtpCheck());
+    Route route = MaterialPageRoute(builder: (context) => AuthOtpCheckScreen());
     Navigator.push(context, route);
   }
 
