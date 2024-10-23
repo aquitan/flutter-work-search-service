@@ -5,17 +5,16 @@ class AuthTypes extends StatefulWidget {
   final SvgPicture? icon;
   final Color? color;
 
-  const AuthTypes({Key? key, this.icon, this.color}) : super(key: key);
+  const AuthTypes({super.key, this.icon, this.color});
 
   @override
-  _AuthTypesState createState() => _AuthTypesState(icon: this.icon, color: this.color);
+  State<AuthTypes> createState() => _AuthTypesState();
 }
 
 class _AuthTypesState extends State<AuthTypes> {
   SvgPicture? icon;
   Color? color;
 
-  _AuthTypesState({this.icon, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +23,12 @@ class _AuthTypesState extends State<AuthTypes> {
       height: 50,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: color,
+        color: widget.color,
         borderRadius: BorderRadius.circular(25),
       ),
       child: GestureDetector(
         onTap: () {},
-        child: icon,
+        child: widget.icon,
       ),
     );
   }

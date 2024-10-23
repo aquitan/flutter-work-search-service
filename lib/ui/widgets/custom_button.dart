@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  CustomButton({super.key, required this.onTap, required this.text, required this.radius});
+  CustomButton({super.key, required this.onTap, required this.text, required this.radius, required this.height});
 
   final Function() onTap;
   final String text;
   final double radius;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: height,
         padding: EdgeInsets.all(10),
         width: double.infinity,
         decoration: BoxDecoration(
