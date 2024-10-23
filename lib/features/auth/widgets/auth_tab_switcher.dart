@@ -33,16 +33,17 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
       children: [
         Container(
           decoration: BoxDecoration(
-              color: Colors.grey[200], borderRadius: BorderRadius.circular(24)),
+              color: theme.colorScheme.tertiaryContainer,
+              borderRadius: BorderRadius.circular(24)),
           child: TabBar(
               indicatorPadding: EdgeInsets.all(0),
               indicatorSize: TabBarIndicatorSize.tab,
               controller: _tabController,
               overlayColor: WidgetStatePropertyAll(Colors.transparent),
-              labelColor: Colors.grey,
+              labelColor: theme.tabBarTheme.labelColor,
               indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(24.0),
-                  color: Colors.white,
+                  color: theme.cardTheme.color,
                   border: Border.all(width: 2, color: theme.primaryColor)),
               dividerHeight: 0,
               tabs: [

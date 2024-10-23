@@ -26,10 +26,7 @@ class _AuthTypesState extends State<AuthTypes> {
         color: widget.color,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: GestureDetector(
-        onTap: () {},
-        child: widget.icon,
-      ),
+      child: widget.icon,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ia_ma/features/auth/view/view.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 @RoutePage()
@@ -15,8 +16,7 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
 
 
   void onTap() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => FastLoginScreen()));
+    AutoRouter.of(context).push(FastLoginRoute());
   }
 
   @override
@@ -25,11 +25,11 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 100,
           centerTitle: true,
-          surfaceTintColor: Colors.white,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.white,
+          toolbarHeight: 100,
+          surfaceTintColor: theme.scaffoldBackgroundColor,
+          backgroundColor: theme.scaffoldBackgroundColor,
+          foregroundColor: theme.scaffoldBackgroundColor,
           title: Logo(),
           leading: GestureDetector(
             onTap: () {
@@ -37,7 +37,7 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: theme.primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
           )),
       body: ListView(

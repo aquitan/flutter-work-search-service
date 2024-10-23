@@ -5,18 +5,21 @@ class SearchCategorySlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       width: 150.0,
       height: 92.0,
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(234, 238, 242, 1),
+          color: theme.scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(12.0),
           image: DecorationImage(
               image: AssetImage('assets/categories/3.png'),
               alignment: Alignment.bottomRight)),
       child: Text('Отделочные работы',
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600)),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          )),
     );
   }
 }

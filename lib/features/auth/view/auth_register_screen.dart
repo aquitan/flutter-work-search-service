@@ -17,13 +17,14 @@ class _AuthRegisterScreen extends State<AuthRegisterScreen> {
   @override
   Widget build(BuildContext context) {
 
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 100,
           centerTitle: true,
-          surfaceTintColor: Colors.white,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.white,
+          toolbarHeight: 100,
+          surfaceTintColor: theme.scaffoldBackgroundColor,
+          backgroundColor: theme.scaffoldBackgroundColor,
+          foregroundColor: theme.scaffoldBackgroundColor,
           title: Logo(),
           leading: GestureDetector(
             onTap: () {
@@ -33,8 +34,7 @@ class _AuthRegisterScreen extends State<AuthRegisterScreen> {
               Icons.arrow_back,
               color: Theme.of(context).primaryColor,
             ),
-          )
-      ),
+          )),
       body: AuthTabRegisterSwitcher(),
     );
   }

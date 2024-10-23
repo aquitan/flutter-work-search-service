@@ -18,7 +18,8 @@ class _OtpFieldCustomState extends State<OtpFieldCustom> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return OtpTextField(
-
+      fillColor: theme.colorScheme.tertiaryContainer,
+      filled: true,
       numberOfFields: 4,
       borderColor: Colors.orange,
       borderRadius: BorderRadius.circular(8),
@@ -28,7 +29,7 @@ class _OtpFieldCustomState extends State<OtpFieldCustom> {
       //runs when a code is typed in
       onCodeChanged: (String code) {
         //handle validation or checks here
-        print(code);
+        debugPrint('code: $code');
       },
       focusedBorderColor: Colors.orange,
       //runs when every textfield is filled

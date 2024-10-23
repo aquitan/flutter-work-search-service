@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ia_ma/features/auth/view/auth_register_screen.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 @RoutePage()
@@ -23,14 +23,14 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
             toolbarHeight: 100,
-            surfaceTintColor: Colors.white,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.white,
+            surfaceTintColor: theme.scaffoldBackgroundColor,
+            backgroundColor: theme.scaffoldBackgroundColor,
+            foregroundColor: theme.scaffoldBackgroundColor,
             title: Logo(),
             leading: GestureDetector(
               onTap: () {
@@ -41,7 +41,7 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
                 color: Theme.of(context).primaryColor,
               ),
             )),
-        backgroundColor: Colors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: ListView(
           padding: EdgeInsets.only(left: 16, right: 16),
           children: [
@@ -49,18 +49,18 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
               height: 28,
             ),
             Text('Подтверждение номера телефона',
-                textAlign: TextAlign.center, style: theme.titleLarge),
+                textAlign: TextAlign.center, style: theme.textTheme.titleLarge),
             SizedBox(
               height: 28,
             ),
             RichText(
                 text: TextSpan(
                     text: 'Вам поступит звонок на номер\n ',
-                    style: theme.bodyMedium,
+                    style: theme.textTheme.bodyMedium,
                     children: [
                   TextSpan(
                       text: '+7 910 ***-**-**-13',
-                      style: theme.bodyMedium!
+                      style: theme.textTheme.bodyMedium!
                           .copyWith(fontWeight: FontWeight.w600)),
                 ])),
             SizedBox(
@@ -68,7 +68,8 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
             ),
             Text('Введите последние 4 цифры входящего номера',
                 textAlign: TextAlign.left,
-                style: theme.bodySmall!.copyWith(fontWeight: FontWeight.w600)),
+                style: theme.textTheme.bodySmall!
+                    .copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
               height: 12,
             ),
@@ -86,7 +87,7 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
               },
               child: Text('Позвонить повторно',
                   textAlign: TextAlign.center,
-                  style: theme.bodyLarge!.copyWith(
+                  style: theme.textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                   )),
@@ -96,7 +97,6 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
   }
 
   void _submitOtp(String verificationCode) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AuthRegisterScreen()));
+    AutoRouter.of(context).push(AuthRegisterRoute());
   }
 }

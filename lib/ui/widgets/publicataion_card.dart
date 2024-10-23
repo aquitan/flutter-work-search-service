@@ -3,9 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class PublicataionCard extends StatefulWidget {
-  const PublicataionCard({super.key, required this.cardType});
+  const PublicataionCard({super.key, required this.cardType, this.btn = false});
 
   final String cardType;
+  final bool btn;
 
   @override
   State<PublicataionCard> createState() => _PublicataionCardState();
@@ -41,13 +42,22 @@ class _PublicataionCardState extends State<PublicataionCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1.0,
-      shape: RoundedRectangleBorder(
+    final theme = Theme.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+          color: theme.cardTheme.color,
         borderRadius: BorderRadius.circular(30.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ]
       ),
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -128,8 +138,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                           ),
                           Text(
                             'Фёдор Кузнецов',
-                            style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            style: theme.textTheme.bodySmall,
                           ),
                           SizedBox(
                             width: 8,
@@ -157,8 +166,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                           ),
                           Text(
                             'Липецк, ул. Плеханова',
-                            style:
-                                TextStyle(fontSize: 14.0, color: Colors.black),
+                            style: theme.textTheme.bodySmall,
                           )
                         ],
                       ),
@@ -204,16 +212,15 @@ class _PublicataionCardState extends State<PublicataionCard> {
                     ),
                     Text(
                       '2 дня',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      ),
+                      style: theme.textTheme.bodyMedium,
                     )
                   ],
                 )
               ],
             ),
-            SizedBox(height: 12.0),
+            SizedBox(height: widget.btn ? 12.0 : 0),
+            widget.btn
+                ?
             OutlinedButton(
                 style: ButtonStyle(
                     side: WidgetStatePropertyAll(
@@ -238,7 +245,10 @@ class _PublicataionCardState extends State<PublicataionCard> {
                       style: TextStyle(color: Colors.grey),
                     )
                   ],
-                ))
+                    ))
+                : SizedBox(
+                    height: 0,
+                  )
           ],
         ),
       ),

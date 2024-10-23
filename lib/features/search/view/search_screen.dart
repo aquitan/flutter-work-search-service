@@ -19,26 +19,27 @@ class _SearchScreenState extends State<SearchScreen> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
+          backgroundColor: theme.appBarTheme.backgroundColor,
+          surfaceTintColor: Colors.transparent,
           pinned: true,
           snap: true,
           floating: true,
-          expandedHeight: 130.0,
+          expandedHeight: 100.0,
           flexibleSpace: FlexibleSpaceBar(
             title: Logo(
-              width: 80.0,
-              height: 50.0,
+              width: 40.0,
+              height: 30.0,
               alignment: Alignment.bottomCenter,
             ),
             centerTitle: true,
-            expandedTitleScale: 1.3,
+            expandedTitleScale: 1.8,
           ),
           leading: CustomAvatar(
             networkImg:
                 'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
           ),
           leadingWidth: 80.0,
+
           actions: <Widget>[
             IconButton(icon: Icon(Icons.notifications_none), onPressed: () {}),
             IconButton(
@@ -61,7 +62,15 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.only(bottom: 24.0, top: 12.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-            color: Colors.white,
+              color: theme.cardTheme.color,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  offset: Offset(0, 0), //
+                )
+              ]
           ),
           child: SizedBox(
             height: 92,
@@ -144,7 +153,7 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.only(
               top: 5.0, left: 16.0, right: 16.0, bottom: 16.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: theme.cardTheme.color,
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(24.0),
             ),

@@ -7,9 +7,10 @@ class SearchbarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      color: Colors.white,
+      color: theme.cardTheme.color,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
