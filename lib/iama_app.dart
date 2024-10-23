@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_ma/router/router.dart';
-import 'package:ia_ma/ui/theme.dart';
+import 'package:ia_ma/ui/theme/theme.dart';
 
 class IamaApp extends StatefulWidget {
   const IamaApp({super.key});
@@ -23,7 +23,6 @@ class _IamaAppState extends State<IamaApp> {
       // routes: {
       //   '/': (context) => const HomeScreen(),
       // },
-      // home: const AuthGate(),
     );
   }
 }

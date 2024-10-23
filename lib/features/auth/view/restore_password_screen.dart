@@ -18,21 +18,20 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
 
   void dismissTimer() {
     setState(() {
-      print('dismissTimer');
       _updateTimer = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 100,
           centerTitle: true,
-          surfaceTintColor: Colors.white,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.white,
+          toolbarHeight: 100,
+          surfaceTintColor: theme.scaffoldBackgroundColor,
+          backgroundColor: theme.scaffoldBackgroundColor,
+          foregroundColor: theme.scaffoldBackgroundColor,
           title: Logo(),
           leading: GestureDetector(
             onTap: () {
@@ -50,18 +49,18 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
             height: 28,
           ),
           Text('Восстановление пароля',
-              textAlign: TextAlign.center, style: theme.titleLarge),
+              textAlign: TextAlign.center, style: theme.textTheme.titleLarge),
           SizedBox(
             height: 28,
           ),
           RichText(
               text: TextSpan(
                   text: 'Мы отправили письмо с кодом на ',
-                  style: theme.bodyMedium,
+                  style: theme.textTheme.bodyMedium,
                   children: [
                 TextSpan(
                     text: 'sukharevsky@ia-ma.ru',
-                    style: theme.bodyMedium!
+                    style: theme.textTheme.bodyMedium!
                         .copyWith(fontWeight: FontWeight.w600)),
               ])),
           SizedBox(
@@ -72,7 +71,8 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
                   ? 'Введите код'
                   : 'Введите последние 4 цифры входящего номера',
               textAlign: TextAlign.left,
-              style: theme.bodySmall!.copyWith(fontWeight: FontWeight.w600)),
+              style: theme.textTheme.bodySmall!
+                  .copyWith(fontWeight: FontWeight.w600)),
           SizedBox(
             height: 12,
           ),
@@ -90,7 +90,7 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
             },
             child: Text('Позвонить повторно',
                 textAlign: TextAlign.center,
-                style: theme.bodyLarge!.copyWith(
+                style: theme.textTheme.bodyLarge!.copyWith(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,
                 )),

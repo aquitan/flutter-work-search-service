@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ia_ma/features/auth/view/view.dart';
 import 'package:ia_ma/features/auth/widgets/widgets.dart';
 import 'package:ia_ma/repository/auth/auth_repository.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 
@@ -27,9 +28,9 @@ class _CheckLoginState extends State<CheckLogin> {
 
   void onTap() {
     AuthRepository().chekUserLogin();
-
-    Route route = MaterialPageRoute(builder: (context) => AuthOtpCheckScreen());
-    Navigator.push(context, route);
+    AutoRouter.of(context).push(const AuthOtpCheckRoute());
+    // Route route = MaterialPageRoute(builder: (context) => AuthOtpCheckScreen());
+    // Navigator.push(context, route);
   }
 
   @override
@@ -64,6 +65,7 @@ class _CheckLoginState extends State<CheckLogin> {
               radius: 24,
               height: 48,
               onTap: () {
+
                 // Route route = MaterialPageRoute(builder: (context) => AuthOtpCheck());
                 // Navigator.push(context, route);
                 onTap();

@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ia_ma/features/auth/view/auth_password_screen.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class AuthTabRegisterSwitcher extends StatefulWidget {
@@ -28,11 +29,12 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
   }
 
   void _register() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AuthPasswordScreen(),
-        ));
+    AutoRouter.of(context).push(AuthPasswordRoute());
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => AuthPasswordScreen(),
+    //     ));
   }
 
   @override
@@ -55,16 +57,17 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
         ),
         Container(
           decoration: BoxDecoration(
-              color: Colors.grey[200], borderRadius: BorderRadius.circular(24)),
+              color: theme.colorScheme.tertiaryContainer,
+              borderRadius: BorderRadius.circular(24)),
           child: TabBar(
-              padding: EdgeInsets.all(0),
+              indicatorPadding: EdgeInsets.all(0),
+              indicatorSize: TabBarIndicatorSize.tab,
               controller: _tabController,
               overlayColor: WidgetStatePropertyAll(Colors.transparent),
-              labelColor: Colors.grey,
-              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: theme.tabBarTheme.labelColor,
               indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(24.0),
-                  color: Colors.white,
+                  color: theme.cardTheme.color,
                   border: Border.all(width: 2, color: theme.primaryColor)),
               dividerHeight: 0,
               tabs: [
