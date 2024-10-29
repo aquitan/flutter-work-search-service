@@ -45,7 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
             IconButton(
                 icon: Icon(
                   Icons.qr_code,
-                  color: Colors.orange,
+                  color: theme.primaryColor,
                 ),
                 onPressed: () {}),
           ],
@@ -181,7 +181,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     'Выбрать всё',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: theme.primaryColor,
                       fontSize: 16,
                     ),
                   ),

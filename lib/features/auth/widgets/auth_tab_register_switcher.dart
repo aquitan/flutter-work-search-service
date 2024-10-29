@@ -16,25 +16,35 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _secondNmaeController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _innController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _firstNameController.dispose();
+    _secondNmaeController.dispose();
+    _lastNameController.dispose();
+    _innController.dispose();
+
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   void _register() {
-    AutoRouter.of(context).push(AuthPasswordRoute());
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => AuthPasswordScreen(),
-    //     ));
+    if (_formKey.currentState!.validate()) {
+      AutoRouter.of(context)
+          .push(AuthPasswordRoute(value: 'моковые данные заменить!'));
+    }
+
   }
 
   @override
@@ -93,33 +103,54 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
           height: 24,
         ),
         Form(
+            key: _formKey,
             child: SizedBox(
-          height: 200,
+              height: 250,
           child: TabBarView(controller: _tabController, children: [
-            Column(
+                ListView(
               children: [
                 CustomTextfield(
+                      validation: (value) => _lastNameValidation(value),
+                      controller: _lastNameController,
                   label: 'Фамилия',
                   enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black26)),
+                          borderSide: BorderSide(color: theme.dividerColor)),
                 ),
+                    SizedBox(height: 8),
                 CustomTextfield(
+                      validation: (value) => _firstNameValidation(value),
+                      controller: _firstNameController,
                   label: 'Имя',
                   enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black26)),
+                          borderSide: BorderSide(color: theme.dividerColor)),
                 ),
+                    SizedBox(height: 8),
                 CustomTextfield(
+                      validation: (value) => null,
+                      controller: _secondNmaeController,
                   label: 'Отчество',
                   enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black26)),
+                          borderSide: BorderSide(color: theme.dividerColor)),
                 ),
               ],
             ),
-            CustomTextfield(
-              label: 'Наименование компании',
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black26)),
-            ),
+                ListView(children: [
+                  CustomTextfield(
+                    controller: _innController,
+                    validation: (value) => _innValidation(value),
+                    label: 'ИНН компании',
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: theme.dividerColor)),
+                  ),
+                  SizedBox(height: 8),
+                  CustomTextfield(
+                    validation: (value) => null,
+
+                    label: 'Наименование компании',
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: theme.dividerColor)),
+                  ),
+                ])
           ]),
         )),
         SizedBox(
@@ -133,5 +164,44 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
         ),
       ],
     );
+  }
+
+  String? _firstNameValidation(String? value) {
+    if (value!.isEmpty) {
+      return 'Введите имя';
+    } else if (value.length < 2) {
+      return 'Имя должно быть длиннее 2 символов';
+    } else {
+      return null;
+    }
+  }
+
+  String? _lastNameValidation(String? value) {
+    if (value!.isEmpty) {
+      return 'Введите фамилию';
+    } else if (value.length < 2) {
+      return 'Фамилия должна быть длиннее 2 символов';
+    } else {
+      return null;
+    }
+  }
+
+  String? _innValidation(String? value) {
+    // Вычисление контрольной суммы
+    // var sum = 0;
+    // for (int i = 0; i < 9; i++) {
+    //   sum += int.parse(value![i]) * (10 - i);
+    // }
+
+    // // Контрольная сумма должна совпадать с последней цифрой ИНН
+    // var controlNumber = (sum % 11) % 10;
+
+    if (value!.isEmpty) {
+      return 'Введите ИНН';
+    } else if (value.length < 10) {
+      return 'ИНН должен быть не менее 10 символов';
+    } else {
+      return null;
+    }
   }
 }

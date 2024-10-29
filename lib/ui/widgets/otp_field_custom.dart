@@ -18,10 +18,11 @@ class _OtpFieldCustomState extends State<OtpFieldCustom> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return OtpTextField(
-      fillColor: theme.colorScheme.tertiaryContainer,
+      fillColor: Colors.grey.withOpacity(0.2),
+      keyboardType: TextInputType.number,
       filled: true,
       numberOfFields: 4,
-      borderColor: Colors.orange,
+      borderColor: theme.primaryColor,
       borderRadius: BorderRadius.circular(8),
       //set to true to show as box or false to show as dash
       fieldWidth: 80,
@@ -31,7 +32,7 @@ class _OtpFieldCustomState extends State<OtpFieldCustom> {
         //handle validation or checks here
         debugPrint('code: $code');
       },
-      focusedBorderColor: Colors.orange,
+      focusedBorderColor: theme.primaryColor,
       //runs when every textfield is filled
       onSubmit: (String verificationCode) {
         widget.onSubmit(verificationCode);

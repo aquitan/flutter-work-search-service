@@ -7,6 +7,7 @@ final darkThemeData = ThemeData(
   useMaterial3: true,
   primaryColor: primaryColor,
   tabBarTheme: TabBarTheme(labelColor: const Color.fromARGB(255, 0, 0, 0)),
+  dividerColor: const Color.fromRGBO(228, 228, 231, 1),
   cardTheme: CardTheme(
     shadowColor: Color.fromRGBO(255, 255, 255, .2),
     color: Color.fromRGBO(22, 22, 22, 1),
@@ -24,6 +25,8 @@ final lightThemeData = ThemeData(
   useMaterial3: true,
   primaryColor: primaryColor,
   tabBarTheme: TabBarTheme(labelColor: Colors.grey),
+  dividerColor: const Color.fromRGBO(228, 228, 231, 1),
+
   cardTheme: CardTheme(
     shadowColor: Color.fromRGBO(0, 0, 0, .2),
     color: Colors.white,

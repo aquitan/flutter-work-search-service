@@ -1,4 +1,6 @@
-class CheckLoginModel {}
+import 'package:json_annotation/json_annotation.dart';
+
+part 'auth_models.g.dart';
 
 class User {
   int? id;
@@ -98,4 +100,45 @@ class User {
       createdAt: json['created_at'] as String?,
     );
   }
+}
+
+@JsonSerializable()
+class ConfirmCodeResponse {
+  ConfirmCodeResponse(
+      {required this.message, required this.success, required this.data});
+
+  ConfirCodeData data;
+  final String message;
+  final bool success;
+
+  factory ConfirmCodeResponse.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmCodeResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConfirmCodeResponseToJson(this);
+}
+
+@JsonSerializable()
+class ConfirCodeData {
+  ConfirCodeData({required this.requestedAt});
+
+  @JsonKey(name: 'requested_at')
+  final int requestedAt;
+
+  factory ConfirCodeData.fromJson(Map<String, dynamic> json) =>
+      _$ConfirCodeDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConfirCodeDataToJson(this);
+}
+
+@JsonSerializable()
+class SendConfirmCodeResponse {
+  SendConfirmCodeResponse({required this.message, required this.success});
+
+  final String message;
+  final bool success;
+
+  factory SendConfirmCodeResponse.fromJson(Map<String, dynamic> json) =>
+      _$SendConfirmCodeResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SendConfirmCodeResponseToJson(this);
 }

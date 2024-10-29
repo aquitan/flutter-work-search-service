@@ -8,6 +8,7 @@ class CustomTextfield extends StatelessWidget {
       this.hint,
       this.controller,
       this.isPassword = false,
+      required this.validation,
       this.enabledBorder});
 
   final bool obscure;
@@ -16,10 +17,12 @@ class CustomTextfield extends StatelessWidget {
   final bool? isPassword;
   final TextEditingController? controller;
   final InputBorder? enabledBorder;
+  final FormFieldValidator<String> validation;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: (value) => validation(value),
       obscureText: obscure,
       controller: controller,
       decoration: InputDecoration(

@@ -30,7 +30,7 @@ class AppRouter extends RootStackRouter {
 }
 
 class AuthGuard extends AutoRouteGuard {
-  final bool authenticated = true;
+  final bool authenticated = false;
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     // the navigation is paused until resolver.next() is called with either

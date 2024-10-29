@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AuthTabSwitcher extends StatefulWidget {
   const AuthTabSwitcher({
     super.key,
+      this.emailController,
+      this.phoneController,
+      required this.onChangeType,
+      required this.formKey
   });
+
+  final TextEditingController? emailController;
+  final TextEditingController? phoneController;
+  final GlobalKey<FormState> formKey;
+  final Function(int) onChangeType;
 
   @override
   State<AuthTabSwitcher> createState() => _AuthTabSwitcherState();
@@ -25,9 +35,11 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
 
     return Column(
       children: [
@@ -39,6 +51,7 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
               indicatorPadding: EdgeInsets.all(0),
               indicatorSize: TabBarIndicatorSize.tab,
               controller: _tabController,
+              onTap: (value) => widget.onChangeType(value),
               overlayColor: WidgetStatePropertyAll(Colors.transparent),
               labelColor: theme.tabBarTheme.labelColor,
               indicator: BoxDecoration(
@@ -73,23 +86,32 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
           height: 24,
         ),
         Form(
+          key: widget.formKey,
           child: SizedBox(
             width: double.maxFinite,
-            height: 60,
+            height: 80,
             child: TabBarView(controller: _tabController, children: [
               TextFormField(
+                controller: widget.phoneController,
+                validator: (value) => _validatePhone(value),
                 decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black26)),
+                        borderSide: BorderSide(color: theme.dividerColor)),
                     prefixText: '+7',
                     labelText: 'Введите номер телефона'),
                 keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter(RegExp(r'^[()\d -]{1,10}$'),
+                      allow: true),
+                ],
               ),
               TextFormField(
+                controller: widget.emailController,
+                validator: (String? value) => _validateEmail(value),
                 decoration: InputDecoration(
                   labelText: 'Введите почту',
                   enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black26)),
+                      borderSide: BorderSide(color: theme.dividerColor)),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -98,5 +120,25 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
         )
       ],
     );
+  }
+
+  String? _validateEmail(String? value) {
+    if (value!.isEmpty) {
+      return 'Введите почту';
+    } else if (!widget.emailController!.text.contains('@')) {
+      return 'Введите корректный email';
+    } else {
+      return null;
+    }
+  }
+
+  String? _validatePhone(String? value) {
+    if (value!.isEmpty) {
+      return 'Введите номер телефона';
+    } else if (value.length < 10) {
+      return 'Введите корректный номер телефона';
+    } else {
+      return null;
+    }
   }
 }

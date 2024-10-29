@@ -11,10 +11,19 @@ part of 'router.dart';
 
 /// generated route for
 /// [AuthOtpCheckScreen]
-class AuthOtpCheckRoute extends PageRouteInfo<void> {
-  const AuthOtpCheckRoute({List<PageRouteInfo>? children})
-      : super(
+class AuthOtpCheckRoute extends PageRouteInfo<AuthOtpCheckRouteArgs> {
+  AuthOtpCheckRoute({
+    Key? key,
+    required String type,
+    required String value,
+    List<PageRouteInfo>? children,
+  }) : super(
           AuthOtpCheckRoute.name,
+          args: AuthOtpCheckRouteArgs(
+            key: key,
+            type: type,
+            value: value,
+          ),
           initialChildren: children,
         );
 
@@ -23,17 +32,48 @@ class AuthOtpCheckRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AuthOtpCheckScreen();
+      final args = data.argsAs<AuthOtpCheckRouteArgs>();
+      return AuthOtpCheckScreen(
+        key: args.key,
+        type: args.type,
+        value: args.value,
+      );
     },
   );
 }
 
+class AuthOtpCheckRouteArgs {
+  const AuthOtpCheckRouteArgs({
+    this.key,
+    required this.type,
+    required this.value,
+  });
+
+  final Key? key;
+
+  final String type;
+
+  final String value;
+
+  @override
+  String toString() {
+    return 'AuthOtpCheckRouteArgs{key: $key, type: $type, value: $value}';
+  }
+}
+
 /// generated route for
 /// [AuthPasswordScreen]
-class AuthPasswordRoute extends PageRouteInfo<void> {
-  const AuthPasswordRoute({List<PageRouteInfo>? children})
-      : super(
+class AuthPasswordRoute extends PageRouteInfo<AuthPasswordRouteArgs> {
+  AuthPasswordRoute({
+    Key? key,
+    required String value,
+    List<PageRouteInfo>? children,
+  }) : super(
           AuthPasswordRoute.name,
+          args: AuthPasswordRouteArgs(
+            key: key,
+            value: value,
+          ),
           initialChildren: children,
         );
 
@@ -42,9 +82,29 @@ class AuthPasswordRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AuthPasswordScreen();
+      final args = data.argsAs<AuthPasswordRouteArgs>();
+      return AuthPasswordScreen(
+        key: args.key,
+        value: args.value,
+      );
     },
   );
+}
+
+class AuthPasswordRouteArgs {
+  const AuthPasswordRouteArgs({
+    this.key,
+    required this.value,
+  });
+
+  final Key? key;
+
+  final String value;
+
+  @override
+  String toString() {
+    return 'AuthPasswordRouteArgs{key: $key, value: $value}';
+  }
 }
 
 /// generated route for

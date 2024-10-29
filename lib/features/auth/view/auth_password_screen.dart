@@ -6,7 +6,9 @@ import 'package:ia_ma/ui/widgets/widgets.dart';
 
 @RoutePage()
 class AuthPasswordScreen extends StatefulWidget {
-  const AuthPasswordScreen({super.key});
+  const AuthPasswordScreen({super.key, required this.value});
+
+  final String value;
 
   @override
   State<AuthPasswordScreen> createState() => _AuthPasswordScreenState();
@@ -58,18 +60,26 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               text: TextSpan(
                   style: theme.textTheme.bodyMedium,
                   text: 'Введите пароль к аккаунту \n',
-                  children: [TextSpan(text: 'artstudio@email.com')])),
+                  children: [TextSpan(text: widget.value)])),
           SizedBox(
             height: 12,
           ),
           Form(
               child: Column(
             children: [
-              CustomTextfield(
-                label: 'Пароль',
-                obscure: true,
-                isPassword: true,
-              )
+              TextFormField(
+                decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: theme.dividerColor)),
+                    labelText: 'Пароль'),
+                obscureText: true,
+              ),
+              // CustomTextfield(
+              //   validation: (value) => null,
+              //   label: 'Пароль',
+              //   obscure: true,
+              //   isPassword: true,
+              // )
             ],
           )),
           SizedBox(
