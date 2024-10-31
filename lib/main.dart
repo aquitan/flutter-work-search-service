@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ia_ma/api/api.dart';
 import 'package:ia_ma/iama_app.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -16,7 +16,20 @@ void main() async {
   // await dotenv.load(fileName: '.env');
   // print(dotenv.env['HOST']);
 
-  final dio = Dio();
+  // BaseOptions options = BaseOptions(
+  //   baseUrl: 'https://stage.ia-ma.ru/',
+  //   connectTimeout: const Duration(seconds: 5),
+  //   receiveTimeout: const Duration(seconds: 5),
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Content-type': 'application/json',
+  //     'X-Requested-With': 'XMLHttpRequest',
+  //   },
+  //   contentType: 'application/json; charset=utf-8',
+  //   responseType: ResponseType.json,
+  // );
+
+  final dio = ApiClient.dio();
   final talker = TalkerFlutter.init();
 
 

@@ -11,7 +11,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     on<CheckLoginEvent>((event, emit) async {
       try {
         await authRepository.chekUserLogin(event.type, event.value);
-        // emit(AuthBlocStateChecked(checked: true));
+        emit(AuthBlocStateChecked(checked: true));
       } catch (e, stackTrace) {
         emit(AuthBlocStateFailure(failure: e));
         GetIt.I<Talker>().handle(e, stackTrace);
@@ -29,16 +29,58 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
     on<SendConfirmCodeResponse>((event, emit) async {
       try {
+        GetIt.I<Talker>().debug('bloc-working!!');
         await authRepository.sendConfirmCode(
           event.type,
           event.value,
           event.code,
         );
+        emit(AuthBlocStateOtpSuccess(success: true));
+
       } catch (e, stackTrace) {
-        emit(AuthBlocStateFailure(failure: e));
+        emit(AuthBlocStateOtpFailure(failure: e));
         GetIt.I<Talker>().handle(e, stackTrace);
       }
     });
+
+    on<SignUp>(
+      (event, emit) async {
+        final Map<String, dynamic> data = {
+          'company_name': event.companyName,
+          'email': event.type == 'email' ? event.value : '',
+          'first_name': event.firstName,
+          'is_company': event.isCompany,
+          'last_name': event.lastName,
+          'middle_name': event.lastName!.isNotEmpty ? event.lastName : '',
+          'password': event.password,
+          'phone': event.type == 'phone' ? event.value : '',
+        };
+
+        try {
+          await authRepository.signUp(event.type, data);
+        } catch (e, stackTrace) {
+          GetIt.I<Talker>().handle(e, stackTrace);
+        }
+      },
+    );
+
+    on<SignIn>(
+      (event, emit) async {
+        final Map<String, dynamic> data = {
+          event.type: event.value,
+          'login': event.value,
+          'password': event.password,
+        };
+
+        try {
+          await authRepository.signIn(event.type, data);
+        } catch (e, stackTrace) {
+          GetIt.I<Talker>().handle(e, stackTrace);
+        }
+      },
+    );
+
+
     @override
     void onError(Object error, StackTrace stackTrace) {
       super.onError(error, stackTrace);

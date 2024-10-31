@@ -2,51 +2,109 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'auth_models.g.dart';
 
+
+@JsonSerializable()
 class User {
-  int? id;
-  int? locationId;
-  int? nodebbUid;
-  String? avatar;
   String? email;
-  String? phone;
+  String? password;
+
+  @JsonKey(name: 'is_company')
   bool? isCompany;
+
+  @JsonKey(name: 'first_name')
   String? firstName;
+
+  @JsonKey(name: 'middle_name')
   String? middleName;
+
+  @JsonKey(name: 'last_name')
   String? lastName;
+
+  @JsonKey(name: 'is_active_email')
+  bool? isActiveEmail;
+
+  @JsonKey(name: 'is_active_phone')
+  bool? isActivePhone;
+
+  @JsonKey(name: 'password_hash')
+  String? passwordHash;
+
+  @JsonKey(name: 'location_id')
+  Object? locationId;
+
+  @JsonKey(name: 'parent_id')
+  int? parentId;
+
+  @JsonKey(name: 'nodebb_uid')
+  int? nodebbUid;
+
+  String? avatar;
+  String? phone;
+
+  @JsonKey(name: 'passport_hash')
+  String? passportHash;
+
+  @JsonKey(name: 'response_template')
   String? responseTemplate;
-  String? fullName;
-  String? birthdayDate;
+
+  @JsonKey(name: 'birthday_date')
+  DateTime? birthdayDate;
+
+  @JsonKey(name: 'company_name')
   String? companyName;
+
+  @JsonKey(name: 'company_inn')
   String? companyInn;
+
+  @JsonKey(name: 'company_ogrn')
   String? companyOgrn;
+
+  @JsonKey(name: 'company_kpp')
   String? companyKpp;
+
+  @JsonKey(name: 'company_address')
   String? companyAddress;
-  String? companyRegDate;
+
+  @JsonKey(name: 'company_reg_date')
+  DateTime? companyRegDate;
+
+  @JsonKey(name: 'employment_dates')
+  DateTime? employmentDates;
+
+  int? id;
   int? balance;
   int? rating;
   int? weight;
-  String? employmentDates;
+
+  @JsonKey(name: 'is_active')
   bool? isActive;
+
+  @JsonKey(name: 'is_identified')
   bool? isIdentified;
-  bool? isActiveEmail;
-  bool? isActivePhone;
-  String? lastActiveAt;
+
+  @JsonKey(name: 'updated_at')
   String? updatedAt;
+
+  @JsonKey(name: 'created_at')
   String? createdAt;
 
   User(
-      {this.id,
-      this.locationId,
-      this.nodebbUid,
-      this.avatar,
-      this.email,
-      this.phone,
+      {this.email,
+      this.password,
       this.isCompany,
       this.firstName,
       this.middleName,
       this.lastName,
+      this.isActiveEmail,
+      this.isActivePhone,
+      this.passwordHash,
+      this.locationId,
+      this.parentId,
+      this.nodebbUid,
+      this.avatar,
+      this.phone,
+      this.passportHash,
       this.responseTemplate,
-      this.fullName,
       this.birthdayDate,
       this.companyName,
       this.companyInn,
@@ -54,52 +112,20 @@ class User {
       this.companyKpp,
       this.companyAddress,
       this.companyRegDate,
+      this.employmentDates,
+      this.id,
       this.balance,
       this.rating,
       this.weight,
-      this.employmentDates,
       this.isActive,
       this.isIdentified,
-      this.isActiveEmail,
-      this.isActivePhone,
-      this.lastActiveAt,
       this.updatedAt,
       this.createdAt});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'] as int?,
-      locationId: json['location_id'] as int?,
-      nodebbUid: json['nodebb_uid'] as int?,
-      avatar: json['avatar'] as String?,
-      email: json['email'] as String?,
-      phone: json['phone'] as String?,
-      isCompany: json['is_company'] as bool?,
-      firstName: json['first_name'] as String?,
-      middleName: json['middle_name'] as String?,
-      lastName: json['last_name'] as String?,
-      responseTemplate: json['response_template'] as String?,
-      fullName: json['full_name'] as String?,
-      birthdayDate: json['birthday_date'] as String?,
-      companyName: json['company_name'] as String?,
-      companyInn: json['company_inn'] as String?,
-      companyOgrn: json['company_ogrn'] as String?,
-      companyKpp: json['company_kpp'] as String?,
-      companyAddress: json['company_address'] as String?,
-      companyRegDate: json['company_reg_date'] as String?,
-      balance: json['balance'] as int?,
-      rating: json['rating'] as int?,
-      weight: json['weight'] as int?,
-      employmentDates: json['employment_dates'] as String?,
-      isActive: json['is_active'] as bool?,
-      isIdentified: json['is_identified'] as bool?,
-      isActiveEmail: json['is_active_email'] as bool?,
-      isActivePhone: json['is_active_phone'] as bool?,
-      lastActiveAt: json['last_active_at'] as String?,
-      updatedAt: json['updated_at'] as String?,
-      createdAt: json['created_at'] as String?,
-    );
-  }
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
 @JsonSerializable()
@@ -141,4 +167,43 @@ class SendConfirmCodeResponse {
       _$SendConfirmCodeResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SendConfirmCodeResponseToJson(this);
+}
+
+
+@JsonSerializable()
+class RegisterUserResponse {
+  RegisterUserResponse({required this.user, required this.token});
+
+  final User user;
+  final Token token;
+
+  factory RegisterUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$RegisterUserResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RegisterUserResponseToJson(this);
+}
+
+@JsonSerializable()
+class Token {
+  Token({required this.accessToken, required this.expiresIn});
+
+  final String accessToken;
+  final int expiresIn;
+
+  factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TokenToJson(this);
+}
+
+@JsonSerializable()
+class SignInUserResponse {
+  SignInUserResponse({required this.user, required this.token});
+
+  final User user;
+  final Token token;
+
+  factory SignInUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignInUserResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignInUserResponseToJson(this);
 }

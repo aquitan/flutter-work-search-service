@@ -67,12 +67,22 @@ class AuthPasswordRoute extends PageRouteInfo<AuthPasswordRouteArgs> {
   AuthPasswordRoute({
     Key? key,
     required String value,
+    required String type,
+    bool? isCompany,
+    String? firstName,
+    String? lastName,
+    String? middleName,
     List<PageRouteInfo>? children,
   }) : super(
           AuthPasswordRoute.name,
           args: AuthPasswordRouteArgs(
             key: key,
             value: value,
+            type: type,
+            isCompany: isCompany,
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
           ),
           initialChildren: children,
         );
@@ -86,6 +96,11 @@ class AuthPasswordRoute extends PageRouteInfo<AuthPasswordRouteArgs> {
       return AuthPasswordScreen(
         key: args.key,
         value: args.value,
+        type: args.type,
+        isCompany: args.isCompany,
+        firstName: args.firstName,
+        lastName: args.lastName,
+        middleName: args.middleName,
       );
     },
   );
@@ -95,24 +110,48 @@ class AuthPasswordRouteArgs {
   const AuthPasswordRouteArgs({
     this.key,
     required this.value,
+    required this.type,
+    this.isCompany,
+    this.firstName,
+    this.lastName,
+    this.middleName,
   });
 
   final Key? key;
 
   final String value;
 
+  final String type;
+
+  final bool? isCompany;
+
+  final String? firstName;
+
+  final String? lastName;
+
+  final String? middleName;
+
   @override
   String toString() {
-    return 'AuthPasswordRouteArgs{key: $key, value: $value}';
+    return 'AuthPasswordRouteArgs{key: $key, value: $value, type: $type, isCompany: $isCompany, firstName: $firstName, lastName: $lastName, middleName: $middleName}';
   }
 }
 
 /// generated route for
 /// [AuthRegisterScreen]
-class AuthRegisterRoute extends PageRouteInfo<void> {
-  const AuthRegisterRoute({List<PageRouteInfo>? children})
-      : super(
+class AuthRegisterRoute extends PageRouteInfo<AuthRegisterRouteArgs> {
+  AuthRegisterRoute({
+    Key? key,
+    required String value,
+    required String type,
+    List<PageRouteInfo>? children,
+  }) : super(
           AuthRegisterRoute.name,
+          args: AuthRegisterRouteArgs(
+            key: key,
+            value: value,
+            type: type,
+          ),
           initialChildren: children,
         );
 
@@ -121,9 +160,33 @@ class AuthRegisterRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AuthRegisterScreen();
+      final args = data.argsAs<AuthRegisterRouteArgs>();
+      return AuthRegisterScreen(
+        key: args.key,
+        value: args.value,
+        type: args.type,
+      );
     },
   );
+}
+
+class AuthRegisterRouteArgs {
+  const AuthRegisterRouteArgs({
+    this.key,
+    required this.value,
+    required this.type,
+  });
+
+  final Key? key;
+
+  final String value;
+
+  final String type;
+
+  @override
+  String toString() {
+    return 'AuthRegisterRouteArgs{key: $key, value: $value, type: $type}';
+  }
 }
 
 /// generated route for

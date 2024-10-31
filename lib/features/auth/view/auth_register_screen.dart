@@ -7,13 +7,26 @@ import 'package:ia_ma/ui/widgets/widgets.dart';
 
 @RoutePage()
 class AuthRegisterScreen extends StatefulWidget {
-  const AuthRegisterScreen({super.key});
+  const AuthRegisterScreen(
+      {super.key, required this.value, required this.type});
+
+  final String type;
+  final String value;
 
   @override
   State<AuthRegisterScreen> createState() => _AuthRegisterScreen();
 }
 
 class _AuthRegisterScreen extends State<AuthRegisterScreen> {
+  // String type = 'phone';
+  // String value = '';
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController secondNmaeController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController innController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -35,7 +48,14 @@ class _AuthRegisterScreen extends State<AuthRegisterScreen> {
               color: Theme.of(context).primaryColor,
             ),
           )),
-      body: AuthTabRegisterSwitcher(),
+      body: AuthTabRegisterSwitcher(
+          type: widget.type,
+          value: widget.value,
+          firstNameController: firstNameController,
+          secondNmaeController: secondNmaeController,
+          lastNameController: lastNameController,
+          innController: innController,
+          formKey: formKey),
     );
   }
 }

@@ -46,6 +46,8 @@ dependencies:
   talker_bloc_logger: ^4.4.1
   flutter_dotenv: ^5.2.1
   json_annotation: ^4.9.0
+  dio_cookie_manager: ^3.1.1
+  cookie_jar: ^4.0.8
 
 dev_dependencies:
   flutter_test:

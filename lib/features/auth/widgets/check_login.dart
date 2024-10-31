@@ -69,11 +69,15 @@ class _CheckLoginState extends State<CheckLogin> {
     return BlocListener<AuthBloc, AuthBlocState>(
       listener: (context, state) {
         if (state is AuthBlocStateChecked) {
-          AutoRouter.of(context).push(AuthPasswordRoute(value: value));
+          AutoRouter.of(context)
+              .push(AuthPasswordRoute(value: value, type: type));
         }
         if (state is AuthBlocStateFailure) {
+          BlocProvider.of<AuthBloc>(context)
+              .add(GetConfirmCode(value: value, type: type));
           AutoRouter.of(context)
               .push(AuthOtpCheckRoute(type: type, value: value));
+
         }
       },
       child: Center(

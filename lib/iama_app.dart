@@ -29,7 +29,7 @@ class _IamaAppState extends State<IamaApp> {
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'YaMa',
-          theme: darkThemeData,
+          theme: lightThemeData,
           routerConfig: appRouter.config(
             navigatorObservers: () => [TalkerRouteObserver(GetIt.I<Talker>())],
           ),

@@ -23,3 +23,37 @@ class SendConfirmCodeResponse extends AuthBlocEvent {
   final String value;
   final int code;
 }
+
+class SignUp extends AuthBlocEvent {
+  SignUp(
+      {this.value,
+      this.type,
+      this.firstName,
+      this.lastName,
+      this.middleName,
+      this.companyName,
+      this.password,
+      this.isCompany});
+
+  final String? value;
+  final String? type;
+  final String? password;
+  final String? firstName;
+  final String? lastName;
+  final String? middleName;
+  final String? companyName;
+  final bool? isCompany;
+}
+
+class SignIn extends AuthBlocEvent {
+  SignIn(
+      {required this.value,
+      required this.type,
+      required this.password,
+      required this.login});
+
+  final String value;
+  final String type;
+  final String password;
+  final String login;
+}

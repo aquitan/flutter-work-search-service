@@ -8,11 +8,26 @@ class AuthBlocStateLoading extends AuthBlocState {}
 
 class AuthBlocStateLoaded extends AuthBlocState {}
 
+
 class AuthBlocStateFailure extends AuthBlocState {
   AuthBlocStateFailure({required this.failure});
 
   final Object failure;
 }
+
+class AuthBlocStateOtpFailure extends AuthBlocState {
+  AuthBlocStateOtpFailure({required this.failure});
+
+  final Object failure;
+}
+
+class AuthBlocStateOtpSuccess extends AuthBlocState {
+  AuthBlocStateOtpSuccess({required this.success});
+
+  final Object success;
+}
+
+
 
 class AuthBlocStateAuthData extends AuthBlocState {
   AuthBlocStateAuthData({required this.type, required this.value});

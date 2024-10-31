@@ -1,12 +1,30 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class AuthTabRegisterSwitcher extends StatefulWidget {
   const AuthTabRegisterSwitcher({
     super.key,
+    required this.firstNameController,
+    required this.secondNmaeController,
+    required this.lastNameController,
+    required this.innController,
+    required this.formKey,
+    required this.value,
+    required this.type,
   });
+
+  final TextEditingController firstNameController;
+  final TextEditingController secondNmaeController;
+  final TextEditingController lastNameController;
+  final TextEditingController innController;
+  final GlobalKey<FormState> formKey;
+
+  final String value;
+  final String type;
 
   @override
   State<AuthTabRegisterSwitcher> createState() => _AuthTabRegisterSwitcher();
@@ -16,19 +34,15 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _secondNmaeController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _innController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   @override
   void dispose() {
     _tabController.dispose();
-    _firstNameController.dispose();
-    _secondNmaeController.dispose();
-    _lastNameController.dispose();
-    _innController.dispose();
+    widget.firstNameController.dispose();
+    widget.secondNmaeController.dispose();
+    widget.lastNameController.dispose();
+    widget.innController.dispose();
 
     super.dispose();
   }
@@ -40,9 +54,17 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
   }
 
   void _register() {
-    if (_formKey.currentState!.validate()) {
+    if (widget.formKey.currentState!.validate()) {
+      GetIt.I<Talker>().debug(widget.firstNameController.text);
       AutoRouter.of(context)
-          .push(AuthPasswordRoute(value: 'моковые данные заменить!'));
+          .push(AuthPasswordRoute(
+        value: widget.value,
+        type: widget.type,
+        firstName: widget.firstNameController.text,
+        middleName: widget.secondNmaeController.text,
+        lastName: widget.lastNameController.text,
+        isCompany: false,
+      ));
     }
 
   }
@@ -103,7 +125,7 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
           height: 24,
         ),
         Form(
-            key: _formKey,
+            key: widget.formKey,
             child: SizedBox(
               height: 250,
           child: TabBarView(controller: _tabController, children: [
@@ -111,7 +133,7 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
               children: [
                 CustomTextfield(
                       validation: (value) => _lastNameValidation(value),
-                      controller: _lastNameController,
+                      controller: widget.lastNameController,
                   label: 'Фамилия',
                   enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: theme.dividerColor)),
@@ -119,7 +141,7 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
                     SizedBox(height: 8),
                 CustomTextfield(
                       validation: (value) => _firstNameValidation(value),
-                      controller: _firstNameController,
+                      controller: widget.firstNameController,
                   label: 'Имя',
                   enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: theme.dividerColor)),
@@ -127,7 +149,7 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
                     SizedBox(height: 8),
                 CustomTextfield(
                       validation: (value) => null,
-                      controller: _secondNmaeController,
+                      controller: widget.secondNmaeController,
                   label: 'Отчество',
                   enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: theme.dividerColor)),
@@ -136,7 +158,7 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
             ),
                 ListView(children: [
                   CustomTextfield(
-                    controller: _innController,
+                    controller: widget.innController,
                     validation: (value) => _innValidation(value),
                     label: 'ИНН компании',
                     enabledBorder: UnderlineInputBorder(
