@@ -15,6 +15,8 @@ const errorColorDark = Color.fromRGBO(218, 20, 20, 1);
 const successColor = Color.fromRGBO(18, 161, 80, 1);
 const warningColor = Color.fromRGBO(245, 165, 36, 1);
 
+const primaryFlat = Color.fromRGBO(253, 239, 234, 1);
+
 final darkThemeData = ThemeData(
   textTheme: textThemeDark,
   useMaterial3: true,

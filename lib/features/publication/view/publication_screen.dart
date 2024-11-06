@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/ui/theme/theme.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 @RoutePage()
@@ -123,9 +124,36 @@ class _PublicationScreenState extends State<PublicationScreen> {
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.w500)),
                     SizedBox(height: 12.0),
+                    SizedBox(
+                      height: 108,
+                      child: CarouselView(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          itemExtent: 88,
+                          children: List.generate(8, (int index) {
+                            return ColoredBox(
+                                color: theme.colorScheme.secondaryFixedDim,
+                                child: Image.network(
+                                    fit: BoxFit.cover,
+                                    'https://otvet.imgsmail.ru/download/287836_88195aec6441674311982056978bfcfb_800.jpg'));
+                          })),
+                    ),
                     SizedBox(height: 12.0),
                     Text(
-                        'Необходимо демонтировать 6 межкомнатных дверей, установить под ключ 3 межкомнатные двери и одну для ванной.')
+                        'Необходимо демонтировать 6 межкомнатных дверей, установить под ключ 3 межкомнатные двери и одну для ванной.'),
+                    SizedBox(
+                      height: 24.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/icons/location-mark.svg'),
+                        SizedBox(width: 8.0),
+                        Text('Липецк, ул. Циолковского')
+                      ],
+                    )
                   ],
                 ))
           ],
@@ -134,8 +162,27 @@ class _PublicationScreenState extends State<PublicationScreen> {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 50.0),
-            child: ElevatedButton(
-                onPressed: () {}, child: Text('Сгенерировать QR-код')),
+            child: FilledButton(
+                style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(
+                  primaryFlat,
+                )),
+                onPressed: () {},
+                child: SizedBox(
+                  width: 300.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/icons/qr-code-icon.svg'),
+                      SizedBox(width: 8),
+                      Text(
+                        'Сгенерировать QR-код',
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w500, color: primaryColor),
+                      )
+                    ],
+                  ),
+                )),
           ),
         )
       ]),

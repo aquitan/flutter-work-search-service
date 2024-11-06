@@ -5,6 +5,10 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+dependencies {
+    implementation 'com.yandex.android:maps.mobile:4.6.1-full'
+}
+
 android {
     namespace = "com.iama.ia_ma"
     compileSdk = flutter.compileSdkVersion
