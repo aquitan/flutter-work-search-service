@@ -29,12 +29,6 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   BlocProvider.of<AuthBloc>(context)
-  //       .add(GetConfirmCode(value: widget.value, type: widget.type));
-  //   super.initState();
-  // }
 
   void _submitOtp(String verificationCode) {
     BlocProvider.of<AuthBloc>(context).add(SendConfirmCodeResponse(

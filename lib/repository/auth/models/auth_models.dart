@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'auth_models.g.dart';
 
-
+// User Model
 @JsonSerializable()
 class User {
   String? email;
@@ -128,6 +128,7 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
+// Request Confirm Code Model
 @JsonSerializable()
 class ConfirmCodeResponse {
   ConfirmCodeResponse(
@@ -156,6 +157,7 @@ class ConfirCodeData {
   Map<String, dynamic> toJson() => _$ConfirCodeDataToJson(this);
 }
 
+// Response Send Confirm Code Model
 @JsonSerializable()
 class SendConfirmCodeResponse {
   SendConfirmCodeResponse({required this.message, required this.success});
@@ -169,7 +171,7 @@ class SendConfirmCodeResponse {
   Map<String, dynamic> toJson() => _$SendConfirmCodeResponseToJson(this);
 }
 
-
+// Register Model
 @JsonSerializable()
 class RegisterUserResponse {
   RegisterUserResponse({required this.user, required this.token});
@@ -183,6 +185,7 @@ class RegisterUserResponse {
   Map<String, dynamic> toJson() => _$RegisterUserResponseToJson(this);
 }
 
+// Token Model
 @JsonSerializable()
 class Token {
   Token({required this.accessToken, required this.expiresIn});
@@ -195,6 +198,7 @@ class Token {
   Map<String, dynamic> toJson() => _$TokenToJson(this);
 }
 
+// SignIn Model
 @JsonSerializable()
 class SignInUserResponse {
   SignInUserResponse({required this.user, required this.token});
@@ -206,4 +210,18 @@ class SignInUserResponse {
       _$SignInUserResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignInUserResponseToJson(this);
+}
+
+// Reset Password Model
+@JsonSerializable()
+class ResetPasswordResponse {
+  ResetPasswordResponse({required this.message, required this.success});
+
+  final String message;
+  final bool success;
+
+  factory ResetPasswordResponse.fromJson(Map<String, dynamic> json) =>
+      _$ResetPasswordResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ResetPasswordResponseToJson(this);
 }

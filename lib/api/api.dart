@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 class ApiClient {
@@ -18,6 +21,12 @@ class ApiClient {
     final dio = Dio(options);
     final cookieJar = CookieJar();
     dio.interceptors.add(CookieManager(cookieJar));
+
+    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
+        HttpClient()
+          ..badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+
     return dio;
   }
 }

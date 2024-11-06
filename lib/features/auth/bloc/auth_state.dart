@@ -41,3 +41,27 @@ class AuthBlocStateChecked extends AuthBlocState {
 
   final bool checked;
 }
+
+class AuthBlocStateReset extends AuthBlocState {
+  AuthBlocStateReset({required this.success});
+
+  final bool success;
+}
+
+class AuthBlocStateResetFailure extends AuthBlocState {
+  AuthBlocStateResetFailure({required this.failure});
+
+  final Object failure;
+}
+
+class AuthBlocStateFastAuth extends AuthBlocState {
+  AuthBlocStateFastAuth({required this.token});
+
+  final Token token;
+}
+
+class AuthBlocStateFastAuthFailure extends AuthBlocState {
+  AuthBlocStateFastAuthFailure({required this.failure});
+
+  final Object? failure;
+}

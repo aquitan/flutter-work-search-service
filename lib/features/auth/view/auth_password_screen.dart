@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
-import 'package:ia_ma/features/auth/view/view.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -89,12 +89,14 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               state is AuthBlocStateChecked
                   ? Text(
                       'Вход в аккаунт',
-                      style: theme.textTheme.titleLarge,
+                      style: theme.textTheme.titleLarge!
+                          .copyWith(fontWeight: FontWeight.w700),
                       textAlign: TextAlign.center,
                     )
                   : Text(
                       'Регистрация нового аккаунта',
-                      style: theme.textTheme.titleLarge,
+                      style: theme.textTheme.titleLarge!
+                          .copyWith(fontWeight: FontWeight.w700),
                       textAlign: TextAlign.center,
                     ),
 
@@ -158,10 +160,10 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RestorePasswordScreen()));
+                  AutoRouter.of(context).push(RestorePasswordRoute(
+                    value: widget.value,
+                    type: widget.type,
+                  ));
                 },
                 child: Text(
                   'Забыли пароль',
@@ -175,10 +177,11 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  onTap();
+                  AutoRouter.of(context).push(
+                      FastLoginRoute(type: widget.type, value: widget.value));
                 },
                 child: Text(
-                  'Быстрый вход по коду',
+                  'Быстрый вход по коду',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyLarge!
                       .copyWith(color: theme.primaryColor),

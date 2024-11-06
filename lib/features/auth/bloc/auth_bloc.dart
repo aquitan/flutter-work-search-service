@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/repository/auth/abstract_auth_repository.dart';
+import 'package:ia_ma/repository/auth/models/auth_models.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'auth_event.dart';
@@ -59,6 +61,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         try {
           await authRepository.signUp(event.type, data);
         } catch (e, stackTrace) {
+          emit(AuthBlocStateFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
         }
       },
@@ -75,10 +78,42 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         try {
           await authRepository.signIn(event.type, data);
         } catch (e, stackTrace) {
+          emit(AuthBlocStateFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
         }
       },
     );
+
+    on<ResetPassword>(
+      (event, emit) async {
+        final Map<String, dynamic> data = {
+          event.type: event.value,
+          'password': event.password,
+        };
+
+        try {
+          await authRepository.resetPassword(event.type, data);
+          emit(AuthBlocStateReset(success: true));
+        } catch (e, stackTrace) {
+          if (e is DioException) {
+            emit(AuthBlocStateResetFailure(failure: DioException));
+            GetIt.I<Talker>().handle(e, stackTrace);
+          }
+        }
+      },
+    );
+
+    on<FastAuth>((event, emit) async {
+      try {
+        final response = await authRepository.fastAuth(event.type);
+        emit(AuthBlocStateFastAuth(token: response.token));
+      } catch (e, stackTrace) {
+        GetIt.I<Talker>().debug('Error: $e, stacTrace: $stackTrace');
+        emit(AuthBlocStateFastAuthFailure(failure: stackTrace));
+      }
+    });
+
+
 
 
     @override

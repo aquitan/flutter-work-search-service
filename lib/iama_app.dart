@@ -19,6 +19,8 @@ class _IamaAppState extends State<IamaApp> {
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
 
     return MultiBlocProvider(
         providers: [
@@ -29,7 +31,7 @@ class _IamaAppState extends State<IamaApp> {
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'YaMa',
-          theme: lightThemeData,
+          theme: isDarkMode ? darkThemeData : lightThemeData,
           routerConfig: appRouter.config(
             navigatorObservers: () => [TalkerRouteObserver(GetIt.I<Talker>())],
           ),

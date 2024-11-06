@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ia_ma/ui/theme/theme.dart';
 
 class CustomAvatar extends StatefulWidget {
   const CustomAvatar(
-      {super.key, this.radius = 40.0, this.networkImg, this.localImg});
+      {super.key,
+      this.radius = 40.0,
+      this.networkImg,
+      this.localImg,
+      this.bordered = false});
 
   final double? radius;
   final String? networkImg;
   final String? localImg;
+  final bool? bordered;
 
   @override
   State<CustomAvatar> createState() => _CustomAvatarState();
@@ -26,8 +32,10 @@ class _CustomAvatarState extends State<CustomAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(1.0),
+    final theme = Theme.of(context);
+    return CircleAvatar(
+      radius: widget.bordered! ? widget.radius! + (2.0) : widget.radius,
+      backgroundColor: successColor,
       child: CircleAvatar(
         radius: widget.radius,
         backgroundColor: Colors.grey.shade100,

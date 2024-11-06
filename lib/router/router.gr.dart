@@ -209,11 +209,58 @@ class AuthRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [FastLoginScreen]
-class FastLoginRoute extends PageRouteInfo<void> {
-  const FastLoginRoute({List<PageRouteInfo>? children})
+/// [BlogScreen]
+class BlogRoute extends PageRouteInfo<void> {
+  const BlogRoute({List<PageRouteInfo>? children})
       : super(
+          BlogRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BlogRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const BlogScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ChatScreen]
+class ChatRoute extends PageRouteInfo<void> {
+  const ChatRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ChatScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [FastLoginScreen]
+class FastLoginRoute extends PageRouteInfo<FastLoginRouteArgs> {
+  FastLoginRoute({
+    Key? key,
+    required String value,
+    required String type,
+    List<PageRouteInfo>? children,
+  }) : super(
           FastLoginRoute.name,
+          args: FastLoginRouteArgs(
+            key: key,
+            value: value,
+            type: type,
+          ),
           initialChildren: children,
         );
 
@@ -222,9 +269,33 @@ class FastLoginRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const FastLoginScreen();
+      final args = data.argsAs<FastLoginRouteArgs>();
+      return FastLoginScreen(
+        key: args.key,
+        value: args.value,
+        type: args.type,
+      );
     },
   );
+}
+
+class FastLoginRouteArgs {
+  const FastLoginRouteArgs({
+    this.key,
+    required this.value,
+    required this.type,
+  });
+
+  final Key? key;
+
+  final String value;
+
+  final String type;
+
+  @override
+  String toString() {
+    return 'FastLoginRouteArgs{key: $key, value: $value, type: $type}';
+  }
 }
 
 /// generated route for
@@ -247,11 +318,129 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [RestorePasswordScreen]
-class RestorePasswordRoute extends PageRouteInfo<void> {
-  const RestorePasswordRoute({List<PageRouteInfo>? children})
+/// [NewPasswordScreen]
+class NewPasswordRoute extends PageRouteInfo<NewPasswordRouteArgs> {
+  NewPasswordRoute({
+    Key? key,
+    required String value,
+    required String type,
+    List<PageRouteInfo>? children,
+  }) : super(
+          NewPasswordRoute.name,
+          args: NewPasswordRouteArgs(
+            key: key,
+            value: value,
+            type: type,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'NewPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<NewPasswordRouteArgs>();
+      return NewPasswordScreen(
+        key: args.key,
+        value: args.value,
+        type: args.type,
+      );
+    },
+  );
+}
+
+class NewPasswordRouteArgs {
+  const NewPasswordRouteArgs({
+    this.key,
+    required this.value,
+    required this.type,
+  });
+
+  final Key? key;
+
+  final String value;
+
+  final String type;
+
+  @override
+  String toString() {
+    return 'NewPasswordRouteArgs{key: $key, value: $value, type: $type}';
+  }
+}
+
+/// generated route for
+/// [OrdersScreen]
+class OrdersRoute extends PageRouteInfo<void> {
+  const OrdersRoute({List<PageRouteInfo>? children})
       : super(
+          OrdersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrdersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OrdersScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileScreen]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [PublicationScreen]
+class PublicationRoute extends PageRouteInfo<void> {
+  const PublicationRoute({List<PageRouteInfo>? children})
+      : super(
+          PublicationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PublicationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PublicationScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [RestorePasswordScreen]
+class RestorePasswordRoute extends PageRouteInfo<RestorePasswordRouteArgs> {
+  RestorePasswordRoute({
+    Key? key,
+    required String type,
+    required String value,
+    List<PageRouteInfo>? children,
+  }) : super(
           RestorePasswordRoute.name,
+          args: RestorePasswordRouteArgs(
+            key: key,
+            type: type,
+            value: value,
+          ),
           initialChildren: children,
         );
 
@@ -260,9 +449,33 @@ class RestorePasswordRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const RestorePasswordScreen();
+      final args = data.argsAs<RestorePasswordRouteArgs>();
+      return RestorePasswordScreen(
+        key: args.key,
+        type: args.type,
+        value: args.value,
+      );
     },
   );
+}
+
+class RestorePasswordRouteArgs {
+  const RestorePasswordRouteArgs({
+    this.key,
+    required this.type,
+    required this.value,
+  });
+
+  final Key? key;
+
+  final String type;
+
+  final String value;
+
+  @override
+  String toString() {
+    return 'RestorePasswordRouteArgs{key: $key, type: $type, value: $value}';
+  }
 }
 
 /// generated route for
@@ -280,6 +493,25 @@ class SearchRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const SearchScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [WorksScreen]
+class WorksRoute extends PageRouteInfo<void> {
+  const WorksRoute({List<PageRouteInfo>? children})
+      : super(
+          WorksRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WorksRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const WorksScreen();
     },
   );
 }

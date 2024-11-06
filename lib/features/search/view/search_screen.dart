@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ia_ma/features/search/widgets/search_category_slide.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 @RoutePage()
@@ -34,9 +35,14 @@ class _SearchScreenState extends State<SearchScreen> {
             centerTitle: true,
             expandedTitleScale: 1.8,
           ),
-          leading: CustomAvatar(
-            networkImg:
-                'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+          leading: GestureDetector(
+            onTap: () {
+              AutoRouter.of(context).push(ProfileRoute());
+            },
+            child: CustomAvatar(
+              networkImg:
+                  'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+            ),
           ),
           leadingWidth: 80.0,
 

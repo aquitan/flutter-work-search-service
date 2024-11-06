@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ia_ma/features/search/view/search_screen.dart';
+import 'package:ia_ma/router/router.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -10,44 +10,61 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SearchScreen(),
-      bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-          items: <BottomNavigationBarItem>[
+    return AutoTabsRouter(
+      routes: [
+        SearchRoute(),
+        WorksRoute(),
+        OrdersRoute(),
+        ChatRoute(),
+        BlogRoute(),
+      ],
+      builder: (context, child) {
+        final theme = Theme.of(context);
+        final tabsRouter = AutoTabsRouter.of(context);
+        return Scaffold(
+          body: child,
+          bottomNavigationBar: BottomNavigationBar(
+              unselectedIconTheme: theme.iconTheme.copyWith(color: Colors.grey),
+              selectedIconTheme:
+                  theme.iconTheme.copyWith(color: theme.primaryColor),
+              selectedItemColor: theme.primaryColor,
+              currentIndex: tabsRouter.activeIndex,
+              onTap: (index) => _onTabOpen(index, tabsRouter),
+              items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+
+                    icon: Icon(
+                      Icons.search,
+                    ),
+                    label: 'Поиск'),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                label: 'Поиск'),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.headset_mic_outlined,
-                  color: Colors.grey,
+                      Icons.headset_mic_outlined,
                 ),
                 tooltip: 'Работы',
                 label: 'Работы'),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.qr_code,
-                  color: Colors.grey,
+                      Icons.qr_code,
                 ),
                 label: 'Заказы'),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.chat_bubble_outline_rounded,
-                  color: Colors.grey,
+                      Icons.chat_bubble_outline_rounded,
                 ),
                 label: 'Чат'),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.view_carousel_outlined,
-                  color: Colors.grey,
+                      Icons.view_carousel_outlined,
                 ),
                 label: 'Стройжурнал'),
           ]),
+        );
+      },
     );
+  }
+
+  void _onTabOpen(int index, TabsRouter tabsRouter) {
+    tabsRouter.setActiveIndex(index);
   }
 }

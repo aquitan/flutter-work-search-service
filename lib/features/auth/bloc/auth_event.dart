@@ -57,3 +57,20 @@ class SignIn extends AuthBlocEvent {
   final String password;
   final String login;
 }
+class ResetPassword extends AuthBlocEvent {
+  ResetPassword({
+    required this.value,
+    required this.type,
+    required this.password,
+  });
+
+  final String value;
+  final String type;
+  final String password;
+}
+
+class FastAuth extends AuthBlocEvent {
+  FastAuth({required this.type});
+
+  final String type;
+}

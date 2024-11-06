@@ -48,4 +48,17 @@ class AuthRepository implements AbstractAuthRepository {
         await dio.post('api_auth/auth/$type/sign-in', data: data);
     return SignInUserResponse.fromJson(response.data);
   }
+
+  @override
+  Future<ResetPasswordResponse> resetPassword(type, data) async {
+    Response response =
+        await dio.post('api_auth/auth/$type/reset_password/', data: data);
+    return ResetPasswordResponse.fromJson(response.data);
+  }
+
+  @override
+  Future<SignInUserResponse> fastAuth(type) async {
+    Response response = await dio.get('api_auth/auth/$type/authorize');
+    return SignInUserResponse.fromJson(response.data);
+  }
 }

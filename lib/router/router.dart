@@ -1,8 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ia_ma/features/auth/view/new_password_screen.dart';
 import 'package:ia_ma/features/auth/view/view.dart';
+import 'package:ia_ma/features/blog/view/blog_screen.dart';
 import 'package:ia_ma/features/home/view/home_screen.dart';
+import 'package:ia_ma/features/publication/publication.dart';
 import 'package:ia_ma/features/search/view/search_screen.dart';
+
+import '../features/chat/chat.dart';
+import '../features/orders/orders.dart';
+import '../features/profile/view/view.dart';
+import '../features/works/works.dart';
 
 part 'router.gr.dart';
 
@@ -16,11 +24,26 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AuthRegisterRoute.page),
         AutoRoute(page: FastLoginRoute.page),
         AutoRoute(page: RestorePasswordRoute.page),
+        AutoRoute(page: NewPasswordRoute.page),
         AutoRoute(
             page: HomeRoute.page,
             initial: true,
             path: '/',
-            guards: [AuthGuard()])
+            children: [
+          AutoRoute(page: SearchRoute.page, path: 'search'),
+          AutoRoute(page: WorksRoute.page, path: 'works'),
+          AutoRoute(page: OrdersRoute.page, path: 'orders'),
+          AutoRoute(page: ChatRoute.page, path: 'chat'),
+          AutoRoute(page: BlogRoute.page, path: 'blog'),
+        ], guards: [
+          AuthGuard()
+        ]),
+        AutoRoute(
+            page: ProfileRoute.page, path: '/profile', guards: [AuthGuard()]),
+        AutoRoute(
+            page: PublicationRoute.page,
+            path: '/publication',
+            guards: [AuthGuard()]),
       ];
 
   @override
@@ -30,12 +53,11 @@ class AppRouter extends RootStackRouter {
 }
 
 class AuthGuard extends AutoRouteGuard {
-  final bool authenticated = false;
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     // the navigation is paused until resolver.next() is called with either
     // true to resume/continue navigation or false to abort navigation
-    if (authenticated) {
+    if (AuthProvider()._isLoggedIn) {
       // if user is authenticated we continue
       resolver.next(true);
     } else {
@@ -48,7 +70,7 @@ class AuthGuard extends AutoRouteGuard {
 }
 
 class AuthProvider extends ChangeNotifier {
-  bool _isLoggedIn = false;
+  bool _isLoggedIn = true;
 
   bool get isLoggedIn => _isLoggedIn;
 

@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 
 const primaryColor = Color.fromARGB(255, 234, 100, 43);
+const secondaryColor = Color.fromRGBO(110, 119, 129, 1);
+const secondaryFlat = Color.fromRGBO(244, 244, 245, 1);
+const tertiaryColor = Color.fromRGBO(175, 184, 193, 1);
+const errorColor = Color.fromRGBO(218, 20, 20, 1);
+
+const primaryColorDark = Color.fromARGB(255, 234, 100, 43);
+const secondaryColorDark = Color.fromRGBO(110, 119, 129, 1);
+const tertiaryColorDark = Color.fromRGBO(63, 63, 70, 1);
+const secondaryFlatDark = Color.fromRGBO(39, 39, 42, 1);
+const errorColorDark = Color.fromRGBO(218, 20, 20, 1);
+
+const successColor = Color.fromRGBO(18, 161, 80, 1);
+const warningColor = Color.fromRGBO(245, 165, 36, 1);
 
 final darkThemeData = ThemeData(
   textTheme: textThemeDark,
@@ -16,7 +29,11 @@ final darkThemeData = ThemeData(
   appBarTheme: AppBarTheme(backgroundColor: Color.fromRGBO(22, 22, 22, 1)),
   colorScheme: ColorScheme.dark(
       brightness: Brightness.dark,
-      primary: primaryColor,
+      primary: primaryColorDark,
+      secondary: secondaryColorDark,
+      secondaryFixedDim: secondaryFlatDark,
+      tertiary: tertiaryColorDark,
+      error: errorColorDark,
       tertiaryContainer: Color.fromARGB(0, 196, 196, 196)),
 );
 
@@ -36,6 +53,10 @@ final lightThemeData = ThemeData(
   colorScheme: ColorScheme.light(
     brightness: Brightness.light,
     primary: primaryColor,
+    secondary: secondaryColor,
+    secondaryFixedDim: secondaryFlat,
+    tertiary: tertiaryColor,
+    error: errorColor,
     tertiaryContainer: Color(0xFFF1F1F1),
   ),
 );

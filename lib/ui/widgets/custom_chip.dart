@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CustomChip extends StatefulWidget {
   const CustomChip(
-      {super.key, required this.text, this.icon, this.bgColor, this.avatar});
+      {super.key,
+      required this.text,
+      this.bgColor,
+      this.avatar,
+      this.textColor,
+      this.fontSize});
 
   final String text;
-  final SvgPicture? icon;
   final Color? bgColor;
   final Widget? avatar;
+  final Color? textColor;
+  final double? fontSize;
 
   @override
   State<CustomChip> createState() => _CustomChipState();
@@ -27,7 +32,7 @@ class _CustomChipState extends State<CustomChip> {
       label: Text(
         widget.text,
         style:
-            TextStyle(fontSize: 16.0, color: Color.fromRGBO(234, 100, 43, 1)),
+            TextStyle(fontSize: widget.fontSize, color: widget.textColor),
       ),
     );
   }

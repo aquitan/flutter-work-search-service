@@ -12,7 +12,7 @@ class CountDownTimer extends StatefulWidget {
 }
 
 class _CountDownTimerState extends State<CountDownTimer> {
-  dynamic _remainingTime = 15;
+  dynamic _remainingTime = 59;
   late Timer _timer;
 
   @override
@@ -46,7 +46,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
       Text("Отправить повторно через"),
       SizedBox(width: 5),
       Text(
-        _remainingTime < 10 ? '0$_remainingTime' : _remainingTime.toString(),
+        '00:${_remainingTime < 10 ? '0$_remainingTime' : _remainingTime.toString()}',
         style: TextStyle(fontWeight: FontWeight.w600),
       ),
     ]);

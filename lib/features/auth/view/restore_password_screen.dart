@@ -1,10 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 @RoutePage()
 class RestorePasswordScreen extends StatefulWidget {
-  const RestorePasswordScreen({super.key});
+  const RestorePasswordScreen(
+      {super.key, required this.type, required this.value});
+  final String type;
+  final String value;
 
   @override
   State<RestorePasswordScreen> createState() => _RestorePasswordScreenState();
@@ -12,9 +20,7 @@ class RestorePasswordScreen extends StatefulWidget {
 
 class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
   bool _updateTimer = false;
-
-  final String type = 'email';
-  final String value = 'sukharevsky@ia-ma.ru';
+  bool codeError = false;
 
   void dismissTimer() {
     setState(() {
@@ -22,83 +28,132 @@ class _RestorePasswordScreenState extends State<RestorePasswordScreen> {
     });
   }
 
+  void _submitOtp(String verificationCode) {
+    BlocProvider.of<AuthBloc>(context).add(SendConfirmCodeResponse(
+      type: widget.type,
+      value: widget.value,
+      code: int.parse(verificationCode),
+    ));
+  }
+
+  @override
+  void initState() {
+    BlocProvider.of<AuthBloc>(context)
+        .add(GetConfirmCode(value: widget.value, type: widget.type));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          toolbarHeight: 100,
-          surfaceTintColor: theme.scaffoldBackgroundColor,
-          backgroundColor: theme.scaffoldBackgroundColor,
-          foregroundColor: theme.scaffoldBackgroundColor,
-          title: Logo(),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).primaryColor,
+    return BlocListener<AuthBloc, AuthBlocState>(
+      listener: (context, state) {
+        if (state is AuthBlocStateOtpFailure) {
+          setState(() {
+            codeError = true;
+          });
+          GetIt.I<Talker>().debug('Ошибка отправки кода!!!');
+        } else if (state is AuthBlocStateOtpSuccess) {
+          AutoRouter.of(context)
+              .push(NewPasswordRoute(value: widget.value, type: widget.type));
+          setState(() {
+            codeError = false;
+          });
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+            centerTitle: true,
+            toolbarHeight: 100,
+            surfaceTintColor: theme.scaffoldBackgroundColor,
+            backgroundColor: theme.scaffoldBackgroundColor,
+            foregroundColor: theme.scaffoldBackgroundColor,
+            title: Logo(),
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: Theme.of(context).primaryColor,
+              ),
+            )),
+        body: ListView(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          children: [
+            SizedBox(
+              height: 28,
             ),
-          )),
-      body: ListView(
-        padding: EdgeInsets.only(left: 16, right: 16),
-        children: [
-          SizedBox(
-            height: 28,
-          ),
-          Text('Восстановление пароля',
-              textAlign: TextAlign.center, style: theme.textTheme.titleLarge),
-          SizedBox(
-            height: 28,
-          ),
-          RichText(
-              text: TextSpan(
-                  text: 'Мы отправили письмо с кодом на ',
-                  style: theme.textTheme.bodyMedium,
-                  children: [
-                TextSpan(
-                    text: 'sukharevsky@ia-ma.ru',
-                    style: theme.textTheme.bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w600)),
-              ])),
-          SizedBox(
-            height: 28,
-          ),
-          Text(
-              type == 'email'
-                  ? 'Введите код'
-                  : 'Введите последние 4 цифры входящего номера',
-              textAlign: TextAlign.left,
-              style: theme.textTheme.bodySmall!
-                  .copyWith(fontWeight: FontWeight.w600)),
-          SizedBox(
-            height: 12,
-          ),
-          OtpFieldCustom(onSubmit: _submitOtp),
-          SizedBox(
-            height: 28,
-          ),
-          CountDownTimer(dismissTimer: dismissTimer),
-          SizedBox(height: 16),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _updateTimer = true;
-              });
-            },
-            child: Text('Позвонить повторно',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w500,
-                )),
-          ),
-        ],
+            Text('Восстановление пароля',
+                textAlign: TextAlign.center, style: theme.textTheme.titleLarge),
+            SizedBox(
+              height: 28,
+            ),
+            RichText(
+                text: TextSpan(
+                    text: 'Мы отправили письмо с кодом на ',
+                    style: theme.textTheme.bodyMedium,
+                    children: [
+                  TextSpan(
+                      text: widget.value,
+                      style: theme.textTheme.bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w600)),
+                ])),
+            SizedBox(
+              height: 28,
+            ),
+            Text(
+                widget.type == 'email'
+                    ? 'Введите код'
+                    : 'Введите последние 4 цифры входящего номера',
+                textAlign: TextAlign.left,
+                style: theme.textTheme.bodySmall!
+                    .copyWith(fontWeight: FontWeight.w600)),
+            SizedBox(
+              height: 12,
+            ),
+            OtpFieldCustom(onSubmit: _submitOtp),
+            if (codeError)
+              Column(
+                children: [
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text('Ошибка отправки кода, проверьте код!',
+                      style: theme.textTheme.bodySmall!
+                          .copyWith(color: Colors.red)),
+                ],
+              ),
+            SizedBox(
+              height: 28,
+            ),
+            CountDownTimer(dismissTimer: dismissTimer),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                if (_updateTimer) {
+                  setState(() {
+                    BlocProvider.of<AuthBloc>(context).add(
+                        GetConfirmCode(value: widget.value, type: widget.type));
+                    _updateTimer = true;
+                  });
+                }
+              },
+              child: Text(
+                  widget.type == 'phone'
+                      ? 'Позвонить повторно'
+                      : 'Отправить повторно',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyLarge!.copyWith(
+                    color: !_updateTimer
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w500,
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
-
-  void _submitOtp(String verificationCode) {}
 }
