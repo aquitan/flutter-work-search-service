@@ -166,16 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           child: Column(
             children: [
-              Center(
-                child: Container(
-                  height: 4.0,
-                  width: 20.0,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
+              BottomSheetDragMark(),
               SizedBox(
                 height: 24,
               ),
