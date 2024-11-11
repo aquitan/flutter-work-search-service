@@ -20,6 +20,7 @@ class FastLoginScreen extends StatefulWidget {
 
 class _FastLoginScreenState extends State<FastLoginScreen> {
 
+  bool _otpError = false;
 
   @override
   void initState() {
@@ -45,6 +46,11 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
         if (state is AuthBlocStateOtpSuccess) {
           BlocProvider.of<AuthBloc>(context).add(FastAuth(type: widget.type));
           GetIt.I<Talker>().debug('success');
+        }
+        if (state is AuthBlocStateOtpFailure) {
+          setState(() {
+            _otpError = true;
+          });
         }
         if (state is AuthBlocStateFastAuth) {
           GetIt.I<Talker>().debug('token ${state.token.accessToken}');
@@ -112,6 +118,12 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
               height: 8,
             ),
             OtpFieldCustom(onSubmit: _submitOtp),
+            if (_otpError)
+              Text(
+                'Неверный код',
+                style: theme.textTheme.bodySmall!
+                    .copyWith(color: theme.colorScheme.error),
+              ),
             SizedBox(
               height: 32,
             ),

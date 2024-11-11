@@ -427,6 +427,82 @@ class PublicationRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [RegisterPasswordScreen]
+class RegisterPasswordRoute extends PageRouteInfo<RegisterPasswordRouteArgs> {
+  RegisterPasswordRoute({
+    Key? key,
+    required String value,
+    required String type,
+    bool? isCompany,
+    String? firstName,
+    String? lastName,
+    String? middleName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          RegisterPasswordRoute.name,
+          args: RegisterPasswordRouteArgs(
+            key: key,
+            value: value,
+            type: type,
+            isCompany: isCompany,
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<RegisterPasswordRouteArgs>();
+      return RegisterPasswordScreen(
+        key: args.key,
+        value: args.value,
+        type: args.type,
+        isCompany: args.isCompany,
+        firstName: args.firstName,
+        lastName: args.lastName,
+        middleName: args.middleName,
+      );
+    },
+  );
+}
+
+class RegisterPasswordRouteArgs {
+  const RegisterPasswordRouteArgs({
+    this.key,
+    required this.value,
+    required this.type,
+    this.isCompany,
+    this.firstName,
+    this.lastName,
+    this.middleName,
+  });
+
+  final Key? key;
+
+  final String value;
+
+  final String type;
+
+  final bool? isCompany;
+
+  final String? firstName;
+
+  final String? lastName;
+
+  final String? middleName;
+
+  @override
+  String toString() {
+    return 'RegisterPasswordRouteArgs{key: $key, value: $value, type: $type, isCompany: $isCompany, firstName: $firstName, lastName: $lastName, middleName: $middleName}';
+  }
+}
+
+/// generated route for
 /// [RestorePasswordScreen]
 class RestorePasswordRoute extends PageRouteInfo<RestorePasswordRouteArgs> {
   RestorePasswordRoute({

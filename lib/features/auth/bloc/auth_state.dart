@@ -54,6 +54,12 @@ class AuthBlocStateResetFailure extends AuthBlocState {
   final Object failure;
 }
 
+class AuthBlocPasswordFailure extends AuthBlocState {
+  AuthBlocPasswordFailure({required this.failure});
+
+  final Object failure;
+}
+
 class AuthBlocStateFastAuth extends AuthBlocState {
   AuthBlocStateFastAuth({required this.token});
 

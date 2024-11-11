@@ -25,6 +25,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: FastLoginRoute.page),
         AutoRoute(page: RestorePasswordRoute.page),
         AutoRoute(page: NewPasswordRoute.page),
+        AutoRoute(page: RegisterPasswordRoute.page),
         AutoRoute(
             page: HomeRoute.page,
             initial: true,
@@ -38,12 +39,12 @@ class AppRouter extends RootStackRouter {
         ], guards: [
           AuthGuard()
         ]),
-        AutoRoute(
-            page: ProfileRoute.page, path: '/profile', guards: [AuthGuard()]),
-        AutoRoute(
-            page: PublicationRoute.page,
-            path: '/publication',
-            guards: [AuthGuard()]),
+        // AutoRoute(
+        //     page: ProfileRoute.page, path: '/profile', guards: [AuthGuard()]),
+        // AutoRoute(
+        //     page: PublicationRoute.page,
+        //     path: '/publication',
+        //     guards: [AuthGuard()]),
       ];
 
   @override
@@ -70,7 +71,7 @@ class AuthGuard extends AutoRouteGuard {
 }
 
 class AuthProvider extends ChangeNotifier {
-  bool _isLoggedIn = true;
+  bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;
 

@@ -18,13 +18,21 @@ class AuthRegisterScreen extends StatefulWidget {
 }
 
 class _AuthRegisterScreen extends State<AuthRegisterScreen> {
-  // String type = 'phone';
-  // String value = '';
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNmaeController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController innController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    secondNmaeController.dispose();
+    lastNameController.dispose();
+    innController.dispose();
+
+    super.dispose();
+  }
 
 
   @override

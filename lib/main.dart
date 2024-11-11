@@ -17,11 +17,15 @@ Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await dotenv.load(fileName: '.env');
   // print(dotenv.env['HOST']);
+  // final SharedPreferences prefferences = await SharedPreferences.getInstance();
+
 
 
   final dio = ApiClient.dio();
   final talker = TalkerFlutter.init();
   final authProvider = AuthProvider();
+
+  // GetIt.I.registerSingleton<SharedPreferences>(prefferences);
 
   GetIt.I.registerSingleton<AuthProvider>(authProvider);
 
@@ -47,5 +51,6 @@ Future<void> main() async {
   }); // Ловим ошибки запросов к серверу
 
 
+  // return runApp(const IamaApp());
 }
 

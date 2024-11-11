@@ -61,7 +61,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         try {
           await authRepository.signUp(event.type, data);
         } catch (e, stackTrace) {
-          emit(AuthBlocStateFailure(failure: e));
+          emit(AuthBlocPasswordFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
         }
       },
@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         try {
           await authRepository.signIn(event.type, data);
         } catch (e, stackTrace) {
-          emit(AuthBlocStateFailure(failure: e));
+          emit(AuthBlocPasswordFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
         }
       },
@@ -109,7 +109,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         emit(AuthBlocStateFastAuth(token: response.token));
       } catch (e, stackTrace) {
         GetIt.I<Talker>().debug('Error: $e, stacTrace: $stackTrace');
-        emit(AuthBlocStateFastAuthFailure(failure: stackTrace));
+        emit(AuthBlocStateFastAuthFailure(failure: e));
       }
     });
 
