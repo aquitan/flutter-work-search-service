@@ -21,6 +21,11 @@ class AuthBlocStateOtpFailure extends AuthBlocState {
   final Object failure;
 }
 
+class AuthSigninSuccess extends AuthBlocState {
+  AuthSigninSuccess({required this.success});
+  final bool success;
+}
+
 class AuthBlocStateOtpSuccess extends AuthBlocState {
   AuthBlocStateOtpSuccess({required this.success});
 

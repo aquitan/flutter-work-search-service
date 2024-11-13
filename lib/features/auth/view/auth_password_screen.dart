@@ -2,11 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 @RoutePage()
 class AuthPasswordScreen extends StatefulWidget {
@@ -35,10 +33,10 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool obscureText = true;
+  bool error = false;
 
   void onSignIn() {
     if (_formKey.currentState!.validate()) {
-      GetIt.I<Talker>().debug('Вход в аккаунт');
       BlocProvider.of<AuthBloc>(context).add(SignIn(
           value: widget.value,
           type: widget.type,
@@ -51,9 +49,18 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocBuilder<AuthBloc, AuthBlocState>(
-      builder: (context, state) {
-        return Scaffold(
+    return BlocListener<AuthBloc, AuthBlocState>(
+      listener: (context, state) {
+        if (state is AuthBlocPasswordFailure) {
+          setState(() {
+            error = true;
+          });
+        }
+        if (state is AuthSigninSuccess) {
+          AutoRouter.of(context).replaceAll([HomeRoute()]);
+        }
+      },
+      child: Scaffold(
           appBar: AppBar(
               centerTitle: true,
               toolbarHeight: 100,
@@ -121,7 +128,7 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
                     obscureText: obscureText,
 
                       ),
-                      if (state is AuthBlocPasswordFailure)
+                    if (error)
                         Text(
                           textAlign: TextAlign.start,
                           'Ошибка, проверьте пароль',
@@ -182,8 +189,8 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               ),
             ],
           ),
-        );
-      },
+      ),
+
     );
   }
 

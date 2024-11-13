@@ -19,8 +19,14 @@ class FastLoginScreen extends StatefulWidget {
 }
 
 class _FastLoginScreenState extends State<FastLoginScreen> {
-
+  bool _updateTimer = false;
   bool _otpError = false;
+
+  void dismissTimer() {
+    setState(() {
+      _updateTimer = true;
+    });
+  }
 
   @override
   void initState() {
@@ -54,8 +60,7 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
         }
         if (state is AuthBlocStateFastAuth) {
           GetIt.I<Talker>().debug('token ${state.token.accessToken}');
-
-          AuthProvider().login();
+          AutoRouter.of(context).push(HomeRoute());
         }
         if (state is AuthBlocStateFastAuthFailure) {
           GetIt.I<Talker>().debug('failure');
@@ -127,12 +132,30 @@ class _FastLoginScreenState extends State<FastLoginScreen> {
             SizedBox(
               height: 32,
             ),
-            Text(
-              'Прислать новый код',
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyLarge!
-                  .copyWith(color: theme.primaryColor),
-            )
+            CountDownTimer(dismissTimer: dismissTimer),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                if (_updateTimer) {
+                  setState(() {
+                    BlocProvider.of<AuthBloc>(context).add(
+                        GetConfirmCode(value: widget.value, type: widget.type));
+                    _updateTimer = false;
+                  });
+                }
+              },
+              child: Text(
+                  widget.type == 'phone'
+                      ? 'Позвонить повторно'
+                      : 'Отправить повторно',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyLarge!.copyWith(
+                    color: !_updateTimer
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w500,
+                  )),
+            ),
           ],
         ),
       ),

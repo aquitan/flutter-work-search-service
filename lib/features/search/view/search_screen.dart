@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ia_ma/features/search/widgets/search_category_slide.dart';
+import 'package:ia_ma/repository/token/token_repository_interface.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
@@ -13,96 +16,176 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
+
+  void getToken() async {
+    var token = await GetIt.I<TokenRepositoryInterface>().getToken();
+    print('token--- ${token.toString()}');
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          backgroundColor: theme.appBarTheme.backgroundColor,
-          surfaceTintColor: Colors.transparent,
-          pinned: true,
-          snap: true,
-          floating: true,
-          expandedHeight: 100.0,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Logo(
-              width: 40.0,
-              height: 30.0,
-              alignment: Alignment.bottomCenter,
+    return Stack(children: [
+      CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: theme.appBarTheme.backgroundColor,
+            surfaceTintColor: Colors.transparent,
+            pinned: true,
+            snap: true,
+            floating: true,
+            expandedHeight: 100.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Logo(
+                width: 40.0,
+                height: 30.0,
+                alignment: Alignment.bottomCenter,
+              ),
+              centerTitle: true,
+              expandedTitleScale: 1.8,
             ),
-            centerTitle: true,
-            expandedTitleScale: 1.8,
-          ),
-          leading: GestureDetector(
-            onTap: () {
-              AutoRouter.of(context).push(ProfileRoute());
-            },
-            child: CustomAvatar(
-              networkImg:
-                  'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+            leading: GestureDetector(
+              onTap: () {
+                AutoRouter.of(context).push(ProfileRoute());
+              },
+              child: CustomAvatar(
+                networkImg:
+                    'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+              ),
             ),
-          ),
-          leadingWidth: 80.0,
+            leadingWidth: 80.0,
 
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.notifications_none), onPressed: () {}),
-            IconButton(
-                icon: Icon(
-                  Icons.qr_code,
-                  color: theme.primaryColor,
-                ),
-                onPressed: () {}),
-          ],
-        ),
-        SliverToBoxAdapter(
-          child: SearchbarButton(
-            onTap: () {
-              _showModalBottomSheet(context);
-            },
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.notifications_none), onPressed: () {}),
+              IconButton(
+                  icon: Icon(
+                    Icons.qr_code,
+                    color: theme.primaryColor,
+                  ),
+                  onPressed: () {}),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: SearchbarButton(
+              onTap: () {
+                _showModalBottomSheet(context);
+              },
+            ),
+          ),
+          SliverToBoxAdapter(
+              child: Container(
+            padding: const EdgeInsets.only(bottom: 24.0, top: 12.0),
+            decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(16)),
+                color: theme.cardTheme.color,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 0), //
+                  )
+                ]),
+            child: SizedBox(
+              height: 92,
+              width: 150,
+              child: ListView.separated(
+                  padding: const EdgeInsets.only(left: 16),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 16),
+                  itemBuilder: (context, index) => SearchCategorySlide()),
+            ),
+          )),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 20),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return PublicataionCard(
+                  cardType: 'price_offer',
+                );
+              },
+              childCount: 20,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 60),
+          ),
+        ],
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 14.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FilledButton(
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                    theme.colorScheme.primary,
+                  )),
+                  onPressed: () {
+                    AutoRouter.of(context).push(FiltersRoute());
+                  },
+                  child: SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/icons/filter-icon.svg',
+                            colorFilter: ColorFilter.mode(
+                                Colors.white, BlendMode.srcIn)),
+                        SizedBox(width: 8),
+                        Text(
+                          'Фильтры',
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.w500, color: Colors.white),
+                        )
+                      ],
+                    ),
+                  )),
+              SizedBox(
+                width: 10.0,
+              ),
+              FilledButton(
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                    theme.colorScheme.primary,
+                  )),
+                  onPressed: () {},
+                  child: SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/icons/map-icon.svg',
+                            colorFilter: ColorFilter.mode(
+                                Colors.white, BlendMode.srcIn)),
+                        SizedBox(width: 8),
+                        Text(
+                          'На карте',
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.w500, color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ))
+            ],
           ),
         ),
-        SliverToBoxAdapter(
-            child: Container(
-          padding: const EdgeInsets.only(bottom: 24.0, top: 12.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-              color: theme.cardTheme.color,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 7,
-                  offset: Offset(0, 0), //
-                )
-              ]
-          ),
-          child: SizedBox(
-            height: 92,
-            width: 150,
-            child: ListView.separated(
-                padding: const EdgeInsets.only(left: 16),
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                separatorBuilder: (context, index) => const SizedBox(width: 16),
-                itemBuilder: (context, index) => SearchCategorySlide()),
-          ),
-        )),
-        SliverToBoxAdapter(
-          child: SizedBox(height: 20),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return PublicataionCard(
-                cardType: 'price_offer',
-              );
-            },
-            childCount: 20,
-          ),
-        ),
-      ],
+      )
+    ]
     );
   }
 

@@ -299,6 +299,25 @@ class FastLoginRouteArgs {
 }
 
 /// generated route for
+/// [FiltersScreen]
+class FiltersRoute extends PageRouteInfo<void> {
+  const FiltersRoute({List<PageRouteInfo>? children})
+      : super(
+          FiltersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FiltersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const FiltersScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
