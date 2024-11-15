@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/features/profile/widgets/widgets.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -19,10 +21,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           title: Text('Профиль'),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showSimpleModalDialog(context);
+                },
                 icon: SvgPicture.asset(
                   'assets/icons/elipsis-horizontal.svg',
                   colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
@@ -259,4 +264,163 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ]));
   }
+}
+
+
+_showSimpleModalDialog(context) {
+  logOut() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.clear();
+  }
+
+  final theme = Theme.of(context);
+
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          alignment: Alignment.topRight,
+          child: Container(
+            height: 420.0,
+            width: 260.0,
+            padding: EdgeInsets.all(16.0),
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(24.0)),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/user-icon.svg'),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Text(
+                      'Личные данные',
+                      style: theme.textTheme.bodyLarge,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/verify-outlined-icon.svg'),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Text(
+                      'Верификация личности',
+                      style: theme.textTheme.bodyLarge,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/wrench-icon.svg'),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Text(
+                      'Я Мастер',
+                      style: theme.textTheme.bodyLarge,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/bell-alert-icon.svg'),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Text(
+                      'Уведомления',
+                      style: theme.textTheme.bodyLarge,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    AutoRouter.of(context).push(ProfileThemeRoute());
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/color-scheme-icon.svg'),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Text(
+                        'Цветовая тема',
+                        style: theme.textTheme.bodyLarge,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/cog-6-tooth-icon.svg'),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Text(
+                      'Настройки',
+                      style: theme.textTheme.bodyLarge,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                        'assets/icons/information-circle-icon.svg'),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Text(
+                      'О приложении',
+                      style: theme.textTheme.bodyLarge,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 36.0,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    logOut();
+                    AutoRouter.of(context).replaceAll([AuthRoute()]);
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/logout-icon.svg'),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Text(
+                        'Выйти',
+                        style: theme.textTheme.bodyLarge,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      });
 }

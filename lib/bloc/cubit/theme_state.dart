@@ -1,6 +1,14 @@
 part of 'theme_cubit.dart';
 
-@immutable
-sealed class ThemeState {}
 
-final class ThemeInitial extends ThemeState {}
+class ThemeState extends Equatable {
+  const ThemeState({required this.brightness});
+
+  final Brightness brightness;
+
+  bool get isDark => brightness == Brightness.dark;
+
+
+  @override
+  List<Object> get props => [brightness];
+}

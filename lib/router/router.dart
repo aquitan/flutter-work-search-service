@@ -38,7 +38,10 @@ class AppRouter extends RootStackRouter {
           AuthGuard()
         ]),
         AutoRoute(page: ProfileRoute.page, path: '/profile'),
+        AutoRoute(page: ProfileThemeRoute.page, path: '/profile_theme'),
         AutoRoute(page: FiltersRoute.page, path: '/filters'),
+        AutoRoute(page: OrderCreationRoute.page, path: '/creation'),
+
         AutoRoute(
           page: PublicationRoute.page,
           path: '/publication',

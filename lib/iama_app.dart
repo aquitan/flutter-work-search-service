@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ia_ma/bloc/cubit/theme_cubit.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
 import 'package:ia_ma/repository/auth/abstract_auth_repository.dart';
 import 'package:ia_ma/repository/token/token_repository_interface.dart';
@@ -28,16 +30,32 @@ class _IamaAppState extends State<IamaApp> {
           BlocProvider(
             create: (context) => AuthBloc(GetIt.I<AbstractAuthRepository>(),
                 GetIt.I<TokenRepositoryInterface>()),
+          ),
+          BlocProvider(
+            create: (context) => ThemeCubit(),
           )
         ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'YaMa',
-          theme: lightThemeData,
-          routerConfig: appRouter.config(
-            navigatorObservers: () => [TalkerRouteObserver(GetIt.I<Talker>())],
-          ),
-        )
-    );
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'YaMa',
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: [
+                Locale('en'),
+                Locale('ru'),
+              ],
+              theme: !state.isDark ? lightThemeData : darkThemeData,
+              routerConfig: appRouter.config(
+                navigatorObservers: () =>
+                    [TalkerRouteObserver(GetIt.I<Talker>())],
+              ),
+            );
+          },
+        ));
   }
 }

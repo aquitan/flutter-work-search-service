@@ -389,6 +389,25 @@ class NewPasswordRouteArgs {
 }
 
 /// generated route for
+/// [OrderCreationScreen]
+class OrderCreationRoute extends PageRouteInfo<void> {
+  const OrderCreationRoute({List<PageRouteInfo>? children})
+      : super(
+          OrderCreationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderCreationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OrderCreationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [OrdersScreen]
 class OrdersRoute extends PageRouteInfo<void> {
   const OrdersRoute({List<PageRouteInfo>? children})
@@ -422,6 +441,25 @@ class ProfileRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileThemeScreen]
+class ProfileThemeRoute extends PageRouteInfo<void> {
+  const ProfileThemeRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileThemeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileThemeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileThemeScreen();
     },
   );
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/bloc/cubit/theme_cubit.dart';
 
 class Logo extends StatelessWidget {
   const Logo(
@@ -14,11 +16,13 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var brightness = MediaQuery.of(context).platformBrightness;
-    // bool isDarkMode = brightness == Brightness.dark;
+    final brightness = context.read<ThemeCubit>().state.isDark;
     return Container(
       alignment: alignment,
-      child: SvgPicture.asset('assets/logo/Logo-light.svg',
+      child: !brightness
+          ? SvgPicture.asset('assets/logo/Logo-light.svg',
+              width: width, height: height)
+          : SvgPicture.asset('assets/logo/logo-dark.svg',
           width: width, height: height),
     );
   }

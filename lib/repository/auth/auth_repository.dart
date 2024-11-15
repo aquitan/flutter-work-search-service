@@ -61,4 +61,10 @@ class AuthRepository implements AbstractAuthRepository {
     Response response = await dio.get('api_auth/auth/$type/authorize');
     return SignInUserResponse.fromJson(response.data);
   }
+
+  // @override
+  // Future<void> logout(type) async {
+  //   Response response = await dio.get('api_auth/auth/$type/sign-out');
+
+  // }
 }

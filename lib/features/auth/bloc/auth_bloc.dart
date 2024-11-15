@@ -128,6 +128,14 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       }
     });
 
+    // on<Logout>((event, emit) async {
+    //   try {
+    //     await authRepository.logout(event.type);
+    //   } catch (e, stackTrace) {
+    //     GetIt.I<Talker>().debug('Error: $e, stacTrace: $stackTrace');
+    //   }
+    // });
+
 
 
 

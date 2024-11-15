@@ -74,3 +74,9 @@ class FastAuth extends AuthBlocEvent {
 
   final String type;
 }
+
+class Logout extends AuthBlocEvent {
+  final String type;
+
+  Logout({required this.type});
+}

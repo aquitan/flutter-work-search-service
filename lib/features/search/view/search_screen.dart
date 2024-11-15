@@ -25,7 +25,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void getToken() async {
     var token = await GetIt.I<TokenRepositoryInterface>().getToken();
-    print('token--- ${token.toString()}');
   }
 
   @override
@@ -81,20 +80,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           SliverToBoxAdapter(
-              child: Container(
+              child: BlockWrapper(
             padding: const EdgeInsets.only(bottom: 24.0, top: 12.0),
-            decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(16)),
-                color: theme.cardTheme.color,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 0), //
-                  )
-                ]),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
             child: SizedBox(
               height: 92,
               width: 150,
@@ -125,65 +113,59 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ],
       ),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 14.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FilledButton(
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                    theme.colorScheme.primary,
-                  )),
-                  onPressed: () {
-                    AutoRouter.of(context).push(FiltersRoute());
-                  },
-                  child: SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset('assets/icons/filter-icon.svg',
-                            colorFilter: ColorFilter.mode(
-                                Colors.white, BlendMode.srcIn)),
-                        SizedBox(width: 8),
-                        Text(
-                          'Фильтры',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500, color: Colors.white),
-                        )
-                      ],
-                    ),
-                  )),
-              SizedBox(
-                width: 10.0,
-              ),
-              FilledButton(
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                    theme.colorScheme.primary,
-                  )),
-                  onPressed: () {},
-                  child: SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset('assets/icons/map-icon.svg',
-                            colorFilter: ColorFilter.mode(
-                                Colors.white, BlendMode.srcIn)),
-                        SizedBox(width: 8),
-                        Text(
-                          'На карте',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500, color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ))
-            ],
+      BottomFloatingButtons(
+        children: [
+
+          FilledButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(
+                theme.colorScheme.primary,
+              )),
+              onPressed: () {
+                AutoRouter.of(context).push(FiltersRoute());
+              },
+              child: SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/filter-icon.svg',
+                        colorFilter:
+                            ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                    SizedBox(width: 8),
+                    Text(
+                      'Фильтры',
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )
+                  ],
+                ),
+              )),
+          SizedBox(
+            width: 10.0,
           ),
-        ),
+          FilledButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(
+                theme.colorScheme.primary,
+              )),
+              onPressed: () {},
+              child: SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/map-icon.svg',
+                        colorFilter:
+                            ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                    SizedBox(width: 8),
+                    Text(
+                      'На карте',
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )
+                  ],
+                ),
+              ))
+        ],
       )
     ]
     );
@@ -365,3 +347,4 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+

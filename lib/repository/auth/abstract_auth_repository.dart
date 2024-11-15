@@ -16,4 +16,6 @@ abstract class AbstractAuthRepository {
       String? type, Map<String, dynamic> data);
 
   Future<SignInUserResponse> fastAuth(String type);
+
+  // Future<void> logout(String type);
 }
