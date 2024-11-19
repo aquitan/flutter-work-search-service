@@ -26,6 +26,12 @@ class AuthSigninSuccess extends AuthBlocState {
   final bool success;
 }
 
+
+class AuthSignupSuccess extends AuthBlocState {
+  AuthSignupSuccess({required this.success});
+  final bool success;
+}
+
 class AuthBlocStateOtpSuccess extends AuthBlocState {
   AuthBlocStateOtpSuccess({required this.success});
 

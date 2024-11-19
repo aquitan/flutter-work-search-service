@@ -13,6 +13,7 @@ class CustomChip extends StatefulWidget {
     this.borderWidth,
     this.borderColor,
     this.padding = 8,
+    this.selected,
   });
 
   final String text;
@@ -24,6 +25,7 @@ class CustomChip extends StatefulWidget {
   final double? borderWidth;
   final Color? borderColor;
   final double? padding;
+  final bool? selected;
 
   @override
   State<CustomChip> createState() => _CustomChipState();
@@ -32,7 +34,13 @@ class CustomChip extends StatefulWidget {
 class _CustomChipState extends State<CustomChip> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Chip(
+      deleteIcon: Icon(
+        Icons.check_circle,
+        color: theme.colorScheme.primary,
+      ),
+      onDeleted: widget.selected == true ? () {} : null,
       padding: EdgeInsets.all(widget.padding!),
       avatar: widget.avatar,
       backgroundColor: widget.bgColor,

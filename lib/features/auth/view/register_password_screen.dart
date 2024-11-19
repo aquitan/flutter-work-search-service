@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -34,6 +35,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool obscureText = true;
+  bool error = false;
 
   void onTap() {
     if (_formKey.currentState!.validate()) {
@@ -55,7 +57,16 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocBuilder<AuthBloc, AuthBlocState>(
+    return BlocConsumer<AuthBloc, AuthBlocState>(
+      listener: (context, state) {
+        if (state is AuthSignupSuccess) {
+          AutoRouter.of(context).replaceAll([HomeRoute()]);
+        } else {
+          setState(() {
+            error = true;
+          });
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(

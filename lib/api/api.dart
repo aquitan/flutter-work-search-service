@@ -8,7 +8,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiClient {
 
-  static Dio dio() {
+  static Dio dio(pref) {
+
+
 
     BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 10),
@@ -18,11 +20,13 @@ class ApiClient {
         'Accept': 'application/json',
         'Content-type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': 'Bearer ${pref.getString('token')}',
       },
       responseType: ResponseType.json,
     );
     final dio = Dio(options);
     final cookieJar = CookieJar();
+
     dio.interceptors.add(CookieManager(cookieJar));
 
     (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>

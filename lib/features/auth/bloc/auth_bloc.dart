@@ -66,6 +66,8 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
           // tokenRepository.setToken(res.token.accessToken);
           SharedPreferences pref = await SharedPreferences.getInstance();
           pref.setBool('logged_in', true);
+          pref.setString('token', res.token.accessToken);
+          emit(AuthSignupSuccess(success: true));
         } catch (e, stackTrace) {
           emit(AuthBlocPasswordFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
@@ -88,6 +90,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
           // final token = await tokenRepository.getToken();
           SharedPreferences pref = await SharedPreferences.getInstance();
           pref.setBool('logged_in', true);
+          pref.setString('token', res.token.accessToken);
         } catch (e, stackTrace) {
           emit(AuthBlocPasswordFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
@@ -121,6 +124,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         // tokenRepository.setToken(res.token.accessToken);
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool('logged_in', true);
+        pref.setString('token', res.token.accessToken);
         emit(AuthBlocStateFastAuth(token: res.token));
       } catch (e, stackTrace) {
         GetIt.I<Talker>().debug('Error: $e, stacTrace: $stackTrace');

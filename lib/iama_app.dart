@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
 import 'package:ia_ma/bloc/cubit/theme_cubit.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
+import 'package:ia_ma/features/orders/bloc/orders_bloc.dart';
+import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
 import 'package:ia_ma/repository/auth/abstract_auth_repository.dart';
+import 'package:ia_ma/repository/categories/abstract_categories_repository.dart';
+import 'package:ia_ma/repository/orders/abstract_orders_repository.dart';
+import 'package:ia_ma/repository/profile/abstract_profile_repository.dart';
 import 'package:ia_ma/repository/token/token_repository_interface.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/theme/theme.dart';
@@ -30,6 +36,18 @@ class _IamaAppState extends State<IamaApp> {
           BlocProvider(
             create: (context) => AuthBloc(GetIt.I<AbstractAuthRepository>(),
                 GetIt.I<TokenRepositoryInterface>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ProfileBloc(GetIt.I<AbstractProfileRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                CategoriesBloc(GetIt.I<AbstractCategoriesRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                OrdersBloc(GetIt.I<AbstractOrdersRepository>()),
           ),
           BlocProvider(
             create: (context) => ThemeCubit(),

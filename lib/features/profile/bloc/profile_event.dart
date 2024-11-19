@@ -1,4 +1,9 @@
 part of 'profile_bloc.dart';
 
-@immutable
-sealed class ProfileEvent {}
+class ProfileEvent {}
+
+class GetUserById extends ProfileEvent {
+  GetUserById({required this.id});
+
+  final int id;
+}
