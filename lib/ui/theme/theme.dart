@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const primaryColor = Color.fromARGB(255, 234, 100, 43);
 const secondaryColor = Color.fromRGBO(110, 119, 129, 1);
 const secondaryFlat = Color.fromRGBO(244, 244, 245, 1);
+const tertiaryFlatLight = Color.fromRGBO(246, 248, 250, 1);
 const tertiaryColor = Color.fromRGBO(175, 184, 193, 1);
 const errorColor = Color.fromRGBO(218, 20, 20, 1);
 
@@ -23,6 +24,9 @@ final darkThemeData = ThemeData(
   primaryColor: primaryColor,
   tabBarTheme: TabBarTheme(labelColor: const Color.fromARGB(255, 0, 0, 0)),
   dividerColor: const Color.fromRGBO(228, 228, 231, 1),
+  iconTheme: IconThemeData(
+    color: Colors.white,
+  ),
   cardTheme: CardTheme(
     shadowColor: Color.fromRGBO(255, 255, 255, .2),
     color: Color.fromRGBO(22, 22, 22, 1),
@@ -52,11 +56,13 @@ final lightThemeData = ThemeData(
   ),
   appBarTheme: AppBarTheme(backgroundColor: Colors.white),
   scaffoldBackgroundColor: Colors.white,
+  iconTheme: IconThemeData(color: Colors.black),
   colorScheme: ColorScheme.light(
     brightness: Brightness.light,
     primary: primaryColor,
     secondary: secondaryColor,
     secondaryFixedDim: secondaryFlat,
+    tertiaryFixedDim: tertiaryFlatLight,
     tertiary: tertiaryColor,
     error: errorColor,
     tertiaryContainer: Color(0xFFF1F1F1),

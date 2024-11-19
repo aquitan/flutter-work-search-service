@@ -299,6 +299,25 @@ class FastLoginRouteArgs {
 }
 
 /// generated route for
+/// [FiltersScreen]
+class FiltersRoute extends PageRouteInfo<void> {
+  const FiltersRoute({List<PageRouteInfo>? children})
+      : super(
+          FiltersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FiltersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const FiltersScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -370,6 +389,25 @@ class NewPasswordRouteArgs {
 }
 
 /// generated route for
+/// [OrderCreationScreen]
+class OrderCreationRoute extends PageRouteInfo<void> {
+  const OrderCreationRoute({List<PageRouteInfo>? children})
+      : super(
+          OrderCreationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderCreationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OrderCreationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [OrdersScreen]
 class OrdersRoute extends PageRouteInfo<void> {
   const OrdersRoute({List<PageRouteInfo>? children})
@@ -408,6 +446,25 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ProfileThemeScreen]
+class ProfileThemeRoute extends PageRouteInfo<void> {
+  const ProfileThemeRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileThemeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileThemeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileThemeScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [PublicationScreen]
 class PublicationRoute extends PageRouteInfo<void> {
   const PublicationRoute({List<PageRouteInfo>? children})
@@ -424,6 +481,82 @@ class PublicationRoute extends PageRouteInfo<void> {
       return const PublicationScreen();
     },
   );
+}
+
+/// generated route for
+/// [RegisterPasswordScreen]
+class RegisterPasswordRoute extends PageRouteInfo<RegisterPasswordRouteArgs> {
+  RegisterPasswordRoute({
+    Key? key,
+    required String value,
+    required String type,
+    bool? isCompany,
+    String? firstName,
+    String? lastName,
+    String? middleName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          RegisterPasswordRoute.name,
+          args: RegisterPasswordRouteArgs(
+            key: key,
+            value: value,
+            type: type,
+            isCompany: isCompany,
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<RegisterPasswordRouteArgs>();
+      return RegisterPasswordScreen(
+        key: args.key,
+        value: args.value,
+        type: args.type,
+        isCompany: args.isCompany,
+        firstName: args.firstName,
+        lastName: args.lastName,
+        middleName: args.middleName,
+      );
+    },
+  );
+}
+
+class RegisterPasswordRouteArgs {
+  const RegisterPasswordRouteArgs({
+    this.key,
+    required this.value,
+    required this.type,
+    this.isCompany,
+    this.firstName,
+    this.lastName,
+    this.middleName,
+  });
+
+  final Key? key;
+
+  final String value;
+
+  final String type;
+
+  final bool? isCompany;
+
+  final String? firstName;
+
+  final String? lastName;
+
+  final String? middleName;
+
+  @override
+  String toString() {
+    return 'RegisterPasswordRouteArgs{key: $key, value: $value, type: $type, isCompany: $isCompany, firstName: $firstName, lastName: $lastName, middleName: $middleName}';
+  }
 }
 
 /// generated route for

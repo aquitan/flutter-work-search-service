@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 
 class CustomChip extends StatefulWidget {
   const CustomChip(
-      {super.key,
-      required this.text,
-      this.bgColor,
-      this.avatar,
-      this.textColor,
-      this.fontSize});
+      {
+    super.key,
+    required this.text,
+    this.bgColor,
+    this.avatar,
+    this.textColor,
+    this.fontSize,
+    this.shape,
+    this.borderWidth,
+    this.borderColor,
+    this.padding = 8,
+    this.selected,
+  });
 
   final String text;
   final Color? bgColor;
   final Widget? avatar;
   final Color? textColor;
   final double? fontSize;
+  final OutlinedBorder? shape;
+  final double? borderWidth;
+  final Color? borderColor;
+  final double? padding;
+  final bool? selected;
 
   @override
   State<CustomChip> createState() => _CustomChipState();
@@ -22,12 +34,20 @@ class CustomChip extends StatefulWidget {
 class _CustomChipState extends State<CustomChip> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Chip(
+      deleteIcon: Icon(
+        Icons.check_circle,
+        color: theme.colorScheme.primary,
+      ),
+      onDeleted: widget.selected == true ? () {} : null,
+      padding: EdgeInsets.all(widget.padding!),
       avatar: widget.avatar,
       backgroundColor: widget.bgColor,
+      shape: widget.shape,
       side: BorderSide(
-        width: 0,
-        color: Colors.transparent,
+        width: widget.borderWidth ?? 0,
+        color: widget.borderColor ?? Colors.transparent,
       ),
       label: Text(
         widget.text,

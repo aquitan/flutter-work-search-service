@@ -39,10 +39,6 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
   @override
   void dispose() {
     _tabController.dispose();
-    widget.firstNameController.dispose();
-    widget.secondNmaeController.dispose();
-    widget.lastNameController.dispose();
-    widget.innController.dispose();
 
     super.dispose();
   }
@@ -57,7 +53,7 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
     if (widget.formKey.currentState!.validate()) {
       GetIt.I<Talker>().debug(widget.firstNameController.text);
       AutoRouter.of(context)
-          .push(AuthPasswordRoute(
+          .push(RegisterPasswordRoute(
         value: widget.value,
         type: widget.type,
         firstName: widget.firstNameController.text,

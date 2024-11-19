@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/router/router.dart';
 
 @RoutePage()
@@ -24,6 +25,8 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           body: child,
           bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+
               unselectedIconTheme: theme.iconTheme.copyWith(color: Colors.grey),
               selectedIconTheme:
                   theme.iconTheme.copyWith(color: theme.primaryColor),
@@ -32,31 +35,62 @@ class HomeScreen extends StatelessWidget {
               onTap: (index) => _onTabOpen(index, tabsRouter),
               items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-
-                    icon: Icon(
-                      Icons.search,
+                    activeIcon: SvgPicture.asset(
+                        'assets/icons/menu-search-icon.svg',
+                        width: 33.0,
+                        height: 33.0,
+                        colorFilter: ColorFilter.mode(
+                            theme.primaryColor, BlendMode.srcIn)),
+                    icon: SvgPicture.asset(
+                      'assets/icons/magnifying-glass-icon.svg',
+                      width: 33.0,
+                      height: 33.0,
                     ),
                     label: 'Поиск'),
             BottomNavigationBarItem(
-                icon: Icon(
-                      Icons.headset_mic_outlined,
-                ),
+                    activeIcon: SvgPicture.asset(
+                        'assets/icons/hardhat-icon.svg',
+                        width: 33.0,
+                        height: 33.0,
+                        colorFilter: ColorFilter.mode(
+                            theme.primaryColor, BlendMode.srcIn)),
+                    icon: SvgPicture.asset(
+                      'assets/icons/hardhat-icon.svg',
+                      width: 33.0,
+                      height: 33.0,
+                    ),
                 tooltip: 'Работы',
                 label: 'Работы'),
             BottomNavigationBarItem(
-                icon: Icon(
-                      Icons.qr_code,
-                ),
+                    icon: SvgPicture.asset(
+                      'assets/icons/orders-icon.svg',
+                      width: 33.0,
+                      height: 33.0,
+                    ),
                 label: 'Заказы'),
             BottomNavigationBarItem(
-                icon: Icon(
-                      Icons.chat_bubble_outline_rounded,
-                ),
+                    activeIcon: SvgPicture.asset('assets/icons/chat-icon.svg',
+                        width: 33.0,
+                        height: 33.0,
+                        colorFilter: ColorFilter.mode(
+                            theme.primaryColor, BlendMode.srcIn)),
+                    icon: SvgPicture.asset(
+                      'assets/icons/chat-icon.svg',
+                      width: 33.0,
+                      height: 33.0,
+                    ),
                 label: 'Чат'),
             BottomNavigationBarItem(
-                icon: Icon(
-                      Icons.view_carousel_outlined,
-                ),
+                    activeIcon: SvgPicture.asset('assets/icons/blog-icon.svg',
+                        width: 33.0,
+                        height: 33.0,
+                        colorFilter: ColorFilter.mode(
+                            theme.primaryColor, BlendMode.srcIn)),
+                    icon: SvgPicture.asset(
+                      'assets/icons/blog-icon.svg',
+                      width: 33.0,
+                      height: 33.0,
+                    ),
                 label: 'Стройжурнал'),
           ]),
         );

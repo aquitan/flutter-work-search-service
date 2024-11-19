@@ -3,13 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/repository/auth/abstract_auth_repository.dart';
 import 'package:ia_ma/repository/auth/models/auth_models.dart';
+import 'package:ia_ma/repository/token/token_repository_interface.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
-  AuthBloc(this.authRepository) : super(AuthBlocStateInitial()) {
+  AuthBloc(this.authRepository, this.tokenRepository)
+      : super(AuthBlocStateInitial()) {
     on<CheckLoginEvent>((event, emit) async {
       try {
         await authRepository.chekUserLogin(event.type, event.value);
@@ -59,9 +62,14 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         };
 
         try {
-          await authRepository.signUp(event.type, data);
+          final res = await authRepository.signUp(event.type, data);
+          // tokenRepository.setToken(res.token.accessToken);
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setBool('logged_in', true);
+          pref.setString('token', res.token.accessToken);
+          emit(AuthSignupSuccess(success: true));
         } catch (e, stackTrace) {
-          emit(AuthBlocStateFailure(failure: e));
+          emit(AuthBlocPasswordFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
         }
       },
@@ -76,9 +84,15 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         };
 
         try {
-          await authRepository.signIn(event.type, data);
+          final res = await authRepository.signIn(event.type, data);
+          emit(AuthSigninSuccess(success: true));
+          // await tokenRepository.setToken(res.token.accessToken);
+          // final token = await tokenRepository.getToken();
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setBool('logged_in', true);
+          pref.setString('token', res.token.accessToken);
         } catch (e, stackTrace) {
-          emit(AuthBlocStateFailure(failure: e));
+          emit(AuthBlocPasswordFailure(failure: e));
           GetIt.I<Talker>().handle(e, stackTrace);
         }
       },
@@ -93,6 +107,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
         try {
           await authRepository.resetPassword(event.type, data);
+
           emit(AuthBlocStateReset(success: true));
         } catch (e, stackTrace) {
           if (e is DioException) {
@@ -105,13 +120,25 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
     on<FastAuth>((event, emit) async {
       try {
-        final response = await authRepository.fastAuth(event.type);
-        emit(AuthBlocStateFastAuth(token: response.token));
+        final res = await authRepository.fastAuth(event.type);
+        // tokenRepository.setToken(res.token.accessToken);
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setBool('logged_in', true);
+        pref.setString('token', res.token.accessToken);
+        emit(AuthBlocStateFastAuth(token: res.token));
       } catch (e, stackTrace) {
         GetIt.I<Talker>().debug('Error: $e, stacTrace: $stackTrace');
-        emit(AuthBlocStateFastAuthFailure(failure: stackTrace));
+        emit(AuthBlocStateFastAuthFailure(failure: e));
       }
     });
+
+    // on<Logout>((event, emit) async {
+    //   try {
+    //     await authRepository.logout(event.type);
+    //   } catch (e, stackTrace) {
+    //     GetIt.I<Talker>().debug('Error: $e, stacTrace: $stackTrace');
+    //   }
+    // });
 
 
 
@@ -124,4 +151,5 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   }
 
   final AbstractAuthRepository authRepository;
+  final TokenRepositoryInterface tokenRepository;
 }

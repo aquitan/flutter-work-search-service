@@ -321,7 +321,6 @@ class _PublicationScreenState extends State<PublicationScreen> {
                 children: [
                   GestureDetector(
                     onHorizontalDragUpdate: (details) {
-                      // TODO more streightforward
                       Navigator.of(context).pop();
                     },
                     // onTap: () => Navigator.of(context).pop(),

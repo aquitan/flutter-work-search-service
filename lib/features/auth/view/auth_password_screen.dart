@@ -2,11 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 @RoutePage()
 class AuthPasswordScreen extends StatefulWidget {
@@ -32,38 +30,37 @@ class AuthPasswordScreen extends StatefulWidget {
 
 class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool obscureText = true;
-
-  void onTap() {
-    BlocProvider.of<AuthBloc>(context).add(SignUp(
-      value: widget.value,
-      type: widget.type,
-      firstName: widget.firstName,
-      lastName: widget.lastName,
-      middleName: widget.middleName,
-      password: _passwordController.text,
-      companyName: '',
-      isCompany: false,
-    ));
-  }
+  bool error = false;
 
   void onSignIn() {
-    GetIt.I<Talker>().debug('Вход в аккаунт');
-    BlocProvider.of<AuthBloc>(context).add(SignIn(
-        value: widget.value,
-        type: widget.type,
-        password: _passwordController.text,
-        login: widget.value));
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<AuthBloc>(context).add(SignIn(
+          value: widget.value,
+          type: widget.type,
+          password: _passwordController.text,
+          login: widget.value));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocBuilder<AuthBloc, AuthBlocState>(
-      builder: (context, state) {
-        return Scaffold(
+    return BlocListener<AuthBloc, AuthBlocState>(
+      listener: (context, state) {
+        if (state is AuthBlocPasswordFailure) {
+          setState(() {
+            error = true;
+          });
+        }
+        if (state is AuthSigninSuccess) {
+          AutoRouter.of(context).replaceAll([HomeRoute()]);
+        }
+      },
+      child: Scaffold(
           appBar: AppBar(
               centerTitle: true,
               toolbarHeight: 100,
@@ -86,20 +83,12 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               SizedBox(
                 height: 24,
               ),
-              state is AuthBlocStateChecked
-                  ? Text(
-                      'Вход в аккаунт',
-                      style: theme.textTheme.titleLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.center,
-                    )
-                  : Text(
-                      'Регистрация нового аккаунта',
-                      style: theme.textTheme.titleLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.center,
-                    ),
-
+              Text(
+                'Вход в аккаунт',
+                style: theme.textTheme.titleLarge!
+                    .copyWith(fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center,
+              ),
               SizedBox(
                 height: 24,
               ),
@@ -107,15 +96,21 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
                   text: TextSpan(
                       style: theme.textTheme.bodyMedium,
                       text: 'Введите пароль к аккаунту \n',
-                      children: [TextSpan(text: widget.value)])),
+                      children: [
+                    TextSpan(
+                        text: widget.value, style: theme.textTheme.titleMedium)
+                  ])),
               SizedBox(
                 height: 12,
               ),
               Form(
+                  key: _formKey,
                   child: Column(
                 children: [
                   TextFormField(
+                        obscuringCharacter: '*',
                     controller: _passwordController,
+                        validator: (String? value) => _validatePassword(value!),
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                           onPressed: () {
@@ -131,30 +126,35 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
                             borderSide: BorderSide(color: theme.dividerColor)),
                         labelText: 'Пароль'),
                     obscureText: obscureText,
-                  ),
+
+                      ),
+                    if (error)
+                        Text(
+                          textAlign: TextAlign.start,
+                          'Ошибка, проверьте пароль',
+                          style: theme.textTheme.bodySmall!
+                              .copyWith(color: theme.colorScheme.error),
+                        ),
                   // CustomTextfield(
                   //   validation: (value) => null,
                   //   label: 'Пароль',
                   //   obscure: true,
                   //   isPassword: true,
-                  // )
-                ],
-              )),
-              SizedBox(
-                height: 24,
-              ),
-              CustomButton(
-                onTap: () {
-                  if (state is AuthBlocStateChecked) {
-                    onSignIn();
-                  } else {
-                    onTap();
-                  }
-                },
-                text: 'Войти',
-                radius: 24,
-                height: 48,
-              ),
+                      // )
+                      SizedBox(
+                        height: 24,
+                      ),
+                      CustomButton(
+                        onTap: () {
+                          onSignIn();
+                        },
+                        text: 'Войти',
+                        radius: 24,
+                        height: 48,
+                      ),
+                    ],
+                  )),
+
               SizedBox(
                 height: 24,
               ),
@@ -189,8 +189,19 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
               ),
             ],
           ),
-        );
-      },
+      ),
+
     );
+  }
+
+  String? _validatePassword(String value) {
+    print('value: $value');
+    if (value.isEmpty) {
+      return 'Введите пароль';
+    } else if (value.length < 8) {
+      return 'Пароль должен содержать не менее 8 символов';
+    } else {
+      return null;
+    }
   }
 }

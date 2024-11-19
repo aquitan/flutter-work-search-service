@@ -115,6 +115,7 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
+
             ]),
           ),
         )
@@ -123,9 +124,11 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
   }
 
   String? _validateEmail(String? value) {
+    final phoneExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
     if (value!.isEmpty) {
       return 'Введите почту';
-    } else if (!widget.emailController!.text.contains('@')) {
+    } else if (!phoneExp.hasMatch(widget.emailController!.text)) {
       return 'Введите корректный email';
     } else {
       return null;

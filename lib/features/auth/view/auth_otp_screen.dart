@@ -25,7 +25,7 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
 
   void dismissTimer() {
     setState(() {
-      _updateTimer = false;
+      _updateTimer = true;
     });
   }
 
@@ -133,14 +133,23 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
               SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _updateTimer = true;
-                  });
+                  if (_updateTimer) {
+                    setState(() {
+                      BlocProvider.of<AuthBloc>(context).add(GetConfirmCode(
+                          value: widget.value, type: widget.type));
+                      _updateTimer = false;
+                    });
+                  }
                 },
-                child: Text('Позвонить повторно',
+                child: Text(
+                    widget.type == 'phone'
+                        ? 'Позвонить повторно'
+                        : 'Отправить повторно',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).primaryColor,
+                      color: !_updateTimer
+                          ? Colors.grey
+                          : Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w500,
                     )),
               ),
