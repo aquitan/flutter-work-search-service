@@ -27,7 +27,10 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       price: (json['price'] as num).toInt(),
       isTender: json['is_tender'] as bool? ?? false,
       showOtherResponses: json['show_other_responses'] as bool? ?? false,
-      stepType: json['step_type'] as String,
+      stepType: json['step_type'] as String?,
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => e as List<dynamic>)
+          .toList(),
       userId: (json['user_id'] as num).toInt(),
       addressPoint:
           AddressPoint.fromJson(json['address_point'] as Map<String, dynamic>),
@@ -39,9 +42,12 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       id: (json['id'] as num).toInt(),
       state: (json['state'] as num).toInt(),
       isB2b: json['is_b2b'] as bool,
-      deletedAt: json['deleted_at'] as String,
-      updatedAt: json['updated_at'] as String,
+      deletedAt: json['deleted_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
       createdAt: json['created_at'] as String,
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
@@ -55,6 +61,7 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'is_tender': instance.isTender,
       'show_other_responses': instance.showOtherResponses,
       'step_type': instance.stepType,
+      'images': instance.images,
       'user_id': instance.userId,
       'address_point': instance.addressPoint,
       'executor_id': instance.executorId,
@@ -68,6 +75,7 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'deleted_at': instance.deletedAt,
       'updated_at': instance.updatedAt,
       'created_at': instance.createdAt,
+      'user': instance.user,
     };
 
 AddressPoint _$AddressPointFromJson(Map<String, dynamic> json) => AddressPoint(
@@ -113,4 +121,15 @@ Map<String, dynamic> _$OrderCreationDtoToJson(OrderCreationDto instance) =>
       'title': instance.title,
       'work_begin_date': instance.workBeginDate,
       'work_end_date': instance.workEndDate,
+    };
+
+OrdersInList _$OrdersInListFromJson(Map<String, dynamic> json) => OrdersInList(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$OrdersInListToJson(OrdersInList instance) =>
+    <String, dynamic>{
+      'data': instance.data,
     };

@@ -8,7 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiClient {
 
-  static Dio dio(pref) {
+  static Dio dio(pref, appDocDir) {
 
 
 
@@ -25,7 +25,12 @@ class ApiClient {
       responseType: ResponseType.json,
     );
     final dio = Dio(options);
-    final cookieJar = CookieJar();
+    final String appDocPath = appDocDir.path;
+    // final cookieJar = CookieJar();
+    final cookieJar = PersistCookieJar(
+      ignoreExpires: true,
+      storage: FileStorage("$appDocPath/.cookies/"),
+    );
 
     dio.interceptors.add(CookieManager(cookieJar));
 

@@ -7,3 +7,6 @@ class CreateNewOrder extends OrdersEvent {
 
   CreateNewOrder({required this.order});
 }
+
+
+class GetMyOrders extends OrdersEvent {}

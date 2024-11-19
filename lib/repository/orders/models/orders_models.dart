@@ -1,3 +1,4 @@
+import 'package:ia_ma/repository/auth/models/auth_models.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'orders_models.g.dart';
@@ -38,9 +39,9 @@ class Order {
   bool showOtherResponses;
 
   @JsonKey(name: 'step_type')
-  String stepType;
+  String? stepType;
 
-  // List<List> images;
+  List<List>? images;
 
   @JsonKey(name: 'user_id')
   int userId;
@@ -70,13 +71,15 @@ class Order {
   bool isB2b;
 
   @JsonKey(name: 'deleted_at')
-  String deletedAt;
+  String? deletedAt;
 
   @JsonKey(name: 'updated_at')
-  String updatedAt;
+  String? updatedAt;
 
   @JsonKey(name: 'created_at')
   String createdAt;
+
+  User? user;
 
   Order({
     required this.categoryId,
@@ -89,7 +92,7 @@ class Order {
     this.isTender = false,
     this.showOtherResponses = false,
     required this.stepType,
-    // required this.images,
+    required this.images,
     required this.userId,
     required this.addressPoint,
     required this.executorId,
@@ -103,6 +106,7 @@ class Order {
     required this.deletedAt,
     required this.updatedAt,
     required this.createdAt,
+    this.user,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -182,4 +186,18 @@ class OrderCreationDto {
       _$OrderCreationDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderCreationDtoToJson(this);
+}
+
+
+
+@JsonSerializable()
+class OrdersInList {
+  OrdersInList({this.data});
+
+  List<Order>? data;
+
+  factory OrdersInList.fromJson(Map<String, dynamic> json) =>
+      _$OrdersInListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrdersInListToJson(this);
 }

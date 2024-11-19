@@ -14,4 +14,12 @@ class OrdersRepository implements AbstractOrdersRepository {
 
     return OrderModel.fromJson(response.data);
   }
+
+  @override
+  Future<OrdersInList> getAllMyOrders() async {
+    final response =
+        await dio.get('api_publication/publications/my/orders?take=12&skip=0');
+
+    return OrdersInList.fromJson(response.data);
+  }
 }

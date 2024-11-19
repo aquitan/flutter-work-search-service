@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:ia_ma/repository/profile/abstract_profile_repository.dart';
 import 'package:ia_ma/repository/profile/profile_repository.dart';
 import 'package:ia_ma/repository/token/token_repository.dart';
 import 'package:ia_ma/repository/token/token_repository_interface.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -27,10 +29,10 @@ Future<void> main() async {
   await dotenv.load(fileName: '.env');
 
   final SharedPreferences prefferences = await SharedPreferences.getInstance();
+  final Directory appDocDir = await getApplicationDocumentsDirectory();
 
 
-
-  final dio = ApiClient.dio(prefferences);
+  final dio = ApiClient.dio(prefferences, appDocDir);
   final talker = TalkerFlutter.init();
   // final authProvider = AuthProvider();
   final tokenRep = TokenRepository(prefferences: prefferences);
