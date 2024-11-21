@@ -18,25 +18,25 @@ class OrderModel {
 @JsonSerializable()
 class Order {
   @JsonKey(name: 'category_id')
-  int categoryId;
+  int? categoryId;
 
-  String title;
-  String description;
+  String? title;
+  String? description;
 
   @JsonKey(name: 'work_begin_date')
-  String workBeginDate;
+  String? workBeginDate;
 
   @JsonKey(name: 'work_end_date')
-  String workEndDate;
+  String? workEndDate;
 
-  String address;
-  int price;
+  String? address;
+  int? price;
 
   @JsonKey(name: 'is_tender')
-  bool isTender;
+  dynamic isTender;
 
   @JsonKey(name: 'show_other_responses')
-  bool showOtherResponses;
+  bool? showOtherResponses;
 
   @JsonKey(name: 'step_type')
   String? stepType;
@@ -44,10 +44,10 @@ class Order {
   List<dynamic>? images;
 
   @JsonKey(name: 'user_id')
-  int userId;
+  int? userId;
 
   @JsonKey(name: 'address_point')
-  AddressPoint addressPoint;
+  AddressPoint? addressPoint;
 
   @JsonKey(name: 'executor_id')
   int? executorId;
@@ -64,11 +64,11 @@ class Order {
   @JsonKey(name: 'rating_value_executor')
   int? ratingValueExecutor;
 
-  int id;
-  int state;
+  int? id;
+  int? state;
 
   @JsonKey(name: 'is_b2b')
-  bool isB2b;
+  bool? isB2b;
 
   @JsonKey(name: 'deleted_at')
   String? deletedAt;
@@ -77,35 +77,35 @@ class Order {
   String? updatedAt;
 
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
 
   User? user;
 
   Order({
-    required this.categoryId,
-    required this.title,
-    required this.description,
-    required this.workBeginDate,
-    required this.workEndDate,
-    required this.address,
-    required this.price,
+    this.categoryId,
+    this.title,
+    this.description,
+    this.workBeginDate,
+    this.workEndDate,
+    this.address,
+    this.price,
     this.isTender = false,
     this.showOtherResponses = false,
-    required this.stepType,
-    required this.images,
-    required this.userId,
-    required this.addressPoint,
-    required this.executorId,
-    required this.startPrice,
-    required this.stepValue,
-    required this.ratingValueCustomer,
-    required this.ratingValueExecutor,
-    required this.id,
-    required this.state,
-    required this.isB2b,
-    required this.deletedAt,
-    required this.updatedAt,
-    required this.createdAt,
+    this.stepType,
+    this.images,
+    this.userId,
+    this.addressPoint,
+    this.executorId,
+    this.startPrice,
+    this.stepValue,
+    this.ratingValueCustomer,
+    this.ratingValueExecutor,
+    this.id,
+    this.state,
+    this.isB2b,
+    this.deletedAt,
+    this.updatedAt,
+    this.createdAt,
     this.user,
   });
 
@@ -144,7 +144,7 @@ class OrderCreationDto {
   int? categoryId;
 
   String? description;
-  // var images;
+  ImagesList? images;
 
   @JsonKey(name: 'is_tender')
   bool? isTender;
@@ -172,7 +172,7 @@ class OrderCreationDto {
     this.addressPoint,
     this.categoryId,
     this.description,
-    // this.images,
+    this.images,
     this.isTender,
     this.price,
     this.showOtherResponses,
@@ -205,6 +205,13 @@ class OrdersInList {
 @JsonSerializable()
 class ImagesList {
 
-  
+  List<Map<String, dynamic>>? images;
 
+  ImagesList({required this.images});
+
+
+  factory ImagesList.fromJson(Map<String, dynamic> json) =>
+      _$ImagesListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImagesListToJson(this);
 }

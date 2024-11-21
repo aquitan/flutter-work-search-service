@@ -19,8 +19,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersBlocState> {
     });
 
     on<GetMyOrders>((event, emit) async {
-      emit(OrdersBlocStateLoading());
+
       try {
+        emit(OrdersBlocStateLoading());
         final response = await ordersRepository.getAllMyOrders();
         if (response.data!.isNotEmpty) {
           emit(OrdersBlocStateLoaded(orders: response.data));

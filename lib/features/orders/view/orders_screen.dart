@@ -70,6 +70,21 @@ class _OrdersScreenState extends State<OrdersScreen> {
               height: 30.0,
             ),
           ),
+          SliverToBoxAdapter(
+            child: Row(
+              children: [
+                Text(
+                  'Активные',
+                  style: theme.textTheme.titleLarge,
+                ),
+              ],
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 30.0,
+            ),
+          ),
           BlocConsumer<OrdersBloc, OrdersBlocState>(listener: (context, state) {
             if (state is OrdersBlocStateLoaded) {
               setState(() {
@@ -85,16 +100,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   return PublicataionCard(cardType: 'auction');
                 },
               );
+
             }
             if (state is OrdersBlocStateLoading) {
-              return EmptyOrdersScreenBanner();
+              return const SliverFillRemaining(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
 
-            return const SliverFillRemaining(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return EmptyOrdersScreenBanner();
           }),
           // if (emptyList)
           //   EmptyOrdersScreenBanner(),
@@ -105,7 +121,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           ),
         ]),
 
-        if (!emptyList) BottomOrdersFloatingButton(),
+        BottomOrdersFloatingButton(),
 
       ],
 
