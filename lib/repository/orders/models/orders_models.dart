@@ -41,7 +41,7 @@ class Order {
   @JsonKey(name: 'step_type')
   String? stepType;
 
-  List<List>? images;
+  List<dynamic>? images;
 
   @JsonKey(name: 'user_id')
   int userId;
@@ -200,4 +200,11 @@ class OrdersInList {
       _$OrdersInListFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrdersInListToJson(this);
+}
+
+@JsonSerializable()
+class ImagesList {
+
+  
+
 }

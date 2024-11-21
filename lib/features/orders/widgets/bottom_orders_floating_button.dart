@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class BottomOrdersFloatingButton extends StatelessWidget {
@@ -18,7 +20,9 @@ class BottomOrdersFloatingButton extends StatelessWidget {
                   backgroundColor: WidgetStatePropertyAll(
                 theme.colorScheme.primary,
               )),
-              onPressed: () {},
+              onPressed: () {
+                AutoRouter.of(context).push(OrderCreationRoute());
+              },
               child: SizedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

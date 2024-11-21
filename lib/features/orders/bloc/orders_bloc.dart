@@ -8,19 +8,25 @@ part 'orders_event.dart';
 part 'orders_state.dart';
 
 class OrdersBloc extends Bloc<OrdersEvent, OrdersBlocState> {
-  OrdersBloc(this.ordersRepository) : super(OrdersInitial()) {
+  OrdersBloc(this.ordersRepository) : super(OrdersBlocStateInitial()) {
     on<CreateNewOrder>((event, emit) async {
       try {
         await ordersRepository.createNewOrder(event.order);
+        emit(OrdersBlocStateCreated(success: true));
       } catch (e, stackTrace) {
         GetIt.I<Talker>().error(e, stackTrace);
       }
     });
 
     on<GetMyOrders>((event, emit) async {
+      emit(OrdersBlocStateLoading());
       try {
         final response = await ordersRepository.getAllMyOrders();
-        emit(OrdersBlocStateLoaded(orders: response.data));
+        if (response.data!.isNotEmpty) {
+          emit(OrdersBlocStateLoaded(orders: response.data));
+          return;
+        }
+        return;
       } catch (e, stackTrace) {
         GetIt.I<Talker>().error(e, stackTrace);
       }

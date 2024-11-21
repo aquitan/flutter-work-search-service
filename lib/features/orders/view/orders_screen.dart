@@ -25,7 +25,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool emptyList = true;
+    bool emptyList = false;
     final theme = Theme.of(context);
     return Stack(
       children: [
@@ -38,7 +38,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             forceElevated: true,
             elevation: 10.0,
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(80.0),
+              preferredSize: Size.fromHeight(66.0),
               child: OrdersAppBarFilter(),
             ),
             title: Text(
@@ -65,13 +65,50 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   onPressed: () {}),
             ],
           ),
-          if (emptyList)
-            EmptyOrdersScreenBanner(),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 30.0,
+            ),
+          ),
+          BlocConsumer<OrdersBloc, OrdersBlocState>(listener: (context, state) {
+            if (state is OrdersBlocStateLoaded) {
+              setState(() {
+                emptyList = true;
+              });
+            }
+          }, builder: (context, state) {
+            if (state is OrdersBlocStateLoaded) {
+              return SliverList.builder(
+                itemCount: state.orders!.length,
+                itemBuilder: (context, index) {
+                  final card = state.orders![index];
+                  return PublicataionCard(cardType: 'auction');
+                },
+              );
+            }
+            if (state is OrdersBlocStateLoading) {
+              return EmptyOrdersScreenBanner();
+            }
+
+            return const SliverFillRemaining(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }),
+          // if (emptyList)
+          //   EmptyOrdersScreenBanner(),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 80.0,
+            ),
+          ),
         ]),
 
-        //Remove
-        if (emptyList) BottomOrdersFloatingButton()
+        if (!emptyList) BottomOrdersFloatingButton(),
+
       ],
+
     );
   }
 }

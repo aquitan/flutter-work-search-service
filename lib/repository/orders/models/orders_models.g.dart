@@ -28,9 +28,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       isTender: json['is_tender'] as bool? ?? false,
       showOtherResponses: json['show_other_responses'] as bool? ?? false,
       stepType: json['step_type'] as String?,
-      images: (json['images'] as List<dynamic>?)
-          ?.map((e) => e as List<dynamic>)
-          .toList(),
+      images: json['images'] as List<dynamic>?,
       userId: (json['user_id'] as num).toInt(),
       addressPoint:
           AddressPoint.fromJson(json['address_point'] as Map<String, dynamic>),
