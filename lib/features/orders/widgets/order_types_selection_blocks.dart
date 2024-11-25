@@ -163,7 +163,9 @@ class OrderTypeSelectionBlocks extends StatelessWidget {
                                     //   offerCheckbox = !value!;
                                     // });
                                   }),
-                              Text('Мастера видят предложенные цены')
+                              Expanded(
+                                  child:
+                                      Text('Мастера видят предложенные цены'))
                             ],
                           )
                         ],

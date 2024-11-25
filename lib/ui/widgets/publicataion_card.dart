@@ -1,14 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/repository/orders/models/orders_models.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
+import 'package:intl/intl.dart';
 
 class PublicataionCard extends StatefulWidget {
-  const PublicataionCard({super.key, required this.cardType, this.btn = false});
+  const PublicataionCard(
+      {super.key,
+      required this.cardType,
+      this.btn = false,
+      required this.order});
 
   final String cardType;
   final bool btn;
+  final Order order;
 
   @override
   State<PublicataionCard> createState() => _PublicataionCardState();
@@ -49,6 +56,12 @@ class _PublicataionCardState extends State<PublicataionCard> {
     final theme = Theme.of(context);
     final int id = 1;
 
+    final order = widget.order;
+    final dateStartParsed = DateTime.parse(order.workBeginDate!);
+    final formatter = DateFormat('dd.MM.yyyy');
+    final dateStart = formatter.format(dateStartParsed);
+    final dateEnd = formatter.format(dateStartParsed);
+
     void onTapPublication(int id) {
       AutoRouter.of(context).push(PublicationRoute());
     }
@@ -60,15 +73,8 @@ class _PublicataionCardState extends State<PublicataionCard> {
       child: Container(
         decoration: BoxDecoration(
             color: theme.cardTheme.color,
-            borderRadius: BorderRadius.circular(30.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: Offset(0, 0), // changes position of shadow
-              ),
-            ]),
+          borderRadius: BorderRadius.circular(30.0),
+        ),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -80,7 +86,8 @@ class _PublicataionCardState extends State<PublicataionCard> {
                 children: [
                   CustomAvatar(
                     radius: 24.0,
-                    localImg: 'assets/categories/2.png',
+                    localImg:
+                        'assets/categories/category_${order.categoryId!}.png',
                   ),
                   SizedBox(
                     width: 12,
@@ -97,7 +104,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               SvgPicture.asset('assets/icons/date-icon.svg'),
                               SizedBox(width: 4.0),
                               Text(
-                                '20 окт–13 нбр ',
+                                '$dateStart ',
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.grey),
                               ),
@@ -117,8 +124,9 @@ class _PublicataionCardState extends State<PublicataionCard> {
                           )
                         ],
                       ),
-                      Text(
-                        'Возведение стен и перегоро...',
+                      if (order.category != null)
+                        Text(
+                          order.category!.name,
                         style: TextStyle(fontSize: 14.0, color: Colors.grey),
                       )
                     ],
@@ -127,7 +135,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
               ),
               SizedBox(height: 12.0),
               Text(
-                  'В части общего коридора (Длинна примерно 6 метров, ширина метр чуть больше) нужен ремонт. Убрать лишнее, отштукатурить и покрасить стены и потолок',
+                  order.title!,
                   style:
                       TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
               SizedBox(height: 12.0),
@@ -135,7 +143,8 @@ class _PublicataionCardState extends State<PublicataionCard> {
                 'Заказчик',
                 style: TextStyle(fontSize: 14.0, color: Colors.grey),
               ),
-              Row(
+              if (order.user != null)
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -150,7 +159,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               width: 4,
                             ),
                             Text(
-                              'Фёдор Кузнецов',
+                                '${order.user!.firstName!} ${order.user!.lastName!}',
                               style: theme.textTheme.bodySmall,
                             ),
                             SizedBox(
@@ -163,7 +172,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                                 SizedBox(
                                   width: 4,
                                 ),
-                                Text('4.5')
+                                  Text(order.user!.rating.toString())
                               ],
                             ),
                           ],
@@ -178,7 +187,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               width: 4,
                             ),
                             Text(
-                              'Липецк, ул. Плеханова',
+                                '${order.address}',
                               style: theme.textTheme.bodySmall,
                             )
                           ],
@@ -187,7 +196,8 @@ class _PublicataionCardState extends State<PublicataionCard> {
                     ),
                     CustomAvatar(
                       radius: 24.0,
-                      localImg: 'assets/categories/2.png',
+                        networkImg:
+                            'https://cdn.test.ya-ma.ru/${order.user!.avatar}',
                     ),
                   ]),
               SizedBox(height: 12.0),
@@ -199,7 +209,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                     children: _checkCardType()!.toList(),
                   ),
                   Text(
-                    '250 000 ₽',
+                    '${order.price != null ? order.price.toString() : 0} ₽',
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.red,

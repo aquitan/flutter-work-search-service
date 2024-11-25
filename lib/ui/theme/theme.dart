@@ -57,8 +57,8 @@ final lightThemeData = ThemeData(
     color: Colors.white,
   ),
   appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-  scaffoldBackgroundColor: Color.fromRGBO(255, 255, 255, 1),
-  iconTheme: IconThemeData(color: Colors.black),
+  scaffoldBackgroundColor: Color.fromRGBO(239, 241, 243, 1),
+  iconTheme: IconThemeData(color: Color.fromRGBO(39, 39, 42, 1)),
   colorScheme: ColorScheme.light(
     brightness: Brightness.light,
     primary: primaryColor,

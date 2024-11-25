@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 class BlockWrapper extends StatelessWidget {
   const BlockWrapper(
-      {super.key, required this.child, this.borderRadius, this.padding});
+      {super.key,
+      required this.child,
+      this.borderRadius,
+      this.padding,
+      this.offset});
 
   final Widget child;
   final BorderRadius? borderRadius;
   final EdgeInsets? padding;
+  final Offset? offset;
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +21,8 @@ class BlockWrapper extends StatelessWidget {
       decoration: BoxDecoration(
           color: theme.cardTheme.color,
           borderRadius: borderRadius ??
-              BorderRadius.vertical(bottom: Radius.circular(24.0)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 7,
-              offset: Offset(0, 0), // changes position of shadow
-            ),
-          ]),
+            BorderRadius.vertical(bottom: Radius.circular(24.0)),
+      ),
       child: child,
     );
   }

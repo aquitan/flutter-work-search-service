@@ -4,4 +4,6 @@ abstract class AbstractOrdersRepository {
   Future<OrderModel> createNewOrder(OrderCreationDto data);
 
   Future<OrdersInList> getAllMyOrders();
+
+  Future<OrdersInList> getAllOrders();
 }

@@ -56,16 +56,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: BoxDecoration(
                           color: theme.cardTheme.color,
                           borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(24.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 0), // changes position of shadow
-                            ),
-                          ]),
+                            bottom: Radius.circular(24.0)),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 24.0),
@@ -320,7 +312,7 @@ _showSimpleModalDialog(context) {
           alignment: Alignment.topRight,
           child: Container(
             height: 420.0,
-            width: 260.0,
+            width: 300.0,
             padding: EdgeInsets.all(16.0),
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(24.0)),

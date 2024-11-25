@@ -1,4 +1,5 @@
-import 'package:ia_ma/repository/auth/models/auth_models.dart';
+import 'package:ia_ma/repository/categories/models/categories_model.dart';
+import 'package:ia_ma/repository/user/models/user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'orders_models.g.dart';
@@ -53,10 +54,10 @@ class Order {
   int? executorId;
 
   @JsonKey(name: 'start_price')
-  int? startPrice;
+  String? startPrice;
 
   @JsonKey(name: 'step_value')
-  int? stepValue;
+  String? stepValue;
 
   @JsonKey(name: 'rating_value_customer')
   int? ratingValueCustomer;
@@ -79,7 +80,9 @@ class Order {
   @JsonKey(name: 'created_at')
   String? createdAt;
 
-  User? user;
+  UserModel? user;
+
+  Category? category;
 
   Order({
     this.categoryId,
@@ -107,6 +110,7 @@ class Order {
     this.updatedAt,
     this.createdAt,
     this.user,
+    this.category,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);

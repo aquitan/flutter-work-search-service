@@ -7,6 +7,7 @@ import 'package:ia_ma/bloc/cubit/theme_cubit.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
 import 'package:ia_ma/features/orders/bloc/orders_bloc.dart';
 import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
+import 'package:ia_ma/features/search/bloc/search_bloc.dart';
 import 'package:ia_ma/repository/auth/abstract_auth_repository.dart';
 import 'package:ia_ma/repository/categories/abstract_categories_repository.dart';
 import 'package:ia_ma/repository/orders/abstract_orders_repository.dart';
@@ -48,6 +49,10 @@ class _IamaAppState extends State<IamaApp> {
           BlocProvider(
             create: (context) =>
                 OrdersBloc(GetIt.I<AbstractOrdersRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                SearchBloc(GetIt.I<AbstractOrdersRepository>()),
           ),
           BlocProvider(
             create: (context) => ThemeCubit(),

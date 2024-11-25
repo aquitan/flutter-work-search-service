@@ -35,8 +35,8 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
           : AddressPoint.fromJson(
               json['address_point'] as Map<String, dynamic>),
       executorId: (json['executor_id'] as num?)?.toInt(),
-      startPrice: (json['start_price'] as num?)?.toInt(),
-      stepValue: (json['step_value'] as num?)?.toInt(),
+      startPrice: json['start_price'] as String?,
+      stepValue: json['step_value'] as String?,
       ratingValueCustomer: (json['rating_value_customer'] as num?)?.toInt(),
       ratingValueExecutor: (json['rating_value_executor'] as num?)?.toInt(),
       id: (json['id'] as num?)?.toInt(),
@@ -47,7 +47,10 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       createdAt: json['created_at'] as String?,
       user: json['user'] == null
           ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
+          : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      category: json['category'] == null
+          ? null
+          : Category.fromJson(json['category'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
@@ -76,6 +79,7 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'updated_at': instance.updatedAt,
       'created_at': instance.createdAt,
       'user': instance.user,
+      'category': instance.category,
     };
 
 AddressPoint _$AddressPointFromJson(Map<String, dynamic> json) => AddressPoint(

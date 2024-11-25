@@ -19,7 +19,6 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersBlocState> {
     });
 
     on<GetMyOrders>((event, emit) async {
-
       try {
         emit(OrdersBlocStateLoading());
         final response = await ordersRepository.getAllMyOrders();
