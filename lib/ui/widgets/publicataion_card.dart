@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/helpers/date_parser.dart';
 import 'package:ia_ma/repository/orders/models/orders_models.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
-import 'package:intl/intl.dart';
 
 class PublicataionCard extends StatefulWidget {
   const PublicataionCard(
@@ -23,29 +24,39 @@ class PublicataionCard extends StatefulWidget {
 
 class _PublicataionCardState extends State<PublicataionCard> {
   List<Widget>? _checkCardType() {
-    if (widget.cardType == 'auction') {
+    final theme = Theme.of(context);
+    if (widget.order.isTender == 'auction') {
       return [
         SvgPicture.asset('assets/icons/auction-icon.svg'),
         SizedBox(
-          width: 4,
+          width: 6,
         ),
-        Text('Аукцион')
+        Text(
+          'Аукцион',
+          style: TextStyle(color: theme.colorScheme.secondary),
+        )
       ];
-    } else if (widget.cardType == 'price_offer') {
+    } else if (widget.order.isTender == 'price_offer') {
       return [
-        SvgPicture.asset('assets/icons/auction-icon.svg'),
+        SvgPicture.asset('assets/icons/calculator-icon.svg'),
         SizedBox(
-          width: 4,
+          width: 6,
         ),
-        Text('Ваше предл.')
+        Text(
+          'Встр. предл.',
+          style: TextStyle(color: theme.colorScheme.secondary),
+        )
       ];
     }
     return [
-      SvgPicture.asset('assets/icons/auction-icon.svg'),
+      SvgPicture.asset('assets/icons/banknotes-icon.svg'),
       SizedBox(
-        width: 4,
+        width: 6,
       ),
-      Text('Цена')
+      Text(
+        'Цена',
+        style: TextStyle(color: theme.colorScheme.secondary),
+      )
     ];
   }
 
@@ -54,21 +65,16 @@ class _PublicataionCardState extends State<PublicataionCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final int id = 1;
 
     final order = widget.order;
-    final dateStartParsed = DateTime.parse(order.workBeginDate!);
-    final formatter = DateFormat('dd.MM.yyyy');
-    final dateStart = formatter.format(dateStartParsed);
-    final dateEnd = formatter.format(dateStartParsed);
 
     void onTapPublication(int id) {
-      AutoRouter.of(context).push(PublicationRoute());
+      AutoRouter.of(context).push(PublicationRoute(id: id));
     }
 
     return GestureDetector(
       onTap: () {
-        onTapPublication(id);
+        onTapPublication(order.id!);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -104,7 +110,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               SvgPicture.asset('assets/icons/date-icon.svg'),
                               SizedBox(width: 4.0),
                               Text(
-                                '$dateStart ',
+                                '${parseDate(order.workBeginDate)!} ${order.workEndDate != null ? '-' : ""} ${order.workEndDate != null ? parseDate(order.workEndDate) : ""}',
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.grey),
                               ),
@@ -136,13 +142,16 @@ class _PublicataionCardState extends State<PublicataionCard> {
               SizedBox(height: 12.0),
               Text(
                   order.title!,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
                   style:
                       TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
               SizedBox(height: 12.0),
-              Text(
-                'Заказчик',
-                style: TextStyle(fontSize: 14.0, color: Colors.grey),
-              ),
+              if (order.user != null)
+                Text(
+                  'Заказчик',
+                  style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                ),
               if (order.user != null)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,7 +168,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               width: 4,
                             ),
                             Text(
-                                '${order.user!.firstName!} ${order.user!.lastName!}',
+                                '${order.user!.firstName} ${order.user!.lastName}',
                               style: theme.textTheme.bodySmall,
                             ),
                             SizedBox(
@@ -180,24 +189,30 @@ class _PublicataionCardState extends State<PublicataionCard> {
                         SizedBox(
                           height: 2,
                         ),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/icons/location-mark.svg'),
-                            SizedBox(
-                              width: 4,
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 200.0),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/location-mark.svg'),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${order.address}',
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                )
+                              ],
                             ),
-                            Text(
-                                '${order.address}',
-                              style: theme.textTheme.bodySmall,
-                            )
-                          ],
                         ),
                       ],
                     ),
                     CustomAvatar(
                       radius: 24.0,
                         networkImg:
-                            'https://cdn.test.ya-ma.ru/${order.user!.avatar}',
+                            '${dotenv.env['YA_MA_CDN']}${order.user!.avatar}',
                     ),
                   ]),
               SizedBox(height: 12.0),
@@ -209,11 +224,9 @@ class _PublicataionCardState extends State<PublicataionCard> {
                     children: _checkCardType()!.toList(),
                   ),
                   Text(
-                    '${order.price != null ? order.price.toString() : 0} ₽',
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.red,
-                        fontWeight: FontWeight.w600),
+                    '${order.price != null ? order.price.toString() : 'Договорная'} ₽',
+                    style: theme.textTheme.bodyLarge!
+                        .copyWith(fontWeight: FontWeight.w600),
                   )
                 ],
               ),
@@ -222,11 +235,24 @@ class _PublicataionCardState extends State<PublicataionCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CustomChip(
-                    text: 'Выполняется',
-                    bgColor: Color.fromRGBO(253, 239, 234, 1),
-                    avatar: SvgPicture.asset('assets/icons/lightning-icon.svg'),
-                  ),
+                  if (order.state == 1)
+                    CustomChip(
+                      fontSize: 14.0,
+                      bgColor: theme.colorScheme.secondaryFixedDim,
+                      textColor: theme.colorScheme.secondary,
+                      text: 'В поиске исполнителя',
+                      avatar: SvgPicture.asset(
+                          'assets/icons/magnifying-glass-icon.svg'),
+                    ),
+                  if (order.state == 2)
+                    CustomChip(
+                      fontSize: 14.0,
+                      bgColor: theme.colorScheme.secondaryFixedDim,
+                      textColor: theme.colorScheme.primaryFixedDim,
+                      text: 'Выполняется',
+                      avatar: SvgPicture.asset(
+                          'assets/icons/lighlightning-icon.svg'),
+                    ),
                   Row(
                     children: [
                       SvgPicture.asset('assets/icons/clock-icon.svg'),

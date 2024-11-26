@@ -5,11 +5,11 @@ class ProfileState extends Equatable {
   List<Object> get props => [];
 }
 
-final class ProfileStateInitial extends ProfileState {}
+class ProfileStateInitial extends ProfileState {}
 
-final class ProfileStateLoading extends ProfileState {}
+class ProfileStateLoading extends ProfileState {}
 
-final class ProfileStateLoaded extends ProfileState {
+class ProfileStateLoaded extends ProfileState {
   ProfileStateLoaded({required this.user});
 
   final Profile user;
@@ -18,4 +18,15 @@ final class ProfileStateLoaded extends ProfileState {
   List<Object> get props => super.props..add(user);
 }
 
-final class ProfileError extends ProfileState {}
+class ProfileError extends ProfileState {}
+
+class MyUserLoaded extends ProfileState {
+  final User myUser;
+
+  MyUserLoaded({required this.myUser});
+
+  @override
+  List<Object> get props => super.props..add(myUser);
+}
+
+

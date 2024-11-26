@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ia_ma/repository/auth/models/auth_models.dart';
 import 'package:ia_ma/repository/profile/abstract_profile_repository.dart';
 import 'package:ia_ma/repository/profile/models/profile_model.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -15,6 +16,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileStateLoading());
         final res = await profileRepository.getUserById(event.id);
         emit(ProfileStateLoaded(user: res));
+      } catch (e, stackTrace) {
+        GetIt.I<Talker>().handle(stackTrace);
+      }
+    });
+
+    on<GetMe>((event, emit) async {
+      try {
+        emit(ProfileStateLoading());
+        final res = await profileRepository.getMe();
+        emit(MyUserLoaded(myUser: res));
       } catch (e, stackTrace) {
         GetIt.I<Talker>().handle(stackTrace);
       }

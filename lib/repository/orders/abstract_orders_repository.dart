@@ -6,4 +6,5 @@ abstract class AbstractOrdersRepository {
   Future<OrdersInList> getAllMyOrders();
 
   Future<OrdersInList> getAllOrders();
+
 }

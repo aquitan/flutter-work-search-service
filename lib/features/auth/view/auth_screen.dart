@@ -13,7 +13,9 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.cardTheme.color,
       body: CheckLogin(),
       // body: AuthOtpCheck(),
     );

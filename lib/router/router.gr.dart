@@ -466,10 +466,17 @@ class ProfileThemeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [PublicationScreen]
-class PublicationRoute extends PageRouteInfo<void> {
-  const PublicationRoute({List<PageRouteInfo>? children})
-      : super(
+class PublicationRoute extends PageRouteInfo<PublicationRouteArgs> {
+  PublicationRoute({
+    Key? key,
+    required int id,
+    List<PageRouteInfo>? children,
+  }) : super(
           PublicationRoute.name,
+          args: PublicationRouteArgs(
+            key: key,
+            id: id,
+          ),
           initialChildren: children,
         );
 
@@ -478,9 +485,29 @@ class PublicationRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const PublicationScreen();
+      final args = data.argsAs<PublicationRouteArgs>();
+      return PublicationScreen(
+        key: args.key,
+        id: args.id,
+      );
     },
   );
+}
+
+class PublicationRouteArgs {
+  const PublicationRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final int id;
+
+  @override
+  String toString() {
+    return 'PublicationRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for

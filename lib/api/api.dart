@@ -10,8 +10,6 @@ class ApiClient {
 
   static Dio dio(pref, appDocDir) {
 
-
-
     BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 5),

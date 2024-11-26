@@ -102,6 +102,7 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
         }
       },
       child: Scaffold(
+        backgroundColor: theme.cardColor,
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           title: Text('Создание заказа'),
