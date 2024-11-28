@@ -23,42 +23,7 @@ class PublicataionCard extends StatefulWidget {
 }
 
 class _PublicataionCardState extends State<PublicataionCard> {
-  List<Widget>? _checkCardType() {
-    final theme = Theme.of(context);
-    if (widget.order.isTender == 'auction') {
-      return [
-        SvgPicture.asset('assets/icons/auction-icon.svg'),
-        SizedBox(
-          width: 6,
-        ),
-        Text(
-          'Аукцион',
-          style: TextStyle(color: theme.colorScheme.secondary),
-        )
-      ];
-    } else if (widget.order.isTender == 'price_offer') {
-      return [
-        SvgPicture.asset('assets/icons/calculator-icon.svg'),
-        SizedBox(
-          width: 6,
-        ),
-        Text(
-          'Встр. предл.',
-          style: TextStyle(color: theme.colorScheme.secondary),
-        )
-      ];
-    }
-    return [
-      SvgPicture.asset('assets/icons/banknotes-icon.svg'),
-      SizedBox(
-        width: 6,
-      ),
-      Text(
-        'Цена',
-        style: TextStyle(color: theme.colorScheme.secondary),
-      )
-    ];
-  }
+
 
 
 
@@ -68,9 +33,13 @@ class _PublicataionCardState extends State<PublicataionCard> {
 
     final order = widget.order;
 
+
     void onTapPublication(int id) {
       AutoRouter.of(context).push(PublicationRoute(id: id));
     }
+
+
+
 
     return GestureDetector(
       onTap: () {
@@ -216,19 +185,10 @@ class _PublicataionCardState extends State<PublicataionCard> {
                     ),
                   ]),
               SizedBox(height: 12.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: _checkCardType()!.toList(),
-                  ),
-                  Text(
-                    '${order.price != null ? order.price.toString() : 'Договорная'} ₽',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.w600),
-                  )
-                ],
+              PublicationCardPriceType(
+                isTender: order.isTender,
+                price: order.price,
+                startPrice: order.startPrice,
               ),
               SizedBox(height: 24.0),
               Row(

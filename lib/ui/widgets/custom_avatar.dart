@@ -8,13 +8,15 @@ class CustomAvatar extends StatefulWidget {
       this.networkImg,
       this.localImg,
       this.isOnline = false,
-      this.bordered = false});
+      this.bordered = false,
+      this.initials});
 
   final double? radius;
   final String? networkImg;
   final String? localImg;
   final bool? bordered;
   final bool? isOnline;
+  final String? initials;
 
   @override
   State<CustomAvatar> createState() => _CustomAvatarState();
@@ -22,20 +24,23 @@ class CustomAvatar extends StatefulWidget {
 
 class _CustomAvatarState extends State<CustomAvatar> {
 
-  ImageProvider<Object> selectImage() {
+  selectImage() {
     if (widget.localImg != null) {
       return AssetImage(widget.localImg!);
     } else if (widget.networkImg != null) {
       return NetworkImage(widget.networkImg!);
     } else {
-      return AssetImage('assets/categories/1.png');
+      return null;
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return CircleAvatar(
+
       radius: widget.radius,
       backgroundColor:
           widget.isOnline! ? successColor : theme.colorScheme.tertiary,
@@ -43,6 +48,9 @@ class _CustomAvatarState extends State<CustomAvatar> {
         radius: widget.bordered! ? widget.radius! - (2.0) : widget.radius,
         backgroundColor: Colors.grey.shade100,
         backgroundImage: selectImage(),
+        child: selectImage() != null
+            ? null
+            : Text(widget.initials!, style: theme.textTheme.bodySmall),
 
       ),
     );

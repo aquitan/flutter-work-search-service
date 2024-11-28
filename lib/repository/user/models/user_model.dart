@@ -86,7 +86,7 @@ class UserModel {
   String? updatedAt;
 
   @JsonKey(name: 'created_at')
-  String? createdAt;
+  String createdAt;
 
   UserModel(
       {this.email,
@@ -120,10 +120,22 @@ class UserModel {
       this.isActive,
       this.isIdentified,
       this.updatedAt,
-      this.createdAt});
+      required this.createdAt});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+}
+
+
+@JsonSerializable()
+class MyUser {
+  MyUser({required this.user});
+
+  final UserModel user;
+
+  factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MyUserToJson(this);
 }

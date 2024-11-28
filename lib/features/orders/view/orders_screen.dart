@@ -41,7 +41,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ),
         leading: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).push(ProfileRoute());
+            AutoRouter.of(context).push(ProfileRoute(id: 1));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),

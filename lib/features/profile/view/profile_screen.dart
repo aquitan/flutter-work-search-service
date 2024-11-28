@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
 import 'package:ia_ma/features/profile/widgets/widgets.dart';
@@ -11,7 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.id});
+
+  final int id;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -21,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ProfileBloc>(context).add(GetUserById(id: 1028));
+    BlocProvider.of<ProfileBloc>(context).add(GetUserById(id: widget.id));
   }
 
   @override
@@ -46,8 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
             if (state is ProfileStateLoaded) {
-              final profile = state.user.data!;
-              final DateTime createdAt = DateTime.parse(profile.createdAt!);
+              final profile = state.user;
+              final DateTime createdAt = DateTime.parse(profile.createdAt);
 
               return ListView(children: [
                 Column(
@@ -68,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 CustomAvatar(
                                   bordered: true,
                                   networkImg:
-                                      'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+                                      '${dotenv.env['YA_MA_CDN']}${profile.avatar}',
                                 ),
                                 SizedBox(
                                   width: 20.0,

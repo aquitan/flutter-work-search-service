@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetailedTypeIndicator extends StatelessWidget {
   const OrderDetailedTypeIndicator({
     super.key,
     required this.isTender,
-    required this.price,
+    this.price,
+    this.startPrice,
   });
 
-  final bool isTender;
+  final String? isTender;
   final int? price;
+  final String? startPrice;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     List<Widget> selectOrderType() {
-      if (!isTender && price != null) {
+      var formattedPrice = NumberFormat.currency(locale: "ru_RU", symbol: "₽");
+      if (isTender == null) {
         return [
           Container(
             padding: EdgeInsets.all(15.0),
@@ -39,13 +43,13 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
                     .copyWith(color: theme.colorScheme.secondary),
               ),
               Text(
-                '$price ₽',
+                formattedPrice.format(price),
                 style: theme.textTheme.titleLarge,
               )
             ],
           )
         ];
-      } else if (isTender) {
+      } else if (isTender == 'auction') {
         return [
           SvgPicture.asset(
             'assets/icons/auction-icon.svg',
@@ -55,7 +59,13 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
           SizedBox(width: 20.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text('Аукцион, макс. бюджет'), Text('$price')],
+            children: [
+              Text('Аукцион, макс. бюджет'),
+              Text(
+                formattedPrice.format(startPrice),
+                style: theme.textTheme.titleLarge,
+              )
+            ],
           )
         ];
       } else {
@@ -68,7 +78,10 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
           SizedBox(width: 20.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text('Аукцион, макс. бюджет'), Text('$price')],
+            children: [
+              Text('Встречное предложение'),
+              Text('Жду оценки мастера')
+            ],
           )
         ];
       }
@@ -77,7 +90,7 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-          border: Border.all(color: theme.colorScheme.secondary, width: 1.0),
+          border: Border.all(color: theme.colorScheme.tertiary, width: 1.0),
           borderRadius: BorderRadius.circular(24.0)),
       child: Row(
         children: selectOrderType(),

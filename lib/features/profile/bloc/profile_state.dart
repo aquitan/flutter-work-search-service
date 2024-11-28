@@ -12,21 +12,12 @@ class ProfileStateLoading extends ProfileState {}
 class ProfileStateLoaded extends ProfileState {
   ProfileStateLoaded({required this.user});
 
-  final Profile user;
+  final UserModel user;
 
   @override
   List<Object> get props => super.props..add(user);
 }
 
 class ProfileError extends ProfileState {}
-
-class MyUserLoaded extends ProfileState {
-  final User myUser;
-
-  MyUserLoaded({required this.myUser});
-
-  @override
-  List<Object> get props => super.props..add(myUser);
-}
 
 

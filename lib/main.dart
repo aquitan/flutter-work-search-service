@@ -8,6 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:ia_ma/api/api.dart';
 import 'package:ia_ma/iama_app.dart';
 import 'package:ia_ma/repository/repository.dart';
+import 'package:ia_ma/repository/user/abstract_user_repository.dart';
+import 'package:ia_ma/repository/user/user_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
@@ -19,14 +21,14 @@ Future<void> main() async {
   await dotenv.load(fileName: '.env');
 
   final SharedPreferences prefferences = await SharedPreferences.getInstance();
+  final token = prefferences.getString('token');
   final Directory appDocDir = await getApplicationDocumentsDirectory();
 
 
-  final dio = ApiClient.dio(prefferences, appDocDir);
+  final dio = ApiClient.dio(token, appDocDir);
   final talker = TalkerFlutter.init();
   // final authProvider = AuthProvider();
   final tokenRep = TokenRepository(prefferences: prefferences);
-
 
   GetIt.I.registerSingleton<TokenRepositoryInterface>(tokenRep);
 
@@ -43,6 +45,9 @@ Future<void> main() async {
 
   GetIt.I.registerLazySingleton<AbstractOrdersRepository>(
       () => OrdersRepository(dio: dio));
+
+  GetIt.I.registerLazySingleton<AbstractUserRepository>(
+      () => UserRepository(dio: dio));
 
   GetIt.I.registerLazySingleton<AbstractPublicationRepository>(
       () => PublicationRepository(dio: dio));

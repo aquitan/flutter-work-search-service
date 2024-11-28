@@ -7,5 +7,3 @@ class GetUserById extends ProfileEvent {
 
   final int id;
 }
-
-class GetMe extends ProfileEvent {}

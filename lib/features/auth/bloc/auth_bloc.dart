@@ -50,6 +50,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
     on<SignUp>(
       (event, emit) async {
+        SharedPreferences pref = await SharedPreferences.getInstance();
         final Map<String, dynamic> data = {
           'company_name': event.companyName,
           'email': event.type == 'email' ? event.value : '',
@@ -64,7 +65,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         try {
           final res = await authRepository.signUp(event.type, data);
           // tokenRepository.setToken(res.token.accessToken);
-          SharedPreferences pref = await SharedPreferences.getInstance();
+
           pref.setBool('logged_in', true);
           pref.setString('token', res.token.accessToken);
           emit(AuthSignupSuccess(success: true));
@@ -77,6 +78,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
     on<SignIn>(
       (event, emit) async {
+        SharedPreferences pref = await SharedPreferences.getInstance();
         final Map<String, dynamic> data = {
           event.type: event.value,
           'login': event.value,
@@ -88,7 +90,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
           emit(AuthSigninSuccess(success: true));
           // await tokenRepository.setToken(res.token.accessToken);
           // final token = await tokenRepository.getToken();
-          SharedPreferences pref = await SharedPreferences.getInstance();
+
           pref.setBool('logged_in', true);
           pref.setString('token', res.token.accessToken);
         } catch (e, stackTrace) {
@@ -107,7 +109,6 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
         try {
           await authRepository.resetPassword(event.type, data);
-
           emit(AuthBlocStateReset(success: true));
         } catch (e, stackTrace) {
           if (e is DioException) {
@@ -119,10 +120,11 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     );
 
     on<FastAuth>((event, emit) async {
+      SharedPreferences pref = await SharedPreferences.getInstance();
       try {
         final res = await authRepository.fastAuth(event.type);
         // tokenRepository.setToken(res.token.accessToken);
-        SharedPreferences pref = await SharedPreferences.getInstance();
+
         pref.setBool('logged_in', true);
         pref.setString('token', res.token.accessToken);
         emit(AuthBlocStateFastAuth(token: res.token));

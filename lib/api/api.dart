@@ -8,7 +8,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiClient {
 
-  static Dio dio(pref, appDocDir) {
+  static Dio dio(token, appDocDir) {
+    print('api--token: $token');
+
 
     BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 10),
@@ -18,7 +20,6 @@ class ApiClient {
         'Accept': 'application/json',
         'Content-type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
-        'Authorization': 'Bearer ${pref.getString('token')}',
       },
       responseType: ResponseType.json,
     );
@@ -31,6 +32,12 @@ class ApiClient {
     );
 
     dio.interceptors.add(CookieManager(cookieJar));
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        options.headers['Authorization'] = 'Bearer $token';
+        return handler.next(options);
+      },
+    ));
 
     (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
         HttpClient()

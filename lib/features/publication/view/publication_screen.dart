@@ -204,7 +204,10 @@ class _PublicationScreenState extends State<PublicationScreen> {
                             SizedBox(height: 12.0),
                             PublicationImageCarousel(),
                             SizedBox(height: 12.0),
-                            Text(publication.description!),
+                            Text(
+                              publication.description!,
+                              style: theme.textTheme.bodyMedium,
+                            ),
                             SizedBox(
                               height: 24.0,
                             ),
@@ -238,7 +241,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                 SvgPicture.asset(
                                     'assets/icons/location-mark.svg'),
                                 SizedBox(width: 8.0),
-                                Text(publication.address!)
+                                Expanded(child: Text(publication.address!))
                               ],
                             )
                           ],
@@ -254,6 +257,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
                       ),
                       child: OrderDetailedTypeIndicator(
                           isTender: publication.isTender,
+                          startPrice: publication.startPrice,
                           price: publication.price),
                     ),
                     SizedBox(
@@ -278,38 +282,45 @@ class _PublicationScreenState extends State<PublicationScreen> {
                       height: 24.0,
                     ),
                     SizedBox(
-                      height: 100.0,
+                      height: 120.0,
                     )
                   ],
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30.0),
-                    child: FilledButton(
-                        style: ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(
-                          primaryFlat,
-                        )),
-                        onPressed: () {
-                          showPublicationModalBottomSheet(context);
-                        },
-                        child: SizedBox(
-                          width: 300.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/icons/qr-code-icon.svg'),
-                              SizedBox(width: 8),
-                              Text(
-                                'Сгенерировать QR-код',
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    color: primaryColor),
-                              )
-                            ],
-                          ),
-                        )),
+                  child: Container(
+                    decoration: BoxDecoration(color: theme.cardTheme.color),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 12.0, bottom: 30.0, left: 16.0, right: 16.0),
+                      child: FilledButton(
+                          style: ButtonStyle(
+                              minimumSize:
+                                  WidgetStatePropertyAll(Size.fromHeight(56.0)),
+                              backgroundColor: WidgetStatePropertyAll(
+                                primaryFlat,
+                              )),
+                          onPressed: () {
+                            showPublicationModalBottomSheet(context);
+                          },
+                          child: SizedBox(
+                            width: 300.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/qr-code-icon.svg'),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Сгенерировать QR-код',
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: primaryColor),
+                                )
+                              ],
+                            ),
+                          )),
+                    ),
                   ),
                 )
               ]);

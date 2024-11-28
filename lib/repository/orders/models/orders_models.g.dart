@@ -25,8 +25,8 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       workEndDate: json['work_end_date'] as String?,
       address: json['address'] as String?,
       price: (json['price'] as num?)?.toInt(),
-      isTender: json['is_tender'] ?? false,
-      showOtherResponses: json['show_other_responses'] as bool? ?? false,
+      isTender: json['is_tender'] as String?,
+      showOtherResponses: json['show_other_responses'] as bool?,
       stepType: json['step_type'] as String?,
       images: json['images'] as List<dynamic>?,
       userId: (json['user_id'] as num?)?.toInt(),
@@ -104,7 +104,7 @@ OrderCreationDto _$OrderCreationDtoFromJson(Map<String, dynamic> json) =>
       images: json['images'] == null
           ? null
           : ImagesList.fromJson(json['images'] as Map<String, dynamic>),
-      isTender: json['is_tender'] as bool?,
+      isTender: json['is_tender'] as String?,
       price: (json['price'] as num?)?.toInt(),
       showOtherResponses: json['show_other_responses'] as bool?,
       stepType: json['step_type'] as String?,

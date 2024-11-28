@@ -34,7 +34,7 @@ class Order {
   int? price;
 
   @JsonKey(name: 'is_tender')
-  dynamic isTender;
+  String? isTender;
 
   @JsonKey(name: 'show_other_responses')
   bool? showOtherResponses;
@@ -92,8 +92,8 @@ class Order {
     this.workEndDate,
     this.address,
     this.price,
-    this.isTender = false,
-    this.showOtherResponses = false,
+    this.isTender,
+    this.showOtherResponses,
     this.stepType,
     this.images,
     this.userId,
@@ -151,7 +151,7 @@ class OrderCreationDto {
   ImagesList? images;
 
   @JsonKey(name: 'is_tender')
-  bool? isTender;
+  String? isTender;
 
   int? price;
 
