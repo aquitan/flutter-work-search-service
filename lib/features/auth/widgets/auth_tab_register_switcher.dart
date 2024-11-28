@@ -177,8 +177,8 @@ class _AuthTabRegisterSwitcher extends State<AuthTabRegisterSwitcher>
         CustomButton(
           onTap: () => _register(),
           text: 'Создать аккаунт',
-          radius: 24,
-          height: 48,
+          radius: 56,
+          height: 56,
         ),
       ],
     );

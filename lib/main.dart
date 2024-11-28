@@ -21,14 +21,16 @@ Future<void> main() async {
   await dotenv.load(fileName: '.env');
 
   final SharedPreferences prefferences = await SharedPreferences.getInstance();
-  final token = prefferences.getString('token');
+
   final Directory appDocDir = await getApplicationDocumentsDirectory();
 
 
-  final dio = ApiClient.dio(token, appDocDir);
+  final dio = ApiClient.dio(appDocDir, prefferences);
   final talker = TalkerFlutter.init();
   // final authProvider = AuthProvider();
   final tokenRep = TokenRepository(prefferences: prefferences);
+
+
 
   GetIt.I.registerSingleton<TokenRepositoryInterface>(tokenRep);
 

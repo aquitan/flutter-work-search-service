@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
+import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
 import 'package:ia_ma/features/publication/bloc/publication_bloc.dart';
 import 'package:ia_ma/features/publication/widgets/widgets.dart';
 import 'package:ia_ma/helpers/date_parser.dart';
 import 'package:ia_ma/repository/categories/models/categories_model.dart';
-import 'package:ia_ma/ui/theme/theme.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -27,6 +27,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
   final mapControllerCompleter = Completer<YandexMapController>();
   final mapModalControllerCompleter = Completer<YandexMapController>();
 
+  List<Category> categories = [];
+  int? userId;
+
   @override
   void initState() {
     super.initState();
@@ -35,9 +38,14 @@ class _PublicationScreenState extends State<PublicationScreen> {
     _moveToCurrentLocation();
 
     BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
+    BlocProvider.of<UserBloc>(context).add(GetMe());
   }
 
-  List<Category> categories = [];
+  void _orderReply() {
+    print('Response has been sent');
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +60,27 @@ class _PublicationScreenState extends State<PublicationScreen> {
       return 'empty';
     }
 
-    return BlocListener<CategoriesBloc, CategoriesBlocState>(
-      listener: (context, state) {
-        if (state is CategoriesLoaded) {
-          setState(() {
-            categories = state.categories.data;
-          });
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<CategoriesBloc, CategoriesBlocState>(
+          listener: (context, state) {
+            if (state is CategoriesLoaded) {
+              setState(() {
+                categories = state.categories.data;
+              });
+            }
+          },
+        ),
+        BlocListener<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state is UserStateLoaded) {
+              setState(() {
+                userId = state.myUser.user.id;
+              });
+            }
+          },
+        )
+      ],
       child: Scaffold(
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
@@ -286,43 +307,10 @@ class _PublicationScreenState extends State<PublicationScreen> {
                     )
                   ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    decoration: BoxDecoration(color: theme.cardTheme.color),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 12.0, bottom: 30.0, left: 16.0, right: 16.0),
-                      child: FilledButton(
-                          style: ButtonStyle(
-                              minimumSize:
-                                  WidgetStatePropertyAll(Size.fromHeight(56.0)),
-                              backgroundColor: WidgetStatePropertyAll(
-                                primaryFlat,
-                              )),
-                          onPressed: () {
-                            showPublicationModalBottomSheet(context);
-                          },
-                          child: SizedBox(
-                            width: 300.0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                    'assets/icons/qr-code-icon.svg'),
-                                SizedBox(width: 8),
-                                Text(
-                                  'Сгенерировать QR-код',
-                                  style: theme.textTheme.bodyMedium!.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: primaryColor),
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
-                  ),
-                )
+                PublicationButtons(
+                    orderReply: _orderReply,
+                    userId: userId,
+                    publicationUserId: publication.userId)
               ]);
             }
             return Center(child: CircularProgressIndicator());
@@ -389,18 +377,6 @@ class _PublicationScreenState extends State<PublicationScreen> {
     );
   }
 
-  Future<void> showPublicationModalBottomSheet(BuildContext context) {
-    return showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      builder: (BuildContext context) {
-        return PublicationQrModalBottomSheet();
-      },
-    );
-  }
-
   /// Проверка разрешений на доступ к геопозиции пользователя
 
   Future<void> _moveToCurrentLocation() async {
@@ -419,28 +395,3 @@ class _PublicationScreenState extends State<PublicationScreen> {
   }
 }
 
-class PublicationImageCarousel extends StatelessWidget {
-  const PublicationImageCarousel({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return SizedBox(
-      height: 108,
-      child: CarouselView(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          itemExtent: 88,
-          children: List.generate(8, (int index) {
-            return ColoredBox(
-                color: theme.colorScheme.secondaryFixedDim,
-                child: Image.network(
-                    fit: BoxFit.cover,
-                    'https://otvet.imgsmail.ru/download/287836_88195aec6441674311982056978bfcfb_800.jpg'));
-          })),
-    );
-  }
-}

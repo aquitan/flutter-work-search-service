@@ -20,6 +20,7 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
 
     List<Widget> selectOrderType() {
       var formattedPrice = NumberFormat.currency(locale: "ru_RU", symbol: "₽");
+      final startPriceParsed = int.parse(startPrice!);
       if (isTender == null) {
         return [
           Container(
@@ -62,7 +63,7 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
             children: [
               Text('Аукцион, макс. бюджет'),
               Text(
-                formattedPrice.format(startPrice),
+                formattedPrice.format(startPriceParsed),
                 style: theme.textTheme.titleLarge,
               )
             ],

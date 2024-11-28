@@ -57,12 +57,13 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
         }
       },
       child: Scaffold(
+          backgroundColor: theme.cardTheme.color,
           appBar: AppBar(
               centerTitle: true,
               toolbarHeight: 100,
-              surfaceTintColor: theme.scaffoldBackgroundColor,
-              backgroundColor: theme.scaffoldBackgroundColor,
-              foregroundColor: theme.scaffoldBackgroundColor,
+              surfaceTintColor: theme.cardTheme.color,
+              backgroundColor: theme.cardTheme.color,
+              foregroundColor: theme.cardTheme.color,
               title: Logo(),
               leading: GestureDetector(
                 onTap: () {
@@ -73,9 +74,8 @@ class _AuthOtpCheckScreenState extends State<AuthOtpCheckScreen> {
                   color: Theme.of(context).primaryColor,
                 ),
               )),
-          backgroundColor: theme.scaffoldBackgroundColor,
           body: ListView(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             children: [
               SizedBox(
                 height: 28,

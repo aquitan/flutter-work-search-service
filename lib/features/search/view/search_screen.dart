@@ -54,10 +54,10 @@ class _SearchScreenState extends State<SearchScreen> {
               if (state is UserStateLoaded) {
                 return;
               }
-              // if (state is UserStateError) {
-              //   logOut();
-              //   AutoRouter.of(context).replaceAll([AuthRoute()]);
-              // }
+              if (state is UserStateError) {
+                logOut();
+                AutoRouter.of(context).replaceAll([AuthRoute()]);
+              }
             },
             builder: (context, state) {
               if (state is UserStateLoaded) {

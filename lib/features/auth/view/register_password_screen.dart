@@ -69,12 +69,13 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: theme.cardTheme.color,
           appBar: AppBar(
               centerTitle: true,
               toolbarHeight: 100,
-              surfaceTintColor: theme.scaffoldBackgroundColor,
-              backgroundColor: theme.scaffoldBackgroundColor,
-              foregroundColor: theme.scaffoldBackgroundColor,
+              surfaceTintColor: theme.cardTheme.color,
+              backgroundColor: theme.cardTheme.color,
+              foregroundColor: theme.cardTheme.color,
               title: Logo(),
               leading: GestureDetector(
                 onTap: () {
@@ -86,7 +87,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                 ),
               )),
           body: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             children: [
               SizedBox(
                 height: 24,
@@ -159,8 +160,8 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           onTap();
                         },
                         text: 'Войти',
-                        radius: 24,
-                        height: 48,
+                        radius: 56,
+                        height: 56,
                       ),
                     ],
                   )),
