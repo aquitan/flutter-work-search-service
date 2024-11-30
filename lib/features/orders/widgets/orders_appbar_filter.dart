@@ -17,7 +17,7 @@ class OrdersAppBarFilter extends StatelessWidget {
           Expanded(
             child: BlockWrapper(
               offset: Offset(0.0, 6.0),
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(24.0),
                   bottomRight: Radius.circular(24.0)),
@@ -77,7 +77,7 @@ class OrdersAppBarFilter extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20.0,
+            height: 5.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -90,23 +90,34 @@ class OrdersAppBarFilter extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset('assets/icons/arrows_up_down.svg',
-                        width: 32.0,
-                        height: 32.0,
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      icon: SvgPicture.asset('assets/icons/arrows_up_down.svg',
+                          width: 24.0,
+                          height: 24.0,
                         colorFilter: ColorFilter.mode(
-                            theme.iconTheme.color!, BlendMode.srcIn)),
-                    SvgPicture.asset(
-                      'assets/icons/magnifying-glass-icon.svg',
-                      width: 32.0,
-                      height: 32.0,
-                      colorFilter: ColorFilter.mode(
-                          theme.iconTheme.color!, BlendMode.srcIn),
+                              theme.iconTheme.color!, BlendMode.srcIn)),
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        'assets/icons/magnifying-glass-icon.svg',
+                        width: 24.0,
+                        height: 24.0,
+                        colorFilter: ColorFilter.mode(
+                            theme.iconTheme.color!, BlendMode.srcIn),
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-          )
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
         ],
       ),
     );

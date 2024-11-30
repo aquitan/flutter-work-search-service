@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
 import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
 import 'package:ia_ma/features/search/bloc/search_bloc.dart';
 import 'package:ia_ma/features/search/widgets/widgets.dart';
-import 'package:ia_ma/repository/token/token_repository_interface.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,16 +22,11 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
-    getToken();
+    super.initState();
     BlocProvider.of<UserBloc>(context).add(GetMe());
     BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
     BlocProvider.of<SearchBloc>(context)
         .add(GetSearchedPublications(take: '20', skip: '0'));
-    super.initState();
-  }
-
-  void getToken() async {
-    var token = await GetIt.I<TokenRepositoryInterface>().getToken();
   }
 
   @override
@@ -88,7 +81,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         radius: 20.0,
                         bordered: true,
                         isOnline: true,
-                        initials: '${user.firstName![0]}${user.lastName![0]}',
+                        initials:
+                            '${user.firstName![0]}${user.lastName?[0] ?? ''}',
                         networkImg: user.avatar != null
                             ? '${dotenv.env['YA_MA_CDN']}${user.avatar}'
                             : null,

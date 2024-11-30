@@ -11,6 +11,7 @@ class PublicationBloc extends Bloc<PublicationEvent, PublicationBlocState> {
   PublicationBloc(this.publicationRepository)
       : super(PublicationBlocStateInitial()) {
     on<GetPublicationById>((event, emit) async {
+      emit(PublicationBlocStateLoading());
       try {
         final response =
             await publicationRepository.getPublicationById(event.id);

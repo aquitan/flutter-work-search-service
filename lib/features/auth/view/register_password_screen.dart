@@ -180,7 +180,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   }
 
   String? _validatePassword(String value) {
-    print('value: $value');
     if (value.isEmpty) {
       return 'Введите пароль';
     } else if (value.length < 8) {

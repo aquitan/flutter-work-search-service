@@ -223,7 +223,8 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w500)),
                             SizedBox(height: 12.0),
-                            PublicationImageCarousel(),
+                            if (publication.images != null)
+                              PublicationImageCarousel(),
                             SizedBox(height: 12.0),
                             Text(
                               publication.description!,
@@ -278,7 +279,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
                       ),
                       child: OrderDetailedTypeIndicator(
                           isTender: publication.isTender,
-                          startPrice: publication.startPrice,
+                          startPrice: publication.startPrice ?? '',
                           price: publication.price),
                     ),
                     SizedBox(

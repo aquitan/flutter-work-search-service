@@ -70,8 +70,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 CustomAvatar(
                                   bordered: true,
-                                  networkImg:
-                                      '${dotenv.env['YA_MA_CDN']}${profile.avatar}',
+                                  initials:
+                                      '${profile.firstName![0]}${profile.lastName?[0] ?? ''}',
+                                  networkImg: profile.avatar != null
+                                      ? '${dotenv.env['YA_MA_CDN']}${profile.avatar}'
+                                      : null,
                                 ),
                                 SizedBox(
                                   width: 20.0,
@@ -87,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${profile.firstName} ${profile.lastName}',
+                                  '${profile.firstName} ${profile.lastName ?? ''}',
                                   style: theme.textTheme.titleLarge,
                                 ),
                                 SizedBox(

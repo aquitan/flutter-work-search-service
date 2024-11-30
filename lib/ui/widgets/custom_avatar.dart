@@ -24,6 +24,8 @@ class CustomAvatar extends StatefulWidget {
 
 class _CustomAvatarState extends State<CustomAvatar> {
 
+
+
   selectImage() {
     if (widget.localImg != null) {
       return AssetImage(widget.localImg!);
@@ -46,7 +48,7 @@ class _CustomAvatarState extends State<CustomAvatar> {
           widget.isOnline! ? successColor : theme.colorScheme.tertiary,
       child: CircleAvatar(
         radius: widget.bordered! ? widget.radius! - (2.0) : widget.radius,
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: theme.colorScheme.tertiaryFixedDim,
         backgroundImage: selectImage(),
         child: selectImage() != null
             ? null

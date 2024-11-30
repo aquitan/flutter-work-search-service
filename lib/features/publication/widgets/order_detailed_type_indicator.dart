@@ -7,12 +7,12 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
     super.key,
     required this.isTender,
     this.price,
-    this.startPrice,
+    required this.startPrice,
   });
 
   final String? isTender;
   final int? price;
-  final String? startPrice;
+  final String startPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,8 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
 
     List<Widget> selectOrderType() {
       var formattedPrice = NumberFormat.currency(locale: "ru_RU", symbol: "₽");
-      final startPriceParsed = int.parse(startPrice!);
+      final startPriceParsed =
+          int.parse(startPrice.isNotEmpty ? startPrice : '0');
       if (isTender == null) {
         return [
           Container(

@@ -196,7 +196,6 @@ class _AuthPasswordScreenState extends State<AuthPasswordScreen> {
   }
 
   String? _validatePassword(String value) {
-    print('value: $value');
     if (value.isEmpty) {
       return 'Введите пароль';
     } else if (value.length < 8) {

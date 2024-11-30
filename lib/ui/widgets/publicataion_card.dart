@@ -180,8 +180,11 @@ class _PublicataionCardState extends State<PublicataionCard> {
                     ),
                     CustomAvatar(
                       radius: 24.0,
-                        networkImg:
-                            '${dotenv.env['YA_MA_CDN']}${order.user!.avatar}',
+                        initials:
+                            '${order.user!.firstName![0]}${order.user!.lastName?[0] ?? ''}',
+                        networkImg: order.user!.avatar != null
+                            ? '${dotenv.env['YA_MA_CDN']}${order.user!.avatar}'
+                            : null,
                     ),
                   ]),
               SizedBox(height: 12.0),
