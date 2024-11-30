@@ -22,7 +22,7 @@ class OrderDetailedTypeIndicator extends StatelessWidget {
       var formattedPrice = NumberFormat.currency(locale: "ru_RU", symbol: "₽");
       final startPriceParsed =
           int.parse(startPrice.isNotEmpty ? startPrice : '0');
-      if (isTender == null) {
+      if (isTender == null && price != null) {
         return [
           Container(
             padding: EdgeInsets.all(15.0),
