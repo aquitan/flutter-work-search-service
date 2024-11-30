@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class PublicationImageCarousel extends StatelessWidget {
   const PublicationImageCarousel({
     super.key,
+    this.images,
   });
+
+  final images;
 
   @override
   Widget build(BuildContext context) {
+    print('images---$images');
     final theme = Theme.of(context);
     return SizedBox(
       height: 108,

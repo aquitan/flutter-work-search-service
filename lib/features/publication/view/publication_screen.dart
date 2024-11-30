@@ -224,7 +224,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                     fontWeight: FontWeight.w500)),
                             SizedBox(height: 12.0),
                             if (publication.images != null)
-                              PublicationImageCarousel(),
+                              PublicationImageCarousel(
+                                images: publication.images,
+                              ),
                             SizedBox(height: 12.0),
                             Text(
                               publication.description!,
