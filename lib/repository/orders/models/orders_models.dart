@@ -42,7 +42,7 @@ class Order {
   @JsonKey(name: 'step_type')
   String? stepType;
 
-  List<dynamic>? images;
+  List<ImageModel>? images;
 
   @JsonKey(name: 'user_id')
   int? userId;
@@ -218,4 +218,33 @@ class ImagesList {
       _$ImagesListFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImagesListToJson(this);
+}
+
+@JsonSerializable()
+class ImageModel {
+  ImageModel(
+      {required this.id,
+      required this.publicationId,
+      required this.isMain,
+      required this.fileName,
+      required this.mimeType});
+
+  final int id;
+
+  @JsonKey(name: 'publication_id')
+  final int publicationId;
+
+  @JsonKey(name: 'is_main')
+  final bool isMain;
+
+  @JsonKey(name: 'filename')
+  final String fileName;
+
+  @JsonKey(name: 'mimetype')
+  final String mimeType;
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) =>
+      _$ImageModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImageModelToJson(this);
 }

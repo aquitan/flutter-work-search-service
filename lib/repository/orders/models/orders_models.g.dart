@@ -28,7 +28,9 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       isTender: json['is_tender'] as String?,
       showOtherResponses: json['show_other_responses'] as bool?,
       stepType: json['step_type'] as String?,
-      images: json['images'] as List<dynamic>?,
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       userId: (json['user_id'] as num?)?.toInt(),
       addressPoint: json['address_point'] == null
           ? null
@@ -151,4 +153,21 @@ ImagesList _$ImagesListFromJson(Map<String, dynamic> json) => ImagesList(
 Map<String, dynamic> _$ImagesListToJson(ImagesList instance) =>
     <String, dynamic>{
       'images': instance.images,
+    };
+
+ImageModel _$ImageModelFromJson(Map<String, dynamic> json) => ImageModel(
+      id: (json['id'] as num).toInt(),
+      publicationId: (json['publication_id'] as num).toInt(),
+      isMain: json['is_main'] as bool,
+      fileName: json['filename'] as String,
+      mimeType: json['mimetype'] as String,
+    );
+
+Map<String, dynamic> _$ImageModelToJson(ImageModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'publication_id': instance.publicationId,
+      'is_main': instance.isMain,
+      'filename': instance.fileName,
+      'mimetype': instance.mimeType,
     };
