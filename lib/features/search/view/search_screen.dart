@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
             },
             builder: (context, state) {
               if (state is UserStateLoaded) {
-                final user = state.myUser.user;
+                final user = state.myUser.data;
                 return SliverAppBar(
                   backgroundColor: theme.appBarTheme.backgroundColor,
                   surfaceTintColor: Colors.transparent,
@@ -73,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   leading: GestureDetector(
                     onTap: () {
-                      AutoRouter.of(context).push(ProfileRoute(id: user.id!));
+                      AutoRouter.of(context).push(ProfileRoute(id: user.id));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -137,7 +137,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 itemBuilder: (context, index) {
                   final card = ordersList[index];
                   return PublicataionCard(
-                    cardType: 'auction',
                     order: card,
                   );
                 },

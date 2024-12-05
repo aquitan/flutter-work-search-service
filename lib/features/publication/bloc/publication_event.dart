@@ -7,3 +7,9 @@ class GetPublicationById extends PublicationEvent {
 
   GetPublicationById({required this.id});
 }
+
+class CreatePublicationResponse extends PublicationEvent {
+  final int id;
+
+  CreatePublicationResponse({required this.id});
+}

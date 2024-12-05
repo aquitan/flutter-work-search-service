@@ -15,4 +15,22 @@ class PublicationRepository implements AbstractPublicationRepository {
 
     return PublicationModel.fromJson(response.data);
   }
+
+  @override
+  Future<PublicationResponse> createPublicationResponse(int id) async {
+    final response = await dio.post(
+        '${dotenv.env['API_PUBLICATIONS']}/publications/$id/responses',
+        data: {});
+
+    return PublicationResponse.fromJson(response.data);
+  }
+
+  @override
+  Future<PublicationCheckMyResponse> getCheckMyResponse(int id) async {
+    final response = await dio
+        .get('${dotenv.env['API_PUBLICATIONS']}/publications/$id/responses/my');
+
+    return PublicationCheckMyResponse.fromJson(response.data);
+  }
+
 }

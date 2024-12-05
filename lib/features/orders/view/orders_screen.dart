@@ -39,7 +39,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
                 if (state is UserStateLoaded) {
-                  final user = state.myUser.user;
+                  final user = state.myUser.data;
                   return SliverAppBar(
                     pinned: true,
                     backgroundColor: theme.appBarTheme.backgroundColor,
@@ -54,7 +54,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     ),
                     leading: GestureDetector(
                       onTap: () {
-                        AutoRouter.of(context).push(ProfileRoute(id: user.id!));
+                        AutoRouter.of(context).push(ProfileRoute(id: user.id));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -95,14 +95,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             ),
 
-            BlocConsumer<OrdersBloc, OrdersBlocState>(
-                listener: (context, state) {
-              if (state is OrdersBlocStateLoaded) {
-                setState(() {
-                  emptyList = true;
-                });
-              }
-            }, builder: (context, state) {
+            BlocBuilder<OrdersBloc, OrdersBlocState>(builder: (context, state) {
               if (state is OrdersBlocStateLoaded) {
                 final ordersList = state.orders;
                 return SliverList.builder(
@@ -110,17 +103,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   itemBuilder: (context, index) {
                     final card = ordersList[index];
                     return PublicataionCard(
-                      cardType: 'auction',
                       order: card,
                     );
                   },
-                );
-              }
-              if (state is OrdersBlocStateLoading) {
-                return const SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
                 );
               }
 

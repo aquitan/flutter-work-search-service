@@ -8,20 +8,17 @@ part of 'user_model.dart';
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       email: json['email'] as String?,
-      password: json['password'] as String?,
-      isCompany: json['is_company'] as bool?,
+      isCompany: json['is_company'] as bool,
       firstName: json['first_name'] as String?,
+      fullName: json['full_name'] as String?,
       middleName: json['middle_name'] as String?,
       lastName: json['last_name'] as String?,
-      isActiveEmail: json['is_active_email'] as bool?,
-      isActivePhone: json['is_active_phone'] as bool?,
-      passwordHash: json['password_hash'] as String?,
+      isActiveEmail: json['is_active_email'] as bool,
+      isActivePhone: json['is_active_phone'] as bool,
       locationId: json['location_id'],
-      parentId: (json['parent_id'] as num?)?.toInt(),
       nodebbUid: (json['nodebb_uid'] as num?)?.toInt(),
       avatar: json['avatar'] as String?,
       phone: json['phone'] as String?,
-      passportHash: json['passport_hash'] as String?,
       responseTemplate: json['response_template'] as String?,
       birthdayDate: json['birthday_date'] == null
           ? null
@@ -37,32 +34,31 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       employmentDates: json['employment_dates'] == null
           ? null
           : DateTime.parse(json['employment_dates'] as String),
-      id: (json['id'] as num?)?.toInt(),
-      balance: (json['balance'] as num?)?.toInt(),
-      rating: (json['rating'] as num?)?.toInt(),
-      weight: (json['weight'] as num?)?.toInt(),
-      isActive: json['is_active'] as bool?,
-      isIdentified: json['is_identified'] as bool?,
+      id: (json['id'] as num).toInt(),
+      balance: (json['balance'] as num).toInt(),
+      rating: (json['rating'] as num).toInt(),
+      weight: (json['weight'] as num).toInt(),
+      isActive: json['is_active'] as bool,
+      isIdentified: json['is_identified'] as bool,
       updatedAt: json['updated_at'] as String?,
+      lastActiveAt: json['last_active_at'] as String?,
       createdAt: json['created_at'] as String,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'email': instance.email,
-      'password': instance.password,
       'is_company': instance.isCompany,
       'first_name': instance.firstName,
+      'full_name': instance.fullName,
       'middle_name': instance.middleName,
       'last_name': instance.lastName,
+      'last_active_at': instance.lastActiveAt,
       'is_active_email': instance.isActiveEmail,
       'is_active_phone': instance.isActivePhone,
-      'password_hash': instance.passwordHash,
       'location_id': instance.locationId,
-      'parent_id': instance.parentId,
       'nodebb_uid': instance.nodebbUid,
       'avatar': instance.avatar,
       'phone': instance.phone,
-      'passport_hash': instance.passportHash,
       'response_template': instance.responseTemplate,
       'birthday_date': instance.birthdayDate?.toIso8601String(),
       'company_name': instance.companyName,
@@ -83,9 +79,9 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
     };
 
 MyUser _$MyUserFromJson(Map<String, dynamic> json) => MyUser(
-      user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      data: UserModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MyUserToJson(MyUser instance) => <String, dynamic>{
-      'user': instance.user,
+      'data': instance.data,
     };

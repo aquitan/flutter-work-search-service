@@ -44,7 +44,6 @@ dependencies:
   #STATE AND STORAGE
   flutter_bloc: ^8.1.6
   shared_preferences: ^2.3.2
-  realm: ^20.0.0
 
   #NETWORK
   dio: ^5.7.0

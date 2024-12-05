@@ -42,7 +42,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
   }
 
   void _orderReply() {
-    print('Response has been sent');
+    BlocProvider.of<PublicationBloc>(context).add(CreatePublicationResponse(
+      id: widget.id,
+    ));
   }
 
 
@@ -75,7 +77,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
           listener: (context, state) {
             if (state is UserStateLoaded) {
               setState(() {
-                userId = state.myUser.user.id;
+                userId = state.myUser.data.id;
               });
             }
           },
@@ -286,33 +288,34 @@ class _PublicationScreenState extends State<PublicationScreen> {
                     SizedBox(
                       height: 24.0,
                     ),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              textAlign: TextAlign.start,
-                              'Пока никто не откликнулся',
-                              style: theme.textTheme.titleLarge,
-                            ),
-                            SizedBox(
-                              height: 24.0,
-                            ),
-                            SvgPicture.asset('assets/icons/empty-page.svg'),
-                          ],
-                        )),
-                    SizedBox(
-                      height: 24.0,
-                    ),
+                    if (userId == publication.userId)
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                textAlign: TextAlign.start,
+                                'Пока никто не откликнулся',
+                                style: theme.textTheme.titleLarge,
+                              ),
+                              SizedBox(
+                                height: 24.0,
+                              ),
+                              SvgPicture.asset('assets/icons/empty-page.svg'),
+                            ],
+                          )),
                     SizedBox(
                       height: 120.0,
                     )
                   ],
                 ),
-                PublicationButtons(
-                    orderReply: _orderReply,
-                    userId: userId,
-                    publicationUserId: publication.userId)
+                if (userId != publication.executorId)
+                  PublicationButtons(
+                      orderReply: _orderReply,
+                      userId: userId,
+                      publicationUserId: publication.userId),
+                if (userId == publication.executorId)
+                  Text('Вы уже откликнулись')
               ]);
             }
             return Center(child: CircularProgressIndicator());

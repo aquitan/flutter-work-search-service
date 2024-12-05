@@ -79,7 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(
                                   width: 20.0,
                                 ),
-                                ProfileRatings()
+                                ProfileRatings(
+                                  rating: profile.rating,
+                                  recomendations: profile.weight,
+                                )
                               ],
                             ),
                             SizedBox(
@@ -261,7 +264,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 24,
                     ),
-                    ProfileBlogTrigger(),
+                    ProfileBlogTrigger(
+                      firstName: profile.firstName,
+                      lastName: profile.lastName,
+                      avatar: profile.avatar,
+                    ),
                     SizedBox(
                       height: 24.0,
                     ),
@@ -279,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text('Рекомендации',
                               style: theme.textTheme.titleLarge),
                           SizedBox(width: 8.0),
-                          Text('4',
+                          Text('${profile.rating.truncate()}',
                               style: TextStyle(
                                   fontSize: 24.0,
                                   color: theme.colorScheme.secondary)),

@@ -1,11 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
-class BottomOrdersFloatingButton extends StatelessWidget {
-  const BottomOrdersFloatingButton({
+class BottomWorksFloatingButton extends StatelessWidget {
+  const BottomWorksFloatingButton({
     super.key,
   });
 
@@ -18,22 +16,20 @@ class BottomOrdersFloatingButton extends StatelessWidget {
               backgroundColor: WidgetStatePropertyAll(
             theme.colorScheme.primary,
           )),
-          onPressed: () {
-            AutoRouter.of(context).push(OrderCreationRoute());
-          },
+          onPressed: () {},
           child: SizedBox(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SvgPicture.asset('assets/icons/magnifying-glass-icon.svg',
+                    colorFilter:
+                        ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                SizedBox(width: 8),
                 Text(
-                  'Разместить заказ',
+                  'Искать работу',
                   style: theme.textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w500, color: Colors.white),
                 ),
-                SizedBox(width: 8),
-                SvgPicture.asset('assets/icons/plus-icon.svg',
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn)),
               ],
             ),
           ))

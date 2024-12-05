@@ -15,7 +15,7 @@ class UserStateLoaded extends UserState {
   UserStateLoaded({required this.myUser});
 
   @override
-  List<Object> get props => super.props..add(myUser.user);
+  List<Object> get props => super.props..add(myUser.data);
 }
 
 class UserStateError extends UserState {

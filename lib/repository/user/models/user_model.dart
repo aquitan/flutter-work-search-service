@@ -6,13 +6,15 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel {
   String? email;
-  String? password;
 
   @JsonKey(name: 'is_company')
-  bool? isCompany;
+  bool isCompany;
 
   @JsonKey(name: 'first_name')
   String? firstName;
+
+  @JsonKey(name: 'full_name')
+  String? fullName;
 
   @JsonKey(name: 'middle_name')
   String? middleName;
@@ -20,29 +22,23 @@ class UserModel {
   @JsonKey(name: 'last_name')
   String? lastName;
 
+  @JsonKey(name: 'last_active_at')
+  String? lastActiveAt;
+
   @JsonKey(name: 'is_active_email')
-  bool? isActiveEmail;
+  bool isActiveEmail;
 
   @JsonKey(name: 'is_active_phone')
-  bool? isActivePhone;
-
-  @JsonKey(name: 'password_hash')
-  String? passwordHash;
+  bool isActivePhone;
 
   @JsonKey(name: 'location_id')
   Object? locationId;
-
-  @JsonKey(name: 'parent_id')
-  int? parentId;
 
   @JsonKey(name: 'nodebb_uid')
   int? nodebbUid;
 
   String? avatar;
   String? phone;
-
-  @JsonKey(name: 'passport_hash')
-  String? passportHash;
 
   @JsonKey(name: 'response_template')
   String? responseTemplate;
@@ -71,16 +67,16 @@ class UserModel {
   @JsonKey(name: 'employment_dates')
   DateTime? employmentDates;
 
-  int? id;
-  int? balance;
-  int? rating;
-  int? weight;
+  int id;
+  int balance;
+  int rating;
+  int weight;
 
   @JsonKey(name: 'is_active')
-  bool? isActive;
+  bool isActive;
 
   @JsonKey(name: 'is_identified')
-  bool? isIdentified;
+  bool isIdentified;
 
   @JsonKey(name: 'updated_at')
   String? updatedAt;
@@ -90,20 +86,17 @@ class UserModel {
 
   UserModel(
       {this.email,
-      this.password,
-      this.isCompany,
+      required this.isCompany,
       this.firstName,
+      this.fullName,
       this.middleName,
       this.lastName,
-      this.isActiveEmail,
-      this.isActivePhone,
-      this.passwordHash,
+      required this.isActiveEmail,
+      required this.isActivePhone,
       this.locationId,
-      this.parentId,
       this.nodebbUid,
       this.avatar,
       this.phone,
-      this.passportHash,
       this.responseTemplate,
       this.birthdayDate,
       this.companyName,
@@ -113,13 +106,14 @@ class UserModel {
       this.companyAddress,
       this.companyRegDate,
       this.employmentDates,
-      this.id,
-      this.balance,
-      this.rating,
-      this.weight,
-      this.isActive,
-      this.isIdentified,
+      required this.id,
+      required this.balance,
+      required this.rating,
+      required this.weight,
+      required this.isActive,
+      required this.isIdentified,
       this.updatedAt,
+      this.lastActiveAt,
       required this.createdAt});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -131,9 +125,9 @@ class UserModel {
 
 @JsonSerializable()
 class MyUser {
-  MyUser({required this.user});
+  MyUser({required this.data});
 
-  final UserModel user;
+  final UserModel data;
 
   factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
 

@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class ProfileBlogTrigger extends StatelessWidget {
   const ProfileBlogTrigger({
     super.key,
+    this.firstName,
+    this.lastName,
+    this.avatar,
   });
+
+  final String? firstName;
+  final String? lastName;
+  final String? avatar;
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +58,10 @@ class ProfileBlogTrigger extends StatelessWidget {
                 CustomAvatar(
                   bordered: true,
                   radius: 20,
-                  networkImg:
-                      'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+                  initials: '${firstName![0]}${lastName?[0] ?? ''}',
+                  networkImg: avatar != null
+                      ? '${dotenv.env['YA_MA_CDN']}$avatar'
+                      : null,
                 ),
                 SizedBox(
                   width: 8,

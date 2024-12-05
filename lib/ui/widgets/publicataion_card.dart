@@ -10,11 +10,9 @@ import 'package:ia_ma/ui/widgets/widgets.dart';
 class PublicataionCard extends StatefulWidget {
   const PublicataionCard(
       {super.key,
-      required this.cardType,
       this.btn = false,
       required this.order});
 
-  final String cardType;
   final bool btn;
   final Order order;
 
