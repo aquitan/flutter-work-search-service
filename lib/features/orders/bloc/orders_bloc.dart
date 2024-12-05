@@ -7,11 +7,26 @@ import 'package:talker_flutter/talker_flutter.dart';
 part 'orders_event.dart';
 part 'orders_state.dart';
 
-class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
-  OrdersBloc(this.ordersRepository) : super(OrdersInitial()) {
+class OrdersBloc extends Bloc<OrdersEvent, OrdersBlocState> {
+  OrdersBloc(this.ordersRepository) : super(OrdersBlocStateInitial()) {
     on<CreateNewOrder>((event, emit) async {
       try {
-        final response = await ordersRepository.createNewOrder(event.order);
+        await ordersRepository.createNewOrder(event.order);
+        emit(OrdersBlocStateCreated(success: true));
+      } catch (e, stackTrace) {
+        GetIt.I<Talker>().error(e, stackTrace);
+      }
+    });
+
+    on<GetMyOrders>((event, emit) async {
+      try {
+        emit(OrdersBlocStateLoading());
+        final response = await ordersRepository.getAllMyOrders();
+        if (response.data!.isNotEmpty) {
+          emit(OrdersBlocStateLoaded(orders: response.data));
+          return;
+        }
+        return;
       } catch (e, stackTrace) {
         GetIt.I<Talker>().error(e, stackTrace);
       }

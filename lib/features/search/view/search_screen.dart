@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get_it/get_it.dart';
-import 'package:ia_ma/features/search/widgets/search_category_slide.dart';
-import 'package:ia_ma/repository/token/token_repository_interface.dart';
+import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
+import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/features/search/bloc/search_bloc.dart';
+import 'package:ia_ma/features/search/widgets/widgets.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class SearchScreen extends StatefulWidget {
@@ -16,61 +20,92 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
   @override
   void initState() {
-    getToken();
     super.initState();
-  }
-
-  void getToken() async {
-    var token = await GetIt.I<TokenRepositoryInterface>().getToken();
+    BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
+    BlocProvider.of<SearchBloc>(context)
+        .add(GetSearchedPublications(take: '20', skip: '0'));
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    logOut() async {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.remove('token');
+      pref.clear();
+    }
+
     return Stack(children: [
       CustomScrollView(
         slivers: [
-          SliverAppBar(
-            backgroundColor: theme.appBarTheme.backgroundColor,
-            surfaceTintColor: Colors.transparent,
-            pinned: true,
-            snap: true,
-            floating: true,
-            expandedHeight: 100.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Logo(
-                width: 40.0,
-                height: 30.0,
-                alignment: Alignment.bottomCenter,
-              ),
-              centerTitle: true,
-              expandedTitleScale: 1.8,
-            ),
-            leading: GestureDetector(
-              onTap: () {
-                AutoRouter.of(context).push(ProfileRoute());
-              },
-              child: CustomAvatar(
-                networkImg:
-                    'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
-              ),
-            ),
-            leadingWidth: 80.0,
-
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.notifications_none), onPressed: () {}),
-              IconButton(
-                  icon: Icon(
-                    Icons.qr_code,
-                    color: theme.primaryColor,
+          BlocConsumer<UserBloc, UserState>(
+            listener: (context, state) {
+              if (state is UserStateLoaded) {
+                return;
+              }
+              if (state is UserStateError) {
+                logOut();
+                AutoRouter.of(context).replaceAll([AuthRoute()]);
+              }
+            },
+            builder: (context, state) {
+              if (state is UserStateLoaded) {
+                final user = state.myUser.data;
+                return SliverAppBar(
+                  backgroundColor: theme.appBarTheme.backgroundColor,
+                  surfaceTintColor: Colors.transparent,
+                  pinned: true,
+                  snap: true,
+                  floating: true,
+                  expandedHeight: 150.0,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Logo(
+                      width: 50.0,
+                      height: 40.0,
+                      alignment: Alignment.bottomCenter,
+                    ),
+                    centerTitle: true,
+                    expandedTitleScale: 1.8,
                   ),
-                  onPressed: () {}),
-            ],
+                  leading: GestureDetector(
+                    onTap: () {
+                      AutoRouter.of(context).push(ProfileRoute(id: user.id));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: CustomAvatar(
+                        radius: 20.0,
+                        bordered: true,
+                        isOnline: true,
+                        initials:
+                            '${user.firstName![0]}${user.lastName?[0] ?? ''}',
+                        networkImg: user.avatar != null
+                            ? '${dotenv.env['YA_MA_CDN']}${user.avatar}'
+                            : null,
+                      ),
+                    ),
+                  ),
+                  leadingWidth: 60.0,
+                  actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.notifications_none), onPressed: () {}),
+                    IconButton(
+                        icon: Icon(
+                          Icons.qr_code,
+                          color: theme.primaryColor,
+                        ),
+                        onPressed: () {}),
+                  ],
+                );
+              }
+              return SliverToBoxAdapter(
+                child: Center(child: CircularProgressIndicator()),
+              );
+            },
           ),
           SliverToBoxAdapter(
             child: SearchbarButton(
@@ -79,35 +114,38 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-          SliverToBoxAdapter(
-              child: BlockWrapper(
-            padding: const EdgeInsets.only(bottom: 24.0, top: 12.0),
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-            child: SizedBox(
-              height: 92,
-              width: 150,
-              child: ListView.separated(
-                  padding: const EdgeInsets.only(left: 16),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 16),
-                  itemBuilder: (context, index) => SearchCategorySlide()),
-            ),
-          )),
+          BlocBuilder<CategoriesBloc, CategoriesBlocState>(
+            builder: (context, state) {
+              if (state is CategoriesLoaded) {
+                final categories = state.categories;
+                return SliverToBoxAdapter(
+                    child: SearchScreenSearchBlock(categories: categories));
+              }
+              return SliverToBoxAdapter(
+                child: Center(child: CircularProgressIndicator()),
+              );
+            },
+          ),
           SliverToBoxAdapter(
             child: SizedBox(height: 20),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return PublicataionCard(
-                  cardType: 'price_offer',
-                );
-              },
-              childCount: 20,
-            ),
-          ),
+          BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+            if (state is SearchStateLoaded) {
+              final ordersList = state.orders;
+              return SliverList.builder(
+                itemCount: ordersList!.length,
+                itemBuilder: (context, index) {
+                  final card = ordersList[index];
+                  return PublicataionCard(
+                    order: card,
+                  );
+                },
+              );
+            }
+            return SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }),
           SliverToBoxAdapter(
             child: SizedBox(height: 60),
           ),
@@ -115,7 +153,6 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       BottomFloatingButtons(
         children: [
-
           FilledButton(
               style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(
@@ -167,8 +204,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ))
         ],
       )
-    ]
-    );
+    ]);
   }
 
   Future<dynamic> _showModalBottomSheet(BuildContext context) {
@@ -347,4 +383,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-

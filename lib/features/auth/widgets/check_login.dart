@@ -82,9 +82,12 @@ class _CheckLoginState extends State<CheckLogin> {
       },
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
           child: ListView(
             children: [
+              SizedBox(
+                height: 28,
+              ),
               Logo(),
               SizedBox(
                 height: 28,
@@ -111,8 +114,8 @@ class _CheckLoginState extends State<CheckLogin> {
               ),
               CustomButton(
                 text: 'Вход',
-                radius: 24,
-                height: 48,
+                radius: 56,
+                height: 56,
                 onTap: () {
                   onTap();
                 },

@@ -7,6 +7,8 @@ const tertiaryFlatLight = Color.fromRGBO(246, 248, 250, 1);
 const tertiaryColor = Color.fromRGBO(175, 184, 193, 1);
 const errorColor = Color.fromRGBO(218, 20, 20, 1);
 
+const layoutBackground = Color.fromRGBO(255, 255, 255, 1);
+
 const primaryColorDark = Color.fromARGB(255, 234, 100, 43);
 const secondaryColorDark = Color.fromRGBO(110, 119, 129, 1);
 const tertiaryColorDark = Color.fromRGBO(63, 63, 70, 1);
@@ -55,8 +57,8 @@ final lightThemeData = ThemeData(
     color: Colors.white,
   ),
   appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-  scaffoldBackgroundColor: Colors.white,
-  iconTheme: IconThemeData(color: Colors.black),
+  scaffoldBackgroundColor: Color.fromRGBO(239, 241, 243, 1),
+  iconTheme: IconThemeData(color: Color.fromRGBO(39, 39, 42, 1)),
   colorScheme: ColorScheme.light(
     brightness: Brightness.light,
     primary: primaryColor,

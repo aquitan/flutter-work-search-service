@@ -6,7 +6,7 @@ class AuthGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    bool loggedIn = pref.getBool('logged_in') ?? false;
+    bool loggedIn = pref.getString('token') != null ? true : false;
     if (loggedIn) {
       resolver.next(true);
     } else {

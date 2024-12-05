@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,21 +7,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/api/api.dart';
 import 'package:ia_ma/iama_app.dart';
-import 'package:ia_ma/repository/categories/abstract_categories_repository.dart';
-import 'package:ia_ma/repository/categories/categories_repository.dart';
-import 'package:ia_ma/repository/orders/abstract_orders_repository.dart';
-import 'package:ia_ma/repository/orders/orders_repository.dart';
-import 'package:ia_ma/repository/profile/abstract_profile_repository.dart';
-import 'package:ia_ma/repository/profile/profile_repository.dart';
-import 'package:ia_ma/repository/token/token_repository.dart';
-import 'package:ia_ma/repository/token/token_repository_interface.dart';
+import 'package:ia_ma/repository/repository.dart';
+import 'package:ia_ma/repository/user/abstract_user_repository.dart';
+import 'package:ia_ma/repository/user/user_repository.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-
-import 'repository/auth/abstract_auth_repository.dart';
-import 'repository/auth/auth_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,12 +22,14 @@ Future<void> main() async {
 
   final SharedPreferences prefferences = await SharedPreferences.getInstance();
 
+  final Directory appDocDir = await getApplicationDocumentsDirectory();
 
 
-  final dio = ApiClient.dio(prefferences);
+  final dio = ApiClient.dio(appDocDir, prefferences);
   final talker = TalkerFlutter.init();
   // final authProvider = AuthProvider();
   final tokenRep = TokenRepository(prefferences: prefferences);
+
 
 
   GetIt.I.registerSingleton<TokenRepositoryInterface>(tokenRep);
@@ -51,6 +47,12 @@ Future<void> main() async {
 
   GetIt.I.registerLazySingleton<AbstractOrdersRepository>(
       () => OrdersRepository(dio: dio));
+
+  GetIt.I.registerLazySingleton<AbstractUserRepository>(
+      () => UserRepository(dio: dio));
+
+  GetIt.I.registerLazySingleton<AbstractPublicationRepository>(
+      () => PublicationRepository(dio: dio));
 
   dio.interceptors.add(
       TalkerDioLogger(

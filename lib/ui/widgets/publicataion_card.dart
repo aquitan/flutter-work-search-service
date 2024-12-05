@@ -1,74 +1,53 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/helpers/date_parser.dart';
+import 'package:ia_ma/repository/orders/models/orders_models.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class PublicataionCard extends StatefulWidget {
-  const PublicataionCard({super.key, required this.cardType, this.btn = false});
+  const PublicataionCard(
+      {super.key,
+      this.btn = false,
+      required this.order});
 
-  final String cardType;
   final bool btn;
+  final Order order;
 
   @override
   State<PublicataionCard> createState() => _PublicataionCardState();
 }
 
 class _PublicataionCardState extends State<PublicataionCard> {
-  List<Widget>? _checkCardType() {
-    if (widget.cardType == 'auction') {
-      return [
-        SvgPicture.asset('assets/icons/auction-icon.svg'),
-        SizedBox(
-          width: 4,
-        ),
-        Text('Аукцион')
-      ];
-    } else if (widget.cardType == 'price_offer') {
-      return [
-        SvgPicture.asset('assets/icons/auction-icon.svg'),
-        SizedBox(
-          width: 4,
-        ),
-        Text('Ваше предл.')
-      ];
-    }
-    return [
-      SvgPicture.asset('assets/icons/auction-icon.svg'),
-      SizedBox(
-        width: 4,
-      ),
-      Text('Цена')
-    ];
-  }
+
 
 
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final int id = 1;
+
+    final order = widget.order;
+
 
     void onTapPublication(int id) {
-      AutoRouter.of(context).push(PublicationRoute());
+      AutoRouter.of(context).push(PublicationRoute(id: id));
     }
+
+
+
 
     return GestureDetector(
       onTap: () {
-        onTapPublication(id);
+        onTapPublication(order.id!);
       },
       child: Container(
         decoration: BoxDecoration(
             color: theme.cardTheme.color,
-            borderRadius: BorderRadius.circular(30.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: Offset(0, 0), // changes position of shadow
-              ),
-            ]),
+          borderRadius: BorderRadius.circular(30.0),
+        ),
         margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -80,7 +59,8 @@ class _PublicataionCardState extends State<PublicataionCard> {
                 children: [
                   CustomAvatar(
                     radius: 24.0,
-                    localImg: 'assets/categories/2.png',
+                    localImg:
+                        'assets/categories/category_${order.categoryId!}.png',
                   ),
                   SizedBox(
                     width: 12,
@@ -97,7 +77,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               SvgPicture.asset('assets/icons/date-icon.svg'),
                               SizedBox(width: 4.0),
                               Text(
-                                '20 окт–13 нбр ',
+                                '${parseDate(order.workBeginDate)!} ${order.workEndDate != null ? '-' : ""} ${order.workEndDate != null ? parseDate(order.workEndDate) : ""}',
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.grey),
                               ),
@@ -117,8 +97,9 @@ class _PublicataionCardState extends State<PublicataionCard> {
                           )
                         ],
                       ),
-                      Text(
-                        'Возведение стен и перегоро...',
+                      if (order.category != null)
+                        Text(
+                          order.category!.name,
                         style: TextStyle(fontSize: 14.0, color: Colors.grey),
                       )
                     ],
@@ -127,15 +108,19 @@ class _PublicataionCardState extends State<PublicataionCard> {
               ),
               SizedBox(height: 12.0),
               Text(
-                  'В части общего коридора (Длинна примерно 6 метров, ширина метр чуть больше) нужен ремонт. Убрать лишнее, отштукатурить и покрасить стены и потолок',
+                  order.title!,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
                   style:
                       TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
               SizedBox(height: 12.0),
-              Text(
-                'Заказчик',
-                style: TextStyle(fontSize: 14.0, color: Colors.grey),
-              ),
-              Row(
+              if (order.user != null)
+                Text(
+                  'Заказчик',
+                  style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                ),
+              if (order.user != null)
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -150,7 +135,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               width: 4,
                             ),
                             Text(
-                              'Фёдор Кузнецов',
+                                '${order.user!.firstName} ${order.user!.lastName}',
                               style: theme.textTheme.bodySmall,
                             ),
                             SizedBox(
@@ -163,7 +148,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                                 SizedBox(
                                   width: 4,
                                 ),
-                                Text('4.5')
+                                  Text(order.user!.rating.toString())
                               ],
                             ),
                           ],
@@ -171,52 +156,64 @@ class _PublicataionCardState extends State<PublicataionCard> {
                         SizedBox(
                           height: 2,
                         ),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/icons/location-mark.svg'),
-                            SizedBox(
-                              width: 4,
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 200.0),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/location-mark.svg'),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${order.address}',
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                )
+                              ],
                             ),
-                            Text(
-                              'Липецк, ул. Плеханова',
-                              style: theme.textTheme.bodySmall,
-                            )
-                          ],
                         ),
                       ],
                     ),
                     CustomAvatar(
                       radius: 24.0,
-                      localImg: 'assets/categories/2.png',
+                        initials:
+                            '${order.user!.firstName![0]}${order.user!.lastName?[0] ?? ''}',
+                        networkImg: order.user!.avatar != null
+                            ? '${dotenv.env['YA_MA_CDN']}${order.user!.avatar}'
+                            : null,
                     ),
                   ]),
               SizedBox(height: 12.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: _checkCardType()!.toList(),
-                  ),
-                  Text(
-                    '250 000 ₽',
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.red,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
+              PublicationCardPriceType(
+                isTender: order.isTender,
+                price: order.price,
+                startPrice: order.startPrice,
               ),
               SizedBox(height: 24.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CustomChip(
-                    text: 'Выполняется',
-                    bgColor: Color.fromRGBO(253, 239, 234, 1),
-                    avatar: SvgPicture.asset('assets/icons/lightning-icon.svg'),
-                  ),
+                  if (order.state == 1)
+                    CustomChip(
+                      fontSize: 14.0,
+                      bgColor: theme.colorScheme.secondaryFixedDim,
+                      textColor: theme.colorScheme.secondary,
+                      text: 'В поиске исполнителя',
+                      avatar: SvgPicture.asset(
+                          'assets/icons/magnifying-glass-icon.svg'),
+                    ),
+                  if (order.state == 2)
+                    CustomChip(
+                      fontSize: 14.0,
+                      bgColor: theme.colorScheme.secondaryFixedDim,
+                      textColor: theme.colorScheme.primaryFixedDim,
+                      text: 'Выполняется',
+                      avatar: SvgPicture.asset(
+                          'assets/icons/lighlightning-icon.svg'),
+                    ),
                   Row(
                     children: [
                       SvgPicture.asset('assets/icons/clock-icon.svg'),

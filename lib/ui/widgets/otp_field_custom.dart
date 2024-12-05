@@ -30,7 +30,6 @@ class _OtpFieldCustomState extends State<OtpFieldCustom> {
       //runs when a code is typed in
       onCodeChanged: (String code) {
         //handle validation or checks here
-        debugPrint('code: $code');
       },
       focusedBorderColor: theme.primaryColor,
       //runs when every textfield is filled

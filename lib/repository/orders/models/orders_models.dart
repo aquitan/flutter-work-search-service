@@ -1,3 +1,5 @@
+import 'package:ia_ma/repository/categories/models/categories_model.dart';
+import 'package:ia_ma/repository/user/models/user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'orders_models.g.dart';
@@ -17,45 +19,45 @@ class OrderModel {
 @JsonSerializable()
 class Order {
   @JsonKey(name: 'category_id')
-  int categoryId;
+  int? categoryId;
 
-  String title;
-  String description;
+  String? title;
+  String? description;
 
   @JsonKey(name: 'work_begin_date')
-  String workBeginDate;
+  String? workBeginDate;
 
   @JsonKey(name: 'work_end_date')
-  String workEndDate;
+  String? workEndDate;
 
-  String address;
-  int price;
+  String? address;
+  int? price;
 
   @JsonKey(name: 'is_tender')
-  bool isTender;
+  String? isTender;
 
   @JsonKey(name: 'show_other_responses')
-  bool showOtherResponses;
+  bool? showOtherResponses;
 
   @JsonKey(name: 'step_type')
-  String stepType;
+  String? stepType;
 
-  // List<List> images;
+  List<ImageModel>? images;
 
   @JsonKey(name: 'user_id')
-  int userId;
+  int? userId;
 
   @JsonKey(name: 'address_point')
-  AddressPoint addressPoint;
+  AddressPoint? addressPoint;
 
   @JsonKey(name: 'executor_id')
   int? executorId;
 
   @JsonKey(name: 'start_price')
-  int? startPrice;
+  String? startPrice;
 
   @JsonKey(name: 'step_value')
-  int? stepValue;
+  String? stepValue;
 
   @JsonKey(name: 'rating_value_customer')
   int? ratingValueCustomer;
@@ -63,46 +65,52 @@ class Order {
   @JsonKey(name: 'rating_value_executor')
   int? ratingValueExecutor;
 
-  int id;
-  int state;
+  int? id;
+  int? state;
 
   @JsonKey(name: 'is_b2b')
-  bool isB2b;
+  bool? isB2b;
 
   @JsonKey(name: 'deleted_at')
-  String deletedAt;
+  String? deletedAt;
 
   @JsonKey(name: 'updated_at')
-  String updatedAt;
+  String? updatedAt;
 
   @JsonKey(name: 'created_at')
-  String createdAt;
+  String? createdAt;
+
+  UserModel? user;
+
+  Category? category;
 
   Order({
-    required this.categoryId,
-    required this.title,
-    required this.description,
-    required this.workBeginDate,
-    required this.workEndDate,
-    required this.address,
-    required this.price,
-    this.isTender = false,
-    this.showOtherResponses = false,
-    required this.stepType,
-    // required this.images,
-    required this.userId,
-    required this.addressPoint,
-    required this.executorId,
-    required this.startPrice,
-    required this.stepValue,
-    required this.ratingValueCustomer,
-    required this.ratingValueExecutor,
-    required this.id,
-    required this.state,
-    required this.isB2b,
-    required this.deletedAt,
-    required this.updatedAt,
-    required this.createdAt,
+    this.categoryId,
+    this.title,
+    this.description,
+    this.workBeginDate,
+    this.workEndDate,
+    this.address,
+    this.price,
+    this.isTender,
+    this.showOtherResponses,
+    this.stepType,
+    this.images,
+    this.userId,
+    this.addressPoint,
+    this.executorId,
+    this.startPrice,
+    this.stepValue,
+    this.ratingValueCustomer,
+    this.ratingValueExecutor,
+    this.id,
+    this.state,
+    this.isB2b,
+    this.deletedAt,
+    this.updatedAt,
+    this.createdAt,
+    this.user,
+    this.category,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -140,10 +148,10 @@ class OrderCreationDto {
   int? categoryId;
 
   String? description;
-  // var images;
+  ImagesList? images;
 
   @JsonKey(name: 'is_tender')
-  bool? isTender;
+  String? isTender;
 
   int? price;
 
@@ -168,7 +176,7 @@ class OrderCreationDto {
     this.addressPoint,
     this.categoryId,
     this.description,
-    // this.images,
+    this.images,
     this.isTender,
     this.price,
     this.showOtherResponses,
@@ -182,4 +190,61 @@ class OrderCreationDto {
       _$OrderCreationDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderCreationDtoToJson(this);
+}
+
+
+
+@JsonSerializable()
+class OrdersInList {
+  OrdersInList({this.data});
+
+  List<Order>? data;
+
+  factory OrdersInList.fromJson(Map<String, dynamic> json) =>
+      _$OrdersInListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrdersInListToJson(this);
+}
+
+@JsonSerializable()
+class ImagesList {
+
+  List<Map<String, dynamic>>? images;
+
+  ImagesList({required this.images});
+
+
+  factory ImagesList.fromJson(Map<String, dynamic> json) =>
+      _$ImagesListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImagesListToJson(this);
+}
+
+@JsonSerializable()
+class ImageModel {
+  ImageModel(
+      {required this.id,
+      required this.publicationId,
+      required this.isMain,
+      required this.fileName,
+      required this.mimeType});
+
+  final int id;
+
+  @JsonKey(name: 'publication_id')
+  final int publicationId;
+
+  @JsonKey(name: 'is_main')
+  final bool isMain;
+
+  @JsonKey(name: 'filename')
+  final String fileName;
+
+  @JsonKey(name: 'mimetype')
+  final String mimeType;
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) =>
+      _$ImageModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImageModelToJson(this);
 }

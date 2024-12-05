@@ -10,4 +10,5 @@ export 'custom_textfield.dart';
 export 'logo.dart';
 export 'otp_field_custom.dart';
 export 'publicataion_card.dart';
+export 'publication_card_price_type.dart';
 export 'searchbar_button.dart';

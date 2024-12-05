@@ -89,32 +89,59 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
           key: widget.formKey,
           child: SizedBox(
             width: double.maxFinite,
-            height: 80,
+            height: 100,
             child: TabBarView(controller: _tabController, children: [
-              TextFormField(
-                controller: widget.phoneController,
-                validator: (value) => _validatePhone(value),
-                decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: theme.dividerColor)),
-                    prefixText: '+7',
-                    labelText: 'Введите номер телефона'),
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  FilteringTextInputFormatter(RegExp(r'^[()\d -]{1,10}$'),
-                      allow: true),
+              SizedBox(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Введите номер телефона',
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: widget.phoneController,
+                    validator: (value) => _validatePhone(value),
+                    decoration: InputDecoration(
+                        labelText: 'Номер телефона',
+                        labelStyle: theme.textTheme.bodySmall!
+                            .copyWith(color: theme.colorScheme.tertiary),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: theme.dividerColor)),
+                        prefixText: '+7'),
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter(RegExp(r'^[()\d -]{1,10}$'),
+                          allow: true),
+                    ],
+                  ),
                 ],
-              ),
-              TextFormField(
-                controller: widget.emailController,
-                validator: (String? value) => _validateEmail(value),
-                decoration: InputDecoration(
-                  labelText: 'Введите почту',
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: theme.dividerColor)),
+              )),
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Введите электронную почту',
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      controller: widget.emailController,
+                      validator: (String? value) => _validateEmail(value),
+                      decoration: InputDecoration(
+                        labelStyle: theme.textTheme.bodySmall!
+                            .copyWith(color: theme.colorScheme.tertiary),
+                        labelText: 'Электронная почта',
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: theme.dividerColor)),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                  ],
                 ),
-                keyboardType: TextInputType.emailAddress,
-              ),
+              )
 
             ]),
           ),

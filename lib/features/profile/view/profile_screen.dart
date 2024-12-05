@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
 import 'package:ia_ma/features/profile/widgets/widgets.dart';
@@ -11,7 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.id});
+
+  final int id;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -21,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ProfileBloc>(context).add(GetUserById(id: 1028));
+    BlocProvider.of<ProfileBloc>(context).add(GetUserById(id: widget.id));
   }
 
   @override
@@ -46,8 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
             if (state is ProfileStateLoaded) {
-              final profile = state.user.data!;
-              final DateTime createdAt = DateTime.parse(profile.createdAt!);
+              final profile = state.user;
+              final DateTime createdAt = DateTime.parse(profile.createdAt);
 
               return ListView(children: [
                 Column(
@@ -56,16 +59,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: BoxDecoration(
                           color: theme.cardTheme.color,
                           borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(24.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 0), // changes position of shadow
-                            ),
-                          ]),
+                            bottom: Radius.circular(24.0)),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 24.0),
@@ -75,13 +70,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 CustomAvatar(
                                   bordered: true,
-                                  networkImg:
-                                      'https://i.pinimg.com/736x/8c/ed/f9/8cedf96e02c73abda694f5d0bc6f6990.jpg',
+                                  initials:
+                                      '${profile.firstName![0]}${profile.lastName?[0] ?? ''}',
+                                  networkImg: profile.avatar != null
+                                      ? '${dotenv.env['YA_MA_CDN']}${profile.avatar}'
+                                      : null,
                                 ),
                                 SizedBox(
                                   width: 20.0,
                                 ),
-                                ProfileRatings()
+                                ProfileRatings(
+                                  rating: profile.rating,
+                                  recomendations: profile.weight,
+                                )
                               ],
                             ),
                             SizedBox(
@@ -92,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${profile.firstName} ${profile.lastName}',
+                                  '${profile.firstName} ${profile.lastName ?? ''}',
                                   style: theme.textTheme.titleLarge,
                                 ),
                                 SizedBox(
@@ -263,7 +264,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 24,
                     ),
-                    ProfileBlogTrigger(),
+                    ProfileBlogTrigger(
+                      firstName: profile.firstName,
+                      lastName: profile.lastName,
+                      avatar: profile.avatar,
+                    ),
                     SizedBox(
                       height: 24.0,
                     ),
@@ -281,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text('Рекомендации',
                               style: theme.textTheme.titleLarge),
                           SizedBox(width: 8.0),
-                          Text('4',
+                          Text('${profile.rating.truncate()}',
                               style: TextStyle(
                                   fontSize: 24.0,
                                   color: theme.colorScheme.secondary)),
@@ -320,7 +325,7 @@ _showSimpleModalDialog(context) {
           alignment: Alignment.topRight,
           child: Container(
             height: 420.0,
-            width: 260.0,
+            width: 300.0,
             padding: EdgeInsets.all(16.0),
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(24.0)),

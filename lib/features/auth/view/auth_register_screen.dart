@@ -40,12 +40,13 @@ class _AuthRegisterScreen extends State<AuthRegisterScreen> {
 
     final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.cardTheme.color,
       appBar: AppBar(
           centerTitle: true,
           toolbarHeight: 100,
-          surfaceTintColor: theme.scaffoldBackgroundColor,
-          backgroundColor: theme.scaffoldBackgroundColor,
-          foregroundColor: theme.scaffoldBackgroundColor,
+          surfaceTintColor: theme.cardTheme.color,
+          backgroundColor: theme.cardTheme.color,
+          foregroundColor: theme.cardTheme.color,
           title: Logo(),
           leading: GestureDetector(
             onTap: () {
