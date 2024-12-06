@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
-import 'package:ia_ma/features/orders/bloc/orders_bloc.dart';
 import 'package:ia_ma/features/orders/widgets/empty_orders_screen_banner.dart';
+import 'package:ia_ma/features/works/bloc/works_bloc.dart';
 import 'package:ia_ma/features/works/widgets/widgets.dart';
 import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/custom_avatar.dart';
@@ -19,15 +19,24 @@ class WorksScreen extends StatefulWidget {
   State<WorksScreen> createState() => _WorksScreenState();
 }
 
+
+
 class _WorksScreenState extends State<WorksScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<WorksBloc>(context).add(GetMyWorks());
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool emptyList = false;
     final theme = Theme.of(context);
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
         if (state is UserStateLoaded) {
-          BlocProvider.of<OrdersBloc>(context).add(GetMyOrders());
+
         }
       },
       child: Stack(
@@ -92,13 +101,13 @@ class _WorksScreenState extends State<WorksScreen> {
               ),
             ),
 
-            BlocBuilder<OrdersBloc, OrdersBlocState>(builder: (context, state) {
-              if (state is OrdersBlocStateLoaded) {
-                final ordersList = state.orders;
+            BlocBuilder<WorksBloc, WorksState>(builder: (context, state) {
+              if (state is WorksBlocStateLoaded) {
+                final worksList = state.works;
                 return SliverList.builder(
-                  itemCount: ordersList!.length,
+                  itemCount: worksList!.length,
                   itemBuilder: (context, index) {
-                    final card = ordersList[index];
+                    final card = worksList[index];
                     return PublicataionCard(
                       order: card,
                     );

@@ -21,16 +21,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<OrdersBloc>(context).add(GetMyOrders());
   }
 
   @override
   Widget build(BuildContext context) {
-    bool emptyList = false;
     final theme = Theme.of(context);
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
         if (state is UserStateLoaded) {
-          BlocProvider.of<OrdersBloc>(context).add(GetMyOrders());
+
         }
       },
       child: Stack(

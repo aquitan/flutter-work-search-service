@@ -1,8 +1,11 @@
+import 'package:ia_ma/repository/auth/models/auth_models.dart';
 import 'package:ia_ma/repository/orders/models/orders_models.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'publication_models.g.dart';
 
+
+/////////////////////// PublicationModel
 @JsonSerializable()
 class PublicationModel {
   final Order data;
@@ -27,6 +30,8 @@ class PublicationResponse {
   Map<String, dynamic> toJson() => _$PublicationResponseToJson(this);
 }
 
+
+////////////////////// PublicationResponseModel
 @JsonSerializable()
 class PublicationResponseModel {
   PublicationResponseModel(
@@ -72,9 +77,11 @@ class PublicationResponseModel {
   Map<String, dynamic> toJson() => _$PublicationResponseModelToJson(this);
 }
 
+
+// PublicationCheckMyResponse
 @JsonSerializable()
 class PublicationCheckMyResponse extends PublicationResponseModel {
-  final PublicationResponseChatsList? chat;
+  final PublicationResponseChat? chat;
 
   PublicationCheckMyResponse(
       super.userId,
@@ -96,8 +103,10 @@ class PublicationCheckMyResponse extends PublicationResponseModel {
   Map<String, dynamic> toJson() => _$PublicationCheckMyResponseToJson(this);
 }
 
+
+// PublicationResponseChat
 @JsonSerializable()
-class PublicationResponseChatsList {
+class PublicationResponseChat {
   final int id;
 
   @JsonKey(name: 'user_id')
@@ -121,7 +130,7 @@ class PublicationResponseChatsList {
   @JsonKey(name: 'deleted_at')
   final String? deletedAt;
 
-  PublicationResponseChatsList(
+  PublicationResponseChat(
       {required this.id,
       required this.userId,
       required this.executorUserId,
@@ -131,8 +140,83 @@ class PublicationResponseChatsList {
       required this.updatedAt,
       required this.deletedAt});
 
-  factory PublicationResponseChatsList.fromJson(Map<String, dynamic> json) =>
-      _$PublicationResponseChatsListFromJson(json);
+  factory PublicationResponseChat.fromJson(Map<String, dynamic> json) =>
+      _$PublicationResponseChatFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PublicationResponseChatsListToJson(this);
+  Map<String, dynamic> toJson() => _$PublicationResponseChatToJson(this);
+}
+
+// CandidatesModel List
+@JsonSerializable()
+class CandidatesModel {
+  CandidatesModel({required this.count, required this.data});
+
+  final int count;
+  final CandidateModel? data;
+}
+
+// CandidateModel
+@JsonSerializable()
+class CandidateModel {
+  CandidateModel(
+      {required this.chat,
+      required this.createdAt,
+      required this.deletedAt,
+      required this.id,
+      required this.price,
+      required this.isBookmarked,
+      required this.publicationId,
+      required this.state,
+      required this.text,
+      required this.user,
+      required this.userId,
+      required this.updatedAt});
+
+  final List<PublicationResponseChat>? chat;
+
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+
+  @JsonKey(name: 'deleted_at')
+  final String? deletedAt;
+
+  final int id;
+
+  final int? price;
+
+  final bool isBookmarked;
+
+  @JsonKey(name: 'publication_id')
+  final String publicationId;
+
+  final String state;
+
+  final String? text;
+
+  final User user;
+
+  @JsonKey(name: 'user_id')
+  final int userId;
+
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
+
+  factory CandidateModel.fromJson(Map<String, dynamic> json) =>
+      _$CandidateModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CandidateModelToJson(this);
+}
+
+// RepliesModel
+@JsonSerializable()
+class RepliesModel {
+  final int count;
+  final CandidateModel? data;
+
+  RepliesModel({required this.count, required this.data});
+
+  factory RepliesModel.fromJson(Map<String, dynamic> json) =>
+      _$RepliesModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RepliesModelToJson(this);
 }

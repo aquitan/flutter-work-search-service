@@ -26,3 +26,22 @@ final class PublicationBlocStateError extends PublicationBlocState {
   @override
   List<Object> get props => super.props..add(error);
 }
+
+
+final class PublicationRepliesStateLoaded extends PublicationBlocState {
+  final RepliesModel replies;
+
+  PublicationRepliesStateLoaded({required this.replies});
+
+  @override
+  List<Object> get props => super.props..add(replies);
+}
+
+final class PublicationRepliesBlocStateError extends PublicationBlocState {
+  final Object error;
+
+  PublicationRepliesBlocStateError({required this.error});
+
+  @override
+  List<Object> get props => super.props..add(error);
+}

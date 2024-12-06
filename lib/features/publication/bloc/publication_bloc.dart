@@ -34,6 +34,15 @@ class PublicationBloc extends Bloc<PublicationEvent, PublicationBlocState> {
       }
     });
 
+    on<GetReplies>((event, emit) async {
+      try {
+        final response = await publicationRepository.getReplies(event.id);
+        emit(PublicationRepliesStateLoaded(replies: response));
+      } catch (e, stackTract) {
+        GetIt.I<Talker>().error(e, stackTract);
+      }
+    });
+
   }
 
   AbstractPublicationRepository publicationRepository;

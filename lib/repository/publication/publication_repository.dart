@@ -33,4 +33,12 @@ class PublicationRepository implements AbstractPublicationRepository {
     return PublicationCheckMyResponse.fromJson(response.data);
   }
 
+  @override
+  Future<RepliesModel> getReplies(int id) async {
+    final response = await dio.get(
+        '${dotenv.env['API_PUBLICATIONS']}/publications/$id/responses?take=12');
+
+    return RepliesModel.fromJson(response.data);
+  }
+
 }

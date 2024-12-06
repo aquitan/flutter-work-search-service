@@ -35,6 +35,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
     super.initState();
     BlocProvider.of<PublicationBloc>(context)
         .add(GetPublicationById(id: widget.id));
+
     _moveToCurrentLocation();
 
     BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
@@ -81,6 +82,16 @@ class _PublicationScreenState extends State<PublicationScreen> {
               });
             }
           },
+        ),
+        BlocListener<PublicationBloc, PublicationBlocState>(
+            listener: (context, state) {
+          if (state is PublicationBlocStateLoaded) {
+            if (userId == state.publication.data.userId) {
+              BlocProvider.of<PublicationBloc>(context)
+                  .add(GetReplies(id: widget.id));
+            }
+          }
+        }
         )
       ],
       child: Scaffold(
@@ -204,11 +215,12 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                           theme.colorScheme.primaryFixedDim,
                                       text: 'Выполняется',
                                       avatar: SvgPicture.asset(
-                                          'assets/icons/lighlightning-icon.svg'),
+                                          'assets/icons/lightning-icon.svg'),
                                     ),
 
                                   CustomChip(
-                                    text: '2 дня до закрытия',
+                                    text:
+                                        'закрытие ${publication.workEndDate != null ? parseDate(publication.workEndDate) : ""}',
                                     avatar: SvgPicture.asset(
                                       'assets/icons/clock-icon.svg',
                                       width: 14.0,

@@ -43,6 +43,11 @@ class WorksAppBarFilter extends StatelessWidget {
                               theme.iconTheme.color!, BlendMode.srcIn))),
                   SizedBox(width: 8.0),
                   CustomChip(
+                    text: 'Все',
+                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  ),
+                  SizedBox(width: 8.0),
+                  CustomChip(
                     text: 'Выполняются',
                     bgColor: theme.colorScheme.tertiaryFixedDim,
                   ),

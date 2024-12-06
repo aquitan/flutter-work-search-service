@@ -10,3 +10,5 @@ export 'publication/abstract_publication_repository.dart';
 export 'publication/publication_repository.dart';
 export 'token/token_repository.dart';
 export 'token/token_repository_interface.dart';
+export 'works/abstract_works_repository.dart';
+export 'works/works_repository.dart';

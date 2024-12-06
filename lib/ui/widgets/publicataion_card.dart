@@ -22,22 +22,15 @@ class PublicataionCard extends StatefulWidget {
 
 class _PublicataionCardState extends State<PublicataionCard> {
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     final order = widget.order;
 
-
     void onTapPublication(int id) {
       AutoRouter.of(context).push(PublicationRoute(id: id));
     }
-
-
-
 
     return GestureDetector(
       onTap: () {
@@ -135,7 +128,7 @@ class _PublicataionCardState extends State<PublicataionCard> {
                               width: 4,
                             ),
                             Text(
-                                '${order.user!.firstName} ${order.user!.lastName}',
+                                '${order.user!.firstName} ${order.user!.lastName ?? ''}',
                               style: theme.textTheme.bodySmall,
                             ),
                             SizedBox(

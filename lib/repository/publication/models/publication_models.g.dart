@@ -70,8 +70,10 @@ PublicationCheckMyResponse _$PublicationCheckMyResponseFromJson(
       json['created_at'] as String,
       json['updated_at'] as String?,
       json['deleted_at'] as String?,
-      chat: PublicationResponseChatsList.fromJson(
-          json['chat'] as Map<String, dynamic>),
+      chat: json['chat'] == null
+          ? null
+          : PublicationResponseChat.fromJson(
+              json['chat'] as Map<String, dynamic>),
       publicationId: (json['publication_id'] as num).toInt(),
     );
 
@@ -91,9 +93,9 @@ Map<String, dynamic> _$PublicationCheckMyResponseToJson(
       'chat': instance.chat,
     };
 
-PublicationResponseChatsList _$PublicationResponseChatsListFromJson(
+PublicationResponseChat _$PublicationResponseChatFromJson(
         Map<String, dynamic> json) =>
-    PublicationResponseChatsList(
+    PublicationResponseChat(
       id: (json['id'] as num).toInt(),
       userId: (json['user_id'] as num).toInt(),
       executorUserId: json['executor_user_id'] as String,
@@ -104,8 +106,8 @@ PublicationResponseChatsList _$PublicationResponseChatsListFromJson(
       deletedAt: json['deleted_at'] as String?,
     );
 
-Map<String, dynamic> _$PublicationResponseChatsListToJson(
-        PublicationResponseChatsList instance) =>
+Map<String, dynamic> _$PublicationResponseChatToJson(
+        PublicationResponseChat instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,
@@ -115,4 +117,66 @@ Map<String, dynamic> _$PublicationResponseChatsListToJson(
       'publication_response_id': instance.publicationResponseId,
       'updated_at': instance.updatedAt,
       'deleted_at': instance.deletedAt,
+    };
+
+CandidatesModel _$CandidatesModelFromJson(Map<String, dynamic> json) =>
+    CandidatesModel(
+      count: (json['count'] as num).toInt(),
+      data: json['data'] == null
+          ? null
+          : CandidateModel.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CandidatesModelToJson(CandidatesModel instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'data': instance.data,
+    };
+
+CandidateModel _$CandidateModelFromJson(Map<String, dynamic> json) =>
+    CandidateModel(
+      chat: (json['chat'] as List<dynamic>?)
+          ?.map((e) =>
+              PublicationResponseChat.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: json['created_at'] as String,
+      deletedAt: json['deleted_at'] as String?,
+      id: (json['id'] as num).toInt(),
+      price: (json['price'] as num?)?.toInt(),
+      isBookmarked: json['isBookmarked'] as bool,
+      publicationId: json['publication_id'] as String,
+      state: json['state'] as String,
+      text: json['text'] as String?,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      userId: (json['user_id'] as num).toInt(),
+      updatedAt: json['updated_at'] as String?,
+    );
+
+Map<String, dynamic> _$CandidateModelToJson(CandidateModel instance) =>
+    <String, dynamic>{
+      'chat': instance.chat,
+      'created_at': instance.createdAt,
+      'deleted_at': instance.deletedAt,
+      'id': instance.id,
+      'price': instance.price,
+      'isBookmarked': instance.isBookmarked,
+      'publication_id': instance.publicationId,
+      'state': instance.state,
+      'text': instance.text,
+      'user': instance.user,
+      'user_id': instance.userId,
+      'updated_at': instance.updatedAt,
+    };
+
+RepliesModel _$RepliesModelFromJson(Map<String, dynamic> json) => RepliesModel(
+      count: (json['count'] as num).toInt(),
+      data: json['data'] == null
+          ? null
+          : CandidateModel.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$RepliesModelToJson(RepliesModel instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'data': instance.data,
     };

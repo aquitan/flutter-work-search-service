@@ -51,6 +51,9 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton<AbstractUserRepository>(
       () => UserRepository(dio: dio));
 
+  GetIt.I.registerLazySingleton<AbstractWorksRepository>(
+      () => WorksRepository(dio: dio));
+
   GetIt.I.registerLazySingleton<AbstractPublicationRepository>(
       () => PublicationRepository(dio: dio));
 
