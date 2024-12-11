@@ -27,19 +27,30 @@ class _WorksScreenState extends State<WorksScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<UserBloc>(context).add(GetMe());
-    BlocProvider.of<WorksBloc>(context).add(GetMyWorks());
+    BlocProvider.of<WorksBloc>(context).add(GetAllWorks());
+  }
+
+  String filter = '';
+
+  void onChangeFilter(String value) {
+    setState(() {
+      filter = value;
+
+      switch (value) {
+        case 'Я кандидат':
+          BlocProvider.of<WorksBloc>(context).add(GetMyWorks());
+        case '':
+          BlocProvider.of<WorksBloc>(context).add(GetAllWorks());
+        default:
+          BlocProvider.of<WorksBloc>(context).add(GetAllWorks());
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocListener<UserBloc, UserState>(
-      listener: (context, state) {
-        if (state is UserStateLoaded) {
-
-        }
-      },
-      child: Stack(
+    return Stack(
         children: [
           CustomScrollView(slivers: [
             BlocBuilder<UserBloc, UserState>(
@@ -53,10 +64,12 @@ class _WorksScreenState extends State<WorksScreen> {
                     centerTitle: true,
                     bottom: PreferredSize(
                       preferredSize: Size.fromHeight(100.0),
-                      child: WorksAppBarFilter(),
+                    child: WorksAppBarFilter(
+                        filter: filter, onChangeFilter: onChangeFilter),
                     ),
                     title: Text(
                       'Мои работы',
+                    style: theme.textTheme.titleMedium,
                     ),
                     leading: GestureDetector(
                       onTap: () {
@@ -126,8 +139,7 @@ class _WorksScreenState extends State<WorksScreen> {
             ),
           ]),
           BottomWorksFloatingButton(),
-        ],
-      ),
+      ],
     );
   }
 }

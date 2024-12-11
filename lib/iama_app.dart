@@ -4,7 +4,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
 import 'package:ia_ma/bloc/cubit/theme_cubit.dart';
+import 'package:ia_ma/bloc/publicationReplies/bloc/replies_bloc.dart';
 import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/bloc/userCategories/bloc/user_categories_bloc.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
 import 'package:ia_ma/features/orders/bloc/orders_bloc.dart';
 import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
@@ -63,6 +65,14 @@ class _IamaAppState extends State<IamaApp> {
           ),
           BlocProvider(
             create: (context) => WorksBloc(GetIt.I<AbstractWorksRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                RepliesBloc(GetIt.I<AbstractPublicationRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                UserCategoriesBloc(GetIt.I<AbstractUserRepository>()),
           ),
           BlocProvider(
             create: (context) => ThemeCubit(),

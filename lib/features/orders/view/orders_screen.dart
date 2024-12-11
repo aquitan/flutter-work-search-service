@@ -51,6 +51,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     ),
                     title: Text(
                       'Мои заказы',
+                      style: theme.textTheme.titleMedium,
                     ),
                     leading: GestureDetector(
                       onTap: () {

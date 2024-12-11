@@ -4,5 +4,5 @@ abstract class AbstractPublicationRepository {
   Future<PublicationModel> getPublicationById(int id);
   Future<PublicationResponse> createPublicationResponse(int id);
   Future<PublicationCheckMyResponse> getCheckMyResponse(int id);
-  Future<RepliesModel> getReplies(int id);
+  Future<CandidatesModel> getReplies(int id);
 }

@@ -28,13 +28,14 @@ class _PublicataionCardState extends State<PublicataionCard> {
 
     final order = widget.order;
 
-    void onTapPublication(int id) {
-      AutoRouter.of(context).push(PublicationRoute(id: id));
+    void onTapPublication(int id, int userId) {
+      AutoRouter.of(context)
+          .push(PublicationRoute(id: id, publicationUserId: order.userId!));
     }
 
     return GestureDetector(
       onTap: () {
-        onTapPublication(order.id!);
+        onTapPublication(order.id!, order.userId!);
       },
       child: Container(
         decoration: BoxDecoration(

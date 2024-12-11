@@ -14,4 +14,12 @@ class UserRepository implements AbstractUserRepository {
 
     return MyUser.fromJson(response.data);
   }
+
+  @override
+  Future<UserCategories> getUserCategories() async {
+    Response response =
+        await dio.get('${dotenv.env['API_USER']}/user/categories');
+
+    return UserCategories.fromJson(response.data);
+  }
 }

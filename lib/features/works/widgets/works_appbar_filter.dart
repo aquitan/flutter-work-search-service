@@ -3,9 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class WorksAppBarFilter extends StatelessWidget {
-  const WorksAppBarFilter({
+  WorksAppBarFilter(
+      {
     super.key,
+    required this.filter, required this.onChangeFilter
   });
+
+  final String filter;
+  Function onChangeFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -42,29 +47,54 @@ class WorksAppBarFilter extends StatelessWidget {
                           colorFilter: ColorFilter.mode(
                               theme.iconTheme.color!, BlendMode.srcIn))),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Все',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter(''),
+                    child: CustomChip(
+                      text: 'Все',
+                      bgColor: filter.isEmpty
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Выполняются',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Выполняются'),
+                    child: CustomChip(
+                      text: 'Выполняются',
+                      bgColor: filter == 'Выполняются'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Я кандидат'),
+                    child: CustomChip(
                     text: 'Я кандидат',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                      bgColor: filter == 'Я кандидат'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Мои отклики'),
+                    child: CustomChip(
                     text: 'Мои отклики',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                      bgColor: filter == 'Мои отклики'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
+                  GestureDetector(
+                    onTap: () => onChangeFilter('История работ'),
+                    child: CustomChip(
                     text: 'История работ',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                      bgColor: filter == 'История работ'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
                 ],

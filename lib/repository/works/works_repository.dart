@@ -19,7 +19,7 @@ class WorksRepository implements AbstractWorksRepository {
   @override
   Future<OrdersInList> getAllWorks() async {
     final response = await dio
-        .get('${dotenv.env['API_PUBLICATIONS']}/publications/recommendations');
+        .get('${dotenv.env['API_PUBLICATIONS']}/publications?take=20&skip=0');
 
     return OrdersInList.fromJson(response.data);
   }

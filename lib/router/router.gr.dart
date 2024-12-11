@@ -497,12 +497,14 @@ class PublicationRoute extends PageRouteInfo<PublicationRouteArgs> {
   PublicationRoute({
     Key? key,
     required int id,
+    required int publicationUserId,
     List<PageRouteInfo>? children,
   }) : super(
           PublicationRoute.name,
           args: PublicationRouteArgs(
             key: key,
             id: id,
+            publicationUserId: publicationUserId,
           ),
           initialChildren: children,
         );
@@ -516,6 +518,7 @@ class PublicationRoute extends PageRouteInfo<PublicationRouteArgs> {
       return PublicationScreen(
         key: args.key,
         id: args.id,
+        publicationUserId: args.publicationUserId,
       );
     },
   );
@@ -525,15 +528,18 @@ class PublicationRouteArgs {
   const PublicationRouteArgs({
     this.key,
     required this.id,
+    required this.publicationUserId,
   });
 
   final Key? key;
 
   final int id;
 
+  final int publicationUserId;
+
   @override
   String toString() {
-    return 'PublicationRouteArgs{key: $key, id: $id}';
+    return 'PublicationRouteArgs{key: $key, id: $id, publicationUserId: $publicationUserId}';
   }
 }
 

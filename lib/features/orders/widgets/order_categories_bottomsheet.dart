@@ -45,21 +45,25 @@ class _OrderCategoriesBottomsheetState
             Expanded(
               child: CustomScrollView(
                 slivers: [
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return CustomChip(
-                            padding: 0.0,
-                            bgColor: theme.colorScheme.tertiaryFixedDim,
-                            avatar: CustomAvatar(
-                                radius: 60,
-                                localImg:
-                                    'assets/categories/category_${widget.categoriesList.data[index].id}.png'),
-                            text: widget.categoriesList.data[index].name);
-                      },
-                      childCount: widget.categoriesList.data.length,
-                    ),
-                  ),
+                  SliverList.builder(
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {},
+                          child: Row(
+                            children: [
+                              CustomChip(
+                                  padding: 0.0,
+                                  bgColor: theme.colorScheme.tertiaryFixedDim,
+                                  avatar: CustomAvatar(
+                                      radius: 60,
+                                      localImg:
+                                          'assets/categories/category_${widget.categoriesList.data[index].id}.png'),
+                                  text: widget.categoriesList.data[index].name),
+                            ],
+                          ));
+                    },
+                    itemCount: widget.categoriesList.data.length,
+                  )
                 ],
               ),
             ),

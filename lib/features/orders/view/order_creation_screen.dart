@@ -373,7 +373,11 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                           onPressed: () {
                             createOrder();
                           },
-                          child: Text('Опубликовать заказ'))
+                          child: Text(
+                            'Опубликовать заказ',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: Colors.white),
+                          ))
                     ],
                   ),
                 ),

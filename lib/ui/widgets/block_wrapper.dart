@@ -6,12 +6,14 @@ class BlockWrapper extends StatelessWidget {
       required this.child,
       this.borderRadius,
       this.padding,
+      this.shadow,
       this.offset});
 
   final Widget child;
   final BorderRadius? borderRadius;
   final EdgeInsets? padding;
   final Offset? offset;
+  final BoxShadow? shadow;
 
   @override
   Widget build(BuildContext context) {

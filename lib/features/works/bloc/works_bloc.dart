@@ -18,6 +18,15 @@ class WorksBloc extends Bloc<WorksEvent, WorksState> {
         GetIt.I<Talker>().error(e, stackTrace);
       }
     });
+
+    on<GetAllWorks>((event, emit) async {
+      try {
+        final response = await worksRepository.getAllWorks();
+        emit(WorksBlocStateLoaded(works: response.data));
+      } catch (e, stackTrace) {
+        GetIt.I<Talker>().error(e, stackTrace);
+      }
+    });
   }
 
   AbstractWorksRepository worksRepository;

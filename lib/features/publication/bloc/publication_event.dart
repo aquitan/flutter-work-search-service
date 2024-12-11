@@ -14,8 +14,3 @@ class CreatePublicationResponse extends PublicationEvent {
   CreatePublicationResponse({required this.id});
 }
 
-class GetReplies extends PublicationEvent {
-  final int id;
-
-  GetReplies({required this.id});
-}

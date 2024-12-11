@@ -85,3 +85,17 @@ MyUser _$MyUserFromJson(Map<String, dynamic> json) => MyUser(
 Map<String, dynamic> _$MyUserToJson(MyUser instance) => <String, dynamic>{
       'data': instance.data,
     };
+
+UserCategories _$UserCategoriesFromJson(Map<String, dynamic> json) =>
+    UserCategories(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      counter: (json['counter'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$UserCategoriesToJson(UserCategories instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'counter': instance.counter,
+    };

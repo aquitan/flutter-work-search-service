@@ -50,7 +50,7 @@ class PublicationResponseModel {
   final int publicationId;
 
   @JsonKey(name: 'user_id')
-  final int userId;
+  final int? userId;
 
   final String? text;
 
@@ -80,26 +80,51 @@ class PublicationResponseModel {
 
 // PublicationCheckMyResponse
 @JsonSerializable()
-class PublicationCheckMyResponse extends PublicationResponseModel {
+class PublicationCheckMyResponse {
   final PublicationResponseChat? chat;
 
+  @JsonKey(name: 'publication_id')
+  final int publicationId;
+
+  @JsonKey(name: 'user_id')
+  final int? userId;
+
+  final String? text;
+
+  final int? price;
+
+  final int? id;
+
+  final String? state;
+
+  final bool isBookmarked;
+
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
+
+  @JsonKey(name: 'deleted_at')
+  final String? deletedAt;
+
   PublicationCheckMyResponse(
-      super.userId,
-      super.text,
-      super.price,
-      super.id,
-      super.state,
-      super.isBookmarked,
-      super.createdAt,
-      super.updatedAt,
-      super.deletedAt,
       {required this.chat,
-      required super.publicationId});
+      required this.publicationId,
+      required this.userId,
+      required this.text,
+      required this.price,
+      required this.id,
+      required this.state,
+      required this.isBookmarked,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.deletedAt});
+
 
   factory PublicationCheckMyResponse.fromJson(Map<String, dynamic> json) =>
       _$PublicationCheckMyResponseFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$PublicationCheckMyResponseToJson(this);
 }
 
@@ -107,22 +132,22 @@ class PublicationCheckMyResponse extends PublicationResponseModel {
 // PublicationResponseChat
 @JsonSerializable()
 class PublicationResponseChat {
-  final int id;
+  final int? id;
 
   @JsonKey(name: 'user_id')
-  final int userId;
+  final int? userId;
 
   @JsonKey(name: 'executor_user_id')
-  final String executorUserId;
+  final int? executorUserId;
 
   @JsonKey(name: 'publication_id')
-  final String publicationId;
+  final int? publicationId;
 
   @JsonKey(name: 'created_at')
   final String createdAt;
 
   @JsonKey(name: 'publication_response_id')
-  final String publicationResponseId;
+  final int? publicationResponseId;
 
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
@@ -152,7 +177,12 @@ class CandidatesModel {
   CandidatesModel({required this.count, required this.data});
 
   final int count;
-  final CandidateModel? data;
+  final List<CandidateModel>? data;
+
+  factory CandidatesModel.fromJson(Map<String, dynamic> json) =>
+      _$CandidatesModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CandidatesModelToJson(this);
 }
 
 // CandidateModel
@@ -172,7 +202,7 @@ class CandidateModel {
       required this.userId,
       required this.updatedAt});
 
-  final List<PublicationResponseChat>? chat;
+  final PublicationResponseChat? chat;
 
   @JsonKey(name: 'created_at')
   final String createdAt;
@@ -180,14 +210,14 @@ class CandidateModel {
   @JsonKey(name: 'deleted_at')
   final String? deletedAt;
 
-  final int id;
+  final int? id;
 
   final int? price;
 
   final bool isBookmarked;
 
   @JsonKey(name: 'publication_id')
-  final String publicationId;
+  final int publicationId;
 
   final String state;
 
@@ -196,7 +226,7 @@ class CandidateModel {
   final User user;
 
   @JsonKey(name: 'user_id')
-  final int userId;
+  final int? userId;
 
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
@@ -207,16 +237,16 @@ class CandidateModel {
   Map<String, dynamic> toJson() => _$CandidateModelToJson(this);
 }
 
-// RepliesModel
-@JsonSerializable()
-class RepliesModel {
-  final int count;
-  final CandidateModel? data;
+// // RepliesModel
+// @JsonSerializable()
+// class RepliesModel {
+//   final int count;
+//   final CandidateModel? data;
 
-  RepliesModel({required this.count, required this.data});
+//   RepliesModel({required this.count, required this.data});
 
-  factory RepliesModel.fromJson(Map<String, dynamic> json) =>
-      _$RepliesModelFromJson(json);
+//   factory RepliesModel.fromJson(Map<String, dynamic> json) =>
+//       _$RepliesModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RepliesModelToJson(this);
-}
+//   Map<String, dynamic> toJson() => _$RepliesModelToJson(this);
+// }
