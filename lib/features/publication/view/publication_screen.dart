@@ -330,7 +330,6 @@ class _PublicationScreenState extends State<PublicationScreen> {
                     builder: (context, state) {
                       if (state is RepliesStateLoaded) {
                         final replies = state.replies;
-                        print('replies count --- ${replies.data}');
                         if (replies.count > 0) {
                           return PublicationReplies(
                             publicationId: widget.id,

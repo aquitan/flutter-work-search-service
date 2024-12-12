@@ -89,7 +89,7 @@ class _AuthTabSwitcherState extends State<AuthTabSwitcher>
           key: widget.formKey,
           child: SizedBox(
             width: double.maxFinite,
-            height: 100,
+            height: 120,
             child: TabBarView(controller: _tabController, children: [
               SizedBox(
                   child: Column(

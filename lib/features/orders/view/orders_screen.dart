@@ -21,7 +21,27 @@ class _OrdersScreenState extends State<OrdersScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<UserBloc>(context).add(GetMe());
-    BlocProvider.of<OrdersBloc>(context).add(GetMyOrders());
+    BlocProvider.of<OrdersBloc>(context).add(GetMyOrders(take: 20, skip: 0));
+  }
+
+  String filter = '';
+
+  void onChangeFilter(String value) {
+    setState(() {
+      filter = value;
+
+      switch (value) {
+        case 'Активные':
+          BlocProvider.of<OrdersBloc>(context)
+              .add(GetMyOrders(take: 20, skip: 0, state: 2));
+        case '':
+          BlocProvider.of<OrdersBloc>(context)
+              .add(GetMyOrders(take: 20, skip: 0));
+        default:
+          BlocProvider.of<OrdersBloc>(context)
+              .add(GetMyOrders(take: 20, skip: 0));
+      }
+    });
   }
 
   @override
@@ -47,7 +67,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     centerTitle: true,
                     bottom: PreferredSize(
                       preferredSize: Size.fromHeight(100.0),
-                      child: OrdersAppBarFilter(),
+                      child: OrdersAppBarFilter(
+                        filter: filter,
+                        onChangeFilter: onChangeFilter,
+                      ),
                     ),
                     title: Text(
                       'Мои заказы',

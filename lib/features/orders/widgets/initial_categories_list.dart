@@ -8,16 +8,15 @@ class InitialCategoriesList extends StatelessWidget {
       {super.key,
       required this.categories,
       required this.selectedCategorie,
-      required this.theme,
       required this.selectCategory});
 
   final CategoriesModel categories;
   final int? selectedCategorie;
-  final ThemeData theme;
   final Function(CategoriesModel, int) selectCategory;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
       child: Wrap(
         spacing: 4.0,
@@ -49,7 +48,12 @@ class InitialCategoriesList extends StatelessWidget {
             ),
           GestureDetector(
             onTap: () {
-              showCategoriesBotomshitTrigger(context, categories);
+              showCategoriesBotomshitTrigger(
+                context,
+                categories,
+                selectedCategorie,
+                selectCategory,
+              );
             },
             child: CustomChip(
               text: 'Показать все',

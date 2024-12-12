@@ -94,7 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   '${profile.firstName} ${profile.lastName ?? ''}',
-                                  style: theme.textTheme.titleLarge,
+                                  style: theme.textTheme.titleLarge!
+                                      .copyWith(fontFamily: 'Jost_Bold'),
                                 ),
                                 SizedBox(
                                   width: 4,

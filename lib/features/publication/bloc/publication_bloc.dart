@@ -33,9 +33,6 @@ class PublicationBloc extends Bloc<PublicationEvent, PublicationBlocState> {
         GetIt.I<Talker>().error(e, stackTract);
       }
     });
-
-
-
   }
 
   AbstractPublicationRepository publicationRepository;
