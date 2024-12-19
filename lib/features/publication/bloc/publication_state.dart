@@ -26,3 +26,5 @@ final class PublicationBlocStateError extends PublicationBlocState {
   @override
   List<Object> get props => super.props..add(error);
 }
+
+

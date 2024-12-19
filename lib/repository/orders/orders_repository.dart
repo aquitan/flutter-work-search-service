@@ -19,11 +19,10 @@ class OrdersRepository implements AbstractOrdersRepository {
   }
 
   @override
-  Future<OrdersInList> getAllMyOrders() async {
+  Future<OrdersInList> getAllMyOrders(int? take, int? skip, int? state) async {
     final response =
         await dio.get(
-        '${dotenv.env['API_PUBLICATIONS']}/publications/my/orders?take=20&skip=0');
-
+        '${dotenv.env['API_PUBLICATIONS']}/publications/my/orders?take=$take&skip=$skip${state != null ? '&skip=$skip' : ''}');
     return OrdersInList.fromJson(response.data);
   }
 

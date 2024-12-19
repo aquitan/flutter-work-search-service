@@ -16,7 +16,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       isActiveEmail: json['is_active_email'] as bool?,
       isActivePhone: json['is_active_phone'] as bool?,
       passwordHash: json['password_hash'] as String?,
-      locationId: json['location_id'],
+      locationId: (json['location_id'] as num?)?.toInt(),
       parentId: (json['parent_id'] as num?)?.toInt(),
       nodebbUid: (json['nodebb_uid'] as num?)?.toInt(),
       avatar: json['avatar'] as String?,

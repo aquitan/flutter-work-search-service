@@ -17,10 +17,11 @@ class PublicationRepository implements AbstractPublicationRepository {
   }
 
   @override
-  Future<PublicationResponse> createPublicationResponse(int id) async {
+  Future<PublicationResponse> createPublicationResponse(
+      int id, Map<String, dynamic>? data) async {
     final response = await dio.post(
         '${dotenv.env['API_PUBLICATIONS']}/publications/$id/responses',
-        data: {});
+        data: data);
 
     return PublicationResponse.fromJson(response.data);
   }
@@ -31,6 +32,14 @@ class PublicationRepository implements AbstractPublicationRepository {
         .get('${dotenv.env['API_PUBLICATIONS']}/publications/$id/responses/my');
 
     return PublicationCheckMyResponse.fromJson(response.data);
+  }
+
+  @override
+  Future<CandidatesModel> getReplies(int id) async {
+    final response = await dio.get(
+        '${dotenv.env['API_PUBLICATIONS']}/publications/$id/responses?take=12');
+
+    return CandidatesModel.fromJson(response.data);
   }
 
 }

@@ -24,11 +24,12 @@ class PublicationButtons extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(
               top: 12.0, bottom: 30.0, left: 16.0, right: 16.0),
-          child: PublicationResponseButton(
-              orderReply: orderReply,
-              userId: userId,
-              publicationUserId: publicationUserId,
-              showPublicationModalBottomSheet: showPublicationModalBottomSheet),
+            child: PublicationResponseButton(
+                orderReply: orderReply,
+                userId: userId,
+                publicationUserId: publicationUserId,
+                showPublicationModalBottomSheet:
+                    showPublicationModalBottomSheet)
         ),
       ),
     );
@@ -63,7 +64,9 @@ class PublicationResponseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    print('$userId === $publicationUserId');
     if (userId == publicationUserId) {
+
       return FilledButton(
           style: ButtonStyle(
               minimumSize: WidgetStatePropertyAll(Size.fromHeight(56.0)),

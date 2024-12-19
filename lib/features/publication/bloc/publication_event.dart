@@ -10,6 +10,9 @@ class GetPublicationById extends PublicationEvent {
 
 class CreatePublicationResponse extends PublicationEvent {
   final int id;
+  final Map<String, dynamic>? data;
 
-  CreatePublicationResponse({required this.id});
+
+  CreatePublicationResponse({required this.id, this.data});
 }
+

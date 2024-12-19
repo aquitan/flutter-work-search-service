@@ -52,9 +52,9 @@ dependencies:
   cookie_jar: ^4.0.8
 
   #LOGGER
-  talker_flutter: ^4.4.1
-  talker_dio_logger: ^4.4.1
-  talker_bloc_logger: ^4.4.1
+  talker_flutter: ^4.5.2
+  talker_dio_logger: ^4.5.2
+  talker_bloc_logger: ^4.5.2
 
   #ROUTING
   auto_route: ^9.2.2
@@ -76,6 +76,7 @@ dependencies:
   #APP DEVICE STORAGE
   path_provider: ^2.1.5
   photo_view: ^0.15.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -124,14 +125,15 @@ flutter_launcher_icons:
   fonts:
     - family: Jost
       fonts:
-        - asset: fonts/Jost_Bold.ttf
-          weight: 700
-        - asset: fonts/Jost_Medium.ttf
-          weight: 500
         - asset: fonts/Jost_Regular.ttf
           weight: 400
+        - asset: fonts/Jost_Medium.ttf
+          weight: 500
         - asset: fonts/Jost_SemiBold.ttf
           weight: 600
+        - asset: fonts/Jost_Bold.ttf
+          weight: 700
+      uses-material-design: true
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -3,9 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class OrdersAppBarFilter extends StatelessWidget {
-  const OrdersAppBarFilter({
-    super.key,
+  OrdersAppBarFilter(
+      {super.key, required this.filter, required this.onChangeFilter
   });
+
+  final String filter;
+  Function onChangeFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -42,34 +45,64 @@ class OrdersAppBarFilter extends StatelessWidget {
                           colorFilter: ColorFilter.mode(
                               theme.iconTheme.color!, BlendMode.srcIn))),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Все',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter(''),
+                    child: CustomChip(
+                      text: 'Все',
+                      bgColor: filter == ''
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Активные',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Активные'),
+                    child: CustomChip(
+                      text: 'Активные',
+                      bgColor: filter == 'Активные'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'История',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter('История'),
+                    child: CustomChip(
+                      text: 'История',
+                      bgColor: filter == 'История'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Выполняются',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Выполняются'),
+                    child: CustomChip(
+                      text: 'Выполняются',
+                      bgColor: filter == 'Выполняются'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Завершённые успешно',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Завершённые успешно'),
+                    child: CustomChip(
+                      text: 'Завершённые успешно',
+                      bgColor: filter == 'Завершённые успешно'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
-                  CustomChip(
-                    text: 'Завершённые неуспешно',
-                    bgColor: theme.colorScheme.tertiaryFixedDim,
+                  GestureDetector(
+                    onTap: () => onChangeFilter('Завершённые неуспешно'),
+                    child: CustomChip(
+                      text: 'Завершённые неуспешно',
+                      bgColor: filter == 'Завершённые неуспешно'
+                          ? theme.colorScheme.tertiary
+                          : theme.colorScheme.tertiaryFixedDim,
+                    ),
                   ),
                   SizedBox(width: 8.0),
                 ],

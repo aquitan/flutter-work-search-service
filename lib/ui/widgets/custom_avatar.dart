@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ia_ma/ui/theme/theme.dart';
+import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class CustomAvatar extends StatefulWidget {
   const CustomAvatar(
@@ -9,7 +10,8 @@ class CustomAvatar extends StatefulWidget {
       this.localImg,
       this.isOnline = false,
       this.bordered = false,
-      this.initials});
+      this.initials,
+      this.svgImage});
 
   final double? radius;
   final String? networkImg;
@@ -17,6 +19,7 @@ class CustomAvatar extends StatefulWidget {
   final bool? bordered;
   final bool? isOnline;
   final String? initials;
+  final String? svgImage;
 
   @override
   State<CustomAvatar> createState() => _CustomAvatarState();
@@ -31,9 +34,12 @@ class _CustomAvatarState extends State<CustomAvatar> {
       return AssetImage(widget.localImg!);
     } else if (widget.networkImg != null) {
       return NetworkImage(widget.networkImg!);
+    } else if (widget.svgImage != null) {
+      return CustomSvgImage(assetName: widget.svgImage!);
     } else {
       return null;
     }
+
   }
 
 

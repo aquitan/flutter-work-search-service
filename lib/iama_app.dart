@@ -4,12 +4,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
 import 'package:ia_ma/bloc/cubit/theme_cubit.dart';
-import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/bloc/locationsBloc/bloc/locations_bloc.dart';
+import 'package:ia_ma/bloc/myUserBloc/bloc/my_user_bloc.dart';
+import 'package:ia_ma/bloc/publicationReplies/bloc/replies_bloc.dart';
+import 'package:ia_ma/bloc/userCategories/bloc/user_categories_bloc.dart';
 import 'package:ia_ma/features/auth/bloc/auth_bloc.dart';
 import 'package:ia_ma/features/orders/bloc/orders_bloc.dart';
 import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
 import 'package:ia_ma/features/publication/bloc/publication_bloc.dart';
 import 'package:ia_ma/features/search/bloc/search_bloc.dart';
+import 'package:ia_ma/features/works/bloc/works_bloc.dart';
 import 'package:ia_ma/repository/repository.dart';
 import 'package:ia_ma/repository/user/abstract_user_repository.dart';
 import 'package:ia_ma/router/router.dart';
@@ -58,7 +62,22 @@ class _IamaAppState extends State<IamaApp> {
                 PublicationBloc(GetIt.I<AbstractPublicationRepository>()),
           ),
           BlocProvider(
-            create: (context) => UserBloc(GetIt.I<AbstractUserRepository>()),
+            create: (context) => MyUserBloc(GetIt.I<AbstractUserRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => WorksBloc(GetIt.I<AbstractWorksRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                RepliesBloc(GetIt.I<AbstractPublicationRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                UserCategoriesBloc(GetIt.I<AbstractUserRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                LocationsBloc(GetIt.I<AbstractLocationsRepository>()),
           ),
           BlocProvider(
             create: (context) => ThemeCubit(),

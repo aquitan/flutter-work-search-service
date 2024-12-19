@@ -9,4 +9,10 @@ class CreateNewOrder extends OrdersEvent {
 }
 
 
-class GetMyOrders extends OrdersEvent {}
+class GetMyOrders extends OrdersEvent {
+  final int? take;
+  final int? skip;
+  final int? state;
+
+  GetMyOrders({required this.take, required this.skip, this.state});
+}

@@ -25,15 +25,15 @@ class BottomOrdersFloatingButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Разместить заказ',
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w500, color: Colors.white),
-                ),
-                SizedBox(width: 8),
                 SvgPicture.asset('assets/icons/plus-icon.svg',
                     colorFilter:
                         ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                SizedBox(width: 8),
+                Text(
+                  'Создать заказ',
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500, color: Colors.white),
+                ),
               ],
             ),
           ))

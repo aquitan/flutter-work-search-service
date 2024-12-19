@@ -51,8 +51,14 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton<AbstractUserRepository>(
       () => UserRepository(dio: dio));
 
+  GetIt.I.registerLazySingleton<AbstractWorksRepository>(
+      () => WorksRepository(dio: dio));
+
   GetIt.I.registerLazySingleton<AbstractPublicationRepository>(
       () => PublicationRepository(dio: dio));
+
+  GetIt.I.registerLazySingleton<AbstractLocationsRepository>(
+      () => LocationsRepository(dio: dio));
 
   dio.interceptors.add(
       TalkerDioLogger(

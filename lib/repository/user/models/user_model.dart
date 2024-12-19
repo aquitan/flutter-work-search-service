@@ -1,3 +1,4 @@
+import 'package:ia_ma/repository/categories/models/categories_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
@@ -32,7 +33,7 @@ class UserModel {
   bool isActivePhone;
 
   @JsonKey(name: 'location_id')
-  Object? locationId;
+  int? locationId;
 
   @JsonKey(name: 'nodebb_uid')
   int? nodebbUid;
@@ -132,4 +133,18 @@ class MyUser {
   factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
 
   Map<String, dynamic> toJson() => _$MyUserToJson(this);
+}
+
+
+@JsonSerializable()
+class UserCategories {
+  UserCategories({required this.data, required this.counter});
+
+  final List<Category>? data;
+  final int? counter;
+
+  factory UserCategories.fromJson(Map<String, dynamic> json) =>
+      _$UserCategoriesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserCategoriesToJson(this);
 }

@@ -21,6 +21,7 @@ class _ProfileThemeScreenState extends State<ProfileThemeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Цветовая тема'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

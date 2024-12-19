@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class OrderTypeSelectionBlocks extends StatelessWidget {
   const OrderTypeSelectionBlocks({
@@ -19,14 +18,23 @@ class OrderTypeSelectionBlocks extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Выберите тип заказа'),
+        Text(
+          'Выберите тип заказа',
+          style: theme.textTheme.titleMedium,
+          textAlign: TextAlign.start,
+        ),
         SizedBox(height: 12.0),
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlockWrapper(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Container(
               padding: EdgeInsets.all(8.0),
-              borderRadius: BorderRadius.all(Radius.circular(24.0)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                border:
+                    Border.all(width: 1.0, color: theme.colorScheme.tertiary),
+              ),
               child: Column(children: [
                 Row(
                   children: [
@@ -116,10 +124,14 @@ class OrderTypeSelectionBlocks extends StatelessWidget {
               ])),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlockWrapper(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Container(
               padding: EdgeInsets.all(8.0),
-              borderRadius: BorderRadius.all(Radius.circular(24.0)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                border:
+                    Border.all(width: 1.0, color: theme.colorScheme.tertiary),
+              ),
               child: Column(children: [
                 Row(
                   children: [
@@ -175,10 +187,14 @@ class OrderTypeSelectionBlocks extends StatelessWidget {
               ])),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlockWrapper(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Container(
               padding: EdgeInsets.all(8.0),
-              borderRadius: BorderRadius.all(Radius.circular(24.0)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                border:
+                    Border.all(width: 1.0, color: theme.colorScheme.tertiary),
+              ),
               child: Column(children: [
                 Row(
                   children: [

@@ -25,6 +25,9 @@ class OrderCreationScreen extends StatefulWidget {
 }
 
 class _OrderCreationScreenState extends State<OrderCreationScreen> {
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController titleController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -36,14 +39,30 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
 
   String selectedType = 'regular';
   bool offerCheckbox = true;
-  String? dateStart;
-  String? dateEnd;
+  String dateStart = '';
+  String dateEnd = '';
   int? selectedCategorie;
+
+  // errors
+  bool dateError = false;
+  bool categoryError = false;
+
+  var newOrder;
 
   @override
   void initState() {
     BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    addressController.dispose();
+    descriptionController.dispose();
+    regularOrderTextFieldController.dispose();
+
+    super.dispose();
   }
 
   removeSelectedImage(int index) {
@@ -53,26 +72,52 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
   }
 
   void createOrder() {
-    var newOrder = {
-      'address': addressController.text,
-      'address_lat': '55.755864',
-      'address_lon': '37.617698',
-      'address_point': ['55.755864', '37.617698'],
-      'category_id': selectedCategorie,
-      'description': descriptionController.text,
-      'is_tender': null,
-      'price': int.parse(regularOrderTextFieldController.text),
-      'show_other_responses': false,
-      'step_type': 'relative',
-      'title': titleController.text,
-      'type': selectedType,
-      // 'images': _selectedImages,
-      'work_begin_date': dateStart,
-      'work_end_date': dateEnd
-    };
 
-    BlocProvider.of<OrdersBloc>(context)
-        .add(CreateNewOrder(order: OrderCreationDto.fromJson(newOrder)));
+    if (!_formKey.currentState!.validate() ||
+        dateStart.isEmpty ||
+        selectedCategorie == null) {
+      if (dateStart.isEmpty) {
+        setState(() {
+          dateError = true;
+        });
+      } else {
+        setState(() {
+          dateError = false;
+        });
+      }
+
+      if (selectedCategorie == null) {
+        setState(() {
+          categoryError = true;
+        });
+      } else {
+        setState(() {
+          categoryError = false;
+        });
+      }
+    } else {
+      newOrder = {
+        'address': addressController.text,
+        'address_lat': '55.755864',
+        'address_lon': '37.617698',
+        'address_point': ['55.755864', '37.617698'],
+        'category_id': selectedCategorie,
+        'description': descriptionController.text,
+        'is_tender': null,
+        'price': regularOrderTextFieldController.text.isNotEmpty
+            ? int.parse(regularOrderTextFieldController.text)
+            : null,
+        'show_other_responses': false,
+        'step_type': 'relative',
+        'title': titleController.text,
+        'type': selectedType,
+        // 'images': _selectedImages,
+        'work_begin_date': dateStart,
+        'work_end_date': dateEnd
+      };
+      BlocProvider.of<OrdersBloc>(context)
+          .add(CreateNewOrder(order: OrderCreationDto.fromJson(newOrder)));
+    }
   }
 
   void selectCategory(CategoriesModel categories, int i) {
@@ -115,6 +160,7 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
+                  key: _formKey,
                   child: ListView(
                     children: [
                       Text('Назовите объявление',
@@ -122,8 +168,15 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                       SizedBox(
                         height: 12.0,
                       ),
-                      TextField(
+                      TextFormField(
                         controller: titleController,
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Название объявления обязательно';
+                          } else {
+                            return null;
+                          }
+                        },
                         decoration: InputDecoration(
                             isDense: true,
                             label: Text(
@@ -140,7 +193,17 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                                 borderRadius: BorderRadius.circular(8.0),
                                 borderSide: BorderSide(
                                     width: 1.0,
-                                    color: theme.colorScheme.tertiary))),
+                                    color: theme.colorScheme.tertiary)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: theme.colorScheme.error)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: theme.colorScheme.error))),
                       ),
                       SizedBox(
                         height: 16.0,
@@ -154,7 +217,13 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                           categories: categories,
                           selectedCategorie: selectedCategorie,
                           selectCategory: selectCategory,
-                          theme: theme),
+                      ),
+                      if (categoryError)
+                        Text(
+                          'Категория должна быть выбрана',
+                          style: theme.textTheme.bodySmall!
+                              .copyWith(color: theme.colorScheme.error),
+                        ),
                       SizedBox(
                         height: 32.0,
                       ),
@@ -165,33 +234,45 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                       SizedBox(
                         height: 16.0,
                       ),
-                      GestureDetector(
-                          onTap: () async {
-                            DateTimeRange? datePickerDate =
-                                await showDateRangePicker(
-                                    context: context,
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2026));
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                              onTap: () async {
+                                DateTimeRange? datePickerDate =
+                                    await showDateRangePicker(
 
-                            setState(() {
-                              dateStart = DateFormat('yyyy-MM-dd')
-                                  .format(datePickerDate!.start.toLocal());
-                              dateEnd = DateFormat('yyyy-MM-dd')
-                                  .format(datePickerDate.end.toLocal());
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/icons/calendar-icon.svg'),
-                              SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(dateStart != null
-                                  ? '$dateStart - $dateEnd'
-                                  : 'Выберите дату'),
-                            ],
-                          )),
+                                        context: context,
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2026));
+
+                                setState(() {
+                                  dateStart = DateFormat('yyyy-MM-dd')
+                                      .format(datePickerDate!.start.toLocal());
+                                  dateEnd = DateFormat('yyyy-MM-dd')
+                                      .format(datePickerDate.end.toLocal());
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/icons/calendar-icon.svg'),
+                                  SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(dateStart.isNotEmpty
+                                      ? '$dateStart - $dateEnd'
+                                      : 'Выберите дату'),
+                                ],
+                              )),
+                          if (dateError)
+                            Text(
+                              'Дата должна быть указана',
+                              style: theme.textTheme.bodySmall!
+                                  .copyWith(color: theme.colorScheme.error),
+                            )
+                        ],
+                      ),
                       SizedBox(
                         height: 32.0,
                       ),
@@ -200,8 +281,14 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                       SizedBox(
                         height: 12.0,
                       ),
-                      TextField(
+                      TextFormField(
                           controller: descriptionController,
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return 'Описание не должно быть пустым';
+                            }
+                            return null;
+                          },
                           minLines: 3,
                           maxLines: 20,
                           decoration: InputDecoration(
@@ -220,7 +307,20 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   borderSide: BorderSide(
                                       width: 1.0,
-                                      color: theme.colorScheme.tertiary)))),
+                                    color: theme.colorScheme.tertiary)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: theme.colorScheme.error)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: theme.colorScheme.error)),
+                            errorStyle: theme.textTheme.bodySmall!
+                                .copyWith(color: theme.colorScheme.error),
+                          )),
                       SizedBox(
                         height: 12.0,
                       ),
@@ -330,8 +430,15 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                       SizedBox(height: 32.0),
                       Text('Укажите адрес', style: theme.textTheme.titleMedium),
                       SizedBox(height: 12.0),
-                      TextField(
+                      TextFormField(
                         controller: addressController,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Введите адрес';
+                          } else {
+                            return null;
+                          }
+                        },
                         decoration: InputDecoration(
                             isDense: true,
                             label: Text(
@@ -348,7 +455,18 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                                 borderRadius: BorderRadius.circular(8.0),
                                 borderSide: BorderSide(
                                     width: 1.0,
-                                    color: theme.colorScheme.tertiary))),
+                                  color: theme.colorScheme.tertiary)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(
+                                  width: 1.0, color: theme.colorScheme.error)),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide(
+                                  width: 1.0, color: theme.colorScheme.error)),
+                          errorStyle: theme.textTheme.bodySmall!
+                              .copyWith(color: theme.colorScheme.error),
+                        ),
                       ),
                       SizedBox(height: 32.0),
                       // OrderTypeSelectionBlocks
@@ -373,7 +491,11 @@ class _OrderCreationScreenState extends State<OrderCreationScreen> {
                           onPressed: () {
                             createOrder();
                           },
-                          child: Text('Опубликовать заказ'))
+                          child: Text(
+                            'Опубликовать заказ',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: Colors.white),
+                          ))
                     ],
                   ),
                 ),

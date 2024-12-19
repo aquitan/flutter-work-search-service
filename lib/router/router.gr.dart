@@ -228,6 +228,52 @@ class BlogRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BlogUserScreen]
+class BlogUserRoute extends PageRouteInfo<BlogUserRouteArgs> {
+  BlogUserRoute({
+    Key? key,
+    required int userId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BlogUserRoute.name,
+          args: BlogUserRouteArgs(
+            key: key,
+            userId: userId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BlogUserRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<BlogUserRouteArgs>();
+      return BlogUserScreen(
+        key: args.key,
+        userId: args.userId,
+      );
+    },
+  );
+}
+
+class BlogUserRouteArgs {
+  const BlogUserRouteArgs({
+    this.key,
+    required this.userId,
+  });
+
+  final Key? key;
+
+  final int userId;
+
+  @override
+  String toString() {
+    return 'BlogUserRouteArgs{key: $key, userId: $userId}';
+  }
+}
+
+/// generated route for
 /// [ChatScreen]
 class ChatRoute extends PageRouteInfo<void> {
   const ChatRoute({List<PageRouteInfo>? children})
@@ -427,6 +473,82 @@ class OrdersRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ProfileAboutScreen]
+class ProfileAboutRoute extends PageRouteInfo<void> {
+  const ProfileAboutRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileAboutRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileAboutRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileAboutScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileMasterScreen]
+class ProfileMasterRoute extends PageRouteInfo<void> {
+  const ProfileMasterRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileMasterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileMasterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileMasterScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileNotificationsScreen]
+class ProfileNotificationsRoute extends PageRouteInfo<void> {
+  const ProfileNotificationsRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileNotificationsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileNotificationsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileNotificationsScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfilePersonalDataScreen]
+class ProfilePersonalDataRoute extends PageRouteInfo<void> {
+  const ProfilePersonalDataRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfilePersonalDataRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfilePersonalDataRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfilePersonalDataScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [ProfileScreen]
 class ProfileRoute extends PageRouteInfo<ProfileRouteArgs> {
   ProfileRoute({
@@ -473,6 +595,25 @@ class ProfileRouteArgs {
 }
 
 /// generated route for
+/// [ProfileSettingsScreen]
+class ProfileSettingsRoute extends PageRouteInfo<void> {
+  const ProfileSettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileSettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileSettingsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileSettingsScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [ProfileThemeScreen]
 class ProfileThemeRoute extends PageRouteInfo<void> {
   const ProfileThemeRoute({List<PageRouteInfo>? children})
@@ -492,17 +633,38 @@ class ProfileThemeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ProfileVerificationScreen]
+class ProfileVerificationRoute extends PageRouteInfo<void> {
+  const ProfileVerificationRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileVerificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileVerificationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileVerificationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [PublicationScreen]
 class PublicationRoute extends PageRouteInfo<PublicationRouteArgs> {
   PublicationRoute({
     Key? key,
     required int id,
+    required int publicationUserId,
     List<PageRouteInfo>? children,
   }) : super(
           PublicationRoute.name,
           args: PublicationRouteArgs(
             key: key,
             id: id,
+            publicationUserId: publicationUserId,
           ),
           initialChildren: children,
         );
@@ -516,6 +678,7 @@ class PublicationRoute extends PageRouteInfo<PublicationRouteArgs> {
       return PublicationScreen(
         key: args.key,
         id: args.id,
+        publicationUserId: args.publicationUserId,
       );
     },
   );
@@ -525,15 +688,18 @@ class PublicationRouteArgs {
   const PublicationRouteArgs({
     this.key,
     required this.id,
+    required this.publicationUserId,
   });
 
   final Key? key;
 
   final int id;
 
+  final int publicationUserId;
+
   @override
   String toString() {
-    return 'PublicationRouteArgs{key: $key, id: $id}';
+    return 'PublicationRouteArgs{key: $key, id: $id, publicationUserId: $publicationUserId}';
   }
 }
 
