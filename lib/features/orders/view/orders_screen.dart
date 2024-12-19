@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/bloc/myUserBloc/bloc/my_user_bloc.dart';
 import 'package:ia_ma/features/orders/bloc/orders_bloc.dart';
 import 'package:ia_ma/features/orders/widgets/widgets.dart';
 import 'package:ia_ma/router/router.dart';
@@ -20,7 +20,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<MyUserBloc>(context).add(GetMe());
     BlocProvider.of<OrdersBloc>(context).add(GetMyOrders(take: 20, skip: 0));
   }
 
@@ -47,16 +47,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocListener<UserBloc, UserState>(
-      listener: (context, state) {
-        if (state is UserStateLoaded) {
-
-        }
-      },
-      child: Stack(
+    return Stack(
         children: [
           CustomScrollView(slivers: [
-            BlocBuilder<UserBloc, UserState>(
+          BlocBuilder<MyUserBloc, MyUserState>(
               builder: (context, state) {
                 if (state is UserStateLoaded) {
                   final user = state.myUser.data;
@@ -144,8 +138,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ]),
           BottomOrdersFloatingButton(),
-        ],
-      ),
+      ],
     );
   }
 }

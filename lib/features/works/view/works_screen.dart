@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/bloc/myUserBloc/bloc/my_user_bloc.dart';
 import 'package:ia_ma/features/orders/widgets/empty_orders_screen_banner.dart';
 import 'package:ia_ma/features/works/bloc/works_bloc.dart';
 import 'package:ia_ma/features/works/widgets/widgets.dart';
@@ -26,7 +26,7 @@ class _WorksScreenState extends State<WorksScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<MyUserBloc>(context).add(GetMe());
     BlocProvider.of<WorksBloc>(context).add(GetAllWorks());
   }
 
@@ -53,7 +53,7 @@ class _WorksScreenState extends State<WorksScreen> {
     return Stack(
         children: [
           CustomScrollView(slivers: [
-            BlocBuilder<UserBloc, UserState>(
+          BlocBuilder<MyUserBloc, MyUserState>(
               builder: (context, state) {
                 if (state is UserStateLoaded) {
                   final user = state.myUser.data;

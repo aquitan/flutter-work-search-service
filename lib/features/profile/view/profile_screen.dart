@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/bloc/myUserBloc/bloc/my_user_bloc.dart';
 import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
 import 'package:ia_ma/features/profile/widgets/widgets.dart';
 import 'package:ia_ma/router/router.dart';
+import 'package:ia_ma/ui/theme/theme.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,14 +36,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           title: Text('Профиль'),
+          centerTitle: true,
           actions: [
             IconButton(
                 onPressed: () {
                   _showSimpleModalDialog(context);
                 },
-                icon: SvgPicture.asset(
-                  'assets/icons/elipsis-horizontal.svg',
-                  colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                icon: CustomSvgImage(
+                  assetName: 'assets/icons/elipsis-horizontal.svg',
                 ))
           ],
         ),
@@ -100,8 +101,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(
                                   width: 4,
                                 ),
-                                SvgPicture.asset(
-                                    'assets/icons/virified-icon.svg')
+                                CustomSvgImage(
+                                  assetName: 'assets/icons/virified-icon.svg',
+                                  color: successColor,
+                                )
                               ],
                             ),
                             SizedBox(height: 8.0),
@@ -110,10 +113,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  SvgPicture.asset(
-                                      'assets/icons/location-mark.svg',
-                                      colorFilter: ColorFilter.mode(
-                                          Colors.grey, BlendMode.srcIn)),
+                                  CustomSvgImage(
+                                    assetName: 'assets/icons/location-mark.svg',
+                                  ),
                                   SizedBox(
                                     width: 4,
                                   ),
@@ -215,49 +217,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               height: 20.0,
                             ),
-                            Row(
-                              children: [
-                                FilledButton(
-                                    style: ButtonStyle(
-                                      fixedSize: WidgetStateProperty.all(
-                                          Size(double.infinity, 48.0)),
-                                      backgroundColor: WidgetStatePropertyAll(
-                                          theme.colorScheme.secondaryFixedDim),
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/icons/pencil-square-icon.svg',
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          'Редактировать профиль',
-                                          style: theme.textTheme.bodyMedium,
-                                        )
-                                      ],
-                                    )),
-                                SizedBox(
-                                  width: 8.0,
-                                ),
-                                IconButton.filled(
-                                    onPressed: () {},
-                                    style: ButtonStyle(
-                                        backgroundColor: WidgetStatePropertyAll(
-                                            theme
-                                                .colorScheme.secondaryFixedDim),
-                                        fixedSize: WidgetStatePropertyAll(Size(
-                                          48.0,
-                                          48.0,
-                                        ))),
-                                    icon: SvgPicture.asset(
-                                        'assets/icons/share-arrow.svg'))
-                              ],
-                            )
+                            BlocBuilder<MyUserBloc, MyUserState>(
+                                builder: (context, state) {
+                              if (state is UserStateLoaded) {
+                                final user = state.myUser.data;
+                                if (user.id == widget.id) {
+                                  return Row(
+                                    children: [
+                                      FilledButton(
+                                          style: ButtonStyle(
+                                            fixedSize: WidgetStateProperty.all(
+                                                Size(double.infinity, 48.0)),
+                                            backgroundColor:
+                                                WidgetStatePropertyAll(theme
+                                                    .colorScheme
+                                                    .secondaryFixedDim),
+                                          ),
+                                          onPressed: () {
+                                            AutoRouter.of(context).push(
+                                                ProfilePersonalDataRoute());
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CustomSvgImage(
+                                                assetName:
+                                                    'assets/icons/pencil-square-icon.svg',
+                                              ),
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Text(
+                                                'Редактировать профиль',
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              )
+                                            ],
+                                          )),
+                                      SizedBox(
+                                        width: 8.0,
+                                      ),
+                                      IconButton.filled(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  WidgetStatePropertyAll(theme
+                                                      .colorScheme
+                                                      .secondaryFixedDim),
+                                              fixedSize:
+                                                  WidgetStatePropertyAll(Size(
+                                                48.0,
+                                                48.0,
+                                              ))),
+                                          icon: CustomSvgImage(
+                                              assetName:
+                                                  'assets/icons/share-arrow.svg'))
+                                    ],
+                                  );
+                                }
+                                return Container();
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }),
+
                           ],
                         ),
                       ),
@@ -279,8 +304,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                            'assets/icons/recomendations-icon.svg',
+                          CustomSvgImage(
+                            assetName: 'assets/icons/recomendations-icon.svg',
+                            color: warningColor,
                             width: 24.0,
                           ),
                           SizedBox(width: 8.0),
@@ -332,54 +358,77 @@ _showSimpleModalDialog(context) {
                 BoxDecoration(borderRadius: BorderRadius.circular(24.0)),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/user-icon.svg'),
-                    SizedBox(
-                      width: 12.0,
-                    ),
-                    Text(
-                      'Личные данные',
-                      style: theme.textTheme.bodyLarge,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    AutoRouter.of(context).push(ProfilePersonalDataRoute());
+                  },
+                  child: Row(
+                    spacing: 12.0,
+                    children: [
+                      CustomSvgImage(assetName: 'assets/icons/user-icon.svg'),
+                      Text(
+                        'Личные данные',
+                        style: theme.textTheme.bodyLarge,
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/verify-outlined-icon.svg'),
-                    SizedBox(
-                      width: 12.0,
-                    ),
-                    Text(
-                      'Верификация личности',
-                      style: theme.textTheme.bodyLarge,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    AutoRouter.of(context).push(ProfileVerificationRoute());
+                  },
+                  child: Row(
+                    children: [
+                      CustomSvgImage(
+                          assetName: 'assets/icons/verify-outlined-icon.svg'),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Text(
+                        'Верификация личности',
+                        style: theme.textTheme.bodyLarge,
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/wrench-icon.svg'),
-                    SizedBox(
-                      width: 12.0,
-                    ),
-                    Text(
-                      'Я Мастер',
-                      style: theme.textTheme.bodyLarge,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    AutoRouter.of(context).push(ProfileMasterRoute());
+                  },
+                  child: Row(
+                    children: [
+                      CustomSvgImage(assetName: 'assets/icons/wrench-icon.svg'),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Text(
+                        'Я Мастер',
+                        style: theme.textTheme.bodyLarge,
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
-                Row(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    AutoRouter.of(context).push(ProfileNotificationsRoute());
+                  },
+                  child: Row(
                   children: [
-                    SvgPicture.asset('assets/icons/bell-alert-icon.svg'),
+                      CustomSvgImage(
+                          assetName: 'assets/icons/bell-alert-icon.svg'),
                     SizedBox(
                       width: 12.0,
                     ),
@@ -388,6 +437,7 @@ _showSimpleModalDialog(context) {
                       style: theme.textTheme.bodyLarge,
                     )
                   ],
+                ),
                 ),
                 SizedBox(
                   height: 20.0,
@@ -399,7 +449,9 @@ _showSimpleModalDialog(context) {
                   },
                   child: Row(
                     children: [
-                      SvgPicture.asset('assets/icons/color-scheme-icon.svg'),
+                      CustomSvgImage(
+                        assetName: 'assets/icons/color-scheme-icon.svg',
+                      ),
                       SizedBox(
                         width: 12.0,
                       ),
@@ -413,9 +465,16 @@ _showSimpleModalDialog(context) {
                 SizedBox(
                   height: 20.0,
                 ),
-                Row(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    AutoRouter.of(context).push(ProfileSettingsRoute());
+                  },
+                  child: Row(
                   children: [
-                    SvgPicture.asset('assets/icons/cog-6-tooth-icon.svg'),
+                      CustomSvgImage(
+                        assetName: 'assets/icons/cog-6-tooth-icon.svg',
+                      ),
                     SizedBox(
                       width: 12.0,
                     ),
@@ -425,13 +484,20 @@ _showSimpleModalDialog(context) {
                     )
                   ],
                 ),
+                ),
                 SizedBox(
                   height: 20.0,
                 ),
-                Row(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    AutoRouter.of(context).push(ProfileAboutRoute());
+                  },
+                  child: Row(
                   children: [
-                    SvgPicture.asset(
-                        'assets/icons/information-circle-icon.svg'),
+                      CustomSvgImage(
+                          assetName:
+                              'assets/icons/information-circle-icon.svg'),
                     SizedBox(
                       width: 12.0,
                     ),
@@ -440,6 +506,7 @@ _showSimpleModalDialog(context) {
                       style: theme.textTheme.bodyLarge,
                     )
                   ],
+                ),
                 ),
                 SizedBox(
                   height: 36.0,
@@ -451,7 +518,7 @@ _showSimpleModalDialog(context) {
                   },
                   child: Row(
                     children: [
-                      SvgPicture.asset('assets/icons/logout-icon.svg'),
+                      CustomSvgImage(assetName: 'assets/icons/logout-icon.svg'),
                       SizedBox(
                         width: 12.0,
                       ),

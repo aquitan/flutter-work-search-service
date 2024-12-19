@@ -8,4 +8,10 @@ class GetReplies extends RepliesEvent {
   GetReplies({required this.id});
 }
 
+class GetMyReply extends RepliesEvent {
+  final int id;
+
+  GetMyReply({required this.id});
+}
+
 class ClearState extends RepliesEvent {}

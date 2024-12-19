@@ -19,6 +19,16 @@ final class RepliesStateLoaded extends RepliesState {
   List<Object> get props => super.props..add(replies);
 }
 
+
+final class CheckMyReplies extends RepliesState {
+  final PublicationCheckMyResponse replies;
+
+  CheckMyReplies({required this.replies});
+
+  @override
+  List<Object> get props => super.props..add(replies);
+}
+
 final class RepliesBlocStateError extends RepliesState {
   final Object error;
 

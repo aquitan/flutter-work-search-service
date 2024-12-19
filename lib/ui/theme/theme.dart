@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 const primaryColor = Color.fromARGB(255, 234, 100, 43);
@@ -7,6 +8,8 @@ const tertiaryFlatLight = Color.fromRGBO(246, 248, 250, 1);
 const tertiaryColor = Color.fromRGBO(175, 184, 193, 1);
 const errorColor = Color.fromRGBO(218, 20, 20, 1);
 
+const iconsBlack = Color.fromRGBO(39, 39, 42, 1);
+
 const layoutBackground = Color.fromRGBO(255, 255, 255, 1);
 
 const primaryColorDark = Color.fromARGB(255, 234, 100, 43);
@@ -14,6 +17,8 @@ const secondaryColorDark = Color.fromRGBO(110, 119, 129, 1);
 const tertiaryColorDark = Color.fromRGBO(63, 63, 70, 1);
 const secondaryFlatDark = Color.fromRGBO(39, 39, 42, 1);
 const errorColorDark = Color.fromRGBO(218, 20, 20, 1);
+
+const labelGrey = Color.fromRGBO(161, 161, 170, 1);
 
 const successColor = Color.fromRGBO(18, 161, 80, 1);
 const warningColor = Color.fromRGBO(245, 165, 36, 1);
@@ -97,6 +102,22 @@ final textThemeLight = TextTheme(
       fontSize: 14,
       fontWeight: FontWeight.normal,
       color: Colors.black),
+  labelLarge: TextStyle(
+      fontFamily: 'Jost',
+      fontSize: 18,
+      fontWeight: FontWeight.w400,
+      color: labelGrey),
+  labelMedium: TextStyle(
+      fontFamily: 'Jost',
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: labelGrey),
+  labelSmall: TextStyle(
+      fontFamily: 'Jost',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: labelGrey),
+
 );
 
 final textThemeDark = TextTheme(
@@ -125,4 +146,28 @@ final textThemeDark = TextTheme(
       fontSize: 14,
       fontWeight: FontWeight.normal,
       color: Colors.white),
+  labelLarge: TextStyle(
+      fontFamily: 'Jost',
+      fontSize: 18,
+      fontWeight: FontWeight.w400,
+      color: labelGrey),
+  labelMedium: TextStyle(
+      fontFamily: 'Jost',
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: labelGrey),
+  labelSmall: TextStyle(
+      fontFamily: 'Jost',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: labelGrey),
 );
+
+
+extension ThemePlatformExtension on ThemeData {
+  bool get isAndroid => defaultTargetPlatform == TargetPlatform.android;
+  bool get isCupertino => [TargetPlatform.iOS, TargetPlatform.macOS]
+      .contains(defaultTargetPlatform);
+  Color get cupertinoAlertColor => const Color(0xFFF82B10);
+  Color get cupertinoActionColor => const Color(0xFF3478F7);
+}

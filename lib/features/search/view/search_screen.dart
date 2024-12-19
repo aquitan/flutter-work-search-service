@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
-import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/bloc/myUserBloc/bloc/my_user_bloc.dart';
 import 'package:ia_ma/bloc/userCategories/bloc/user_categories_bloc.dart';
 import 'package:ia_ma/features/search/bloc/search_bloc.dart';
 import 'package:ia_ma/features/search/methods/show_modal_bottomsheet.dart';
@@ -25,7 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<MyUserBloc>(context).add(GetMe());
     BlocProvider.of<UserCategoriesBloc>(context).add(GetUserCategories());
     BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
     BlocProvider.of<SearchBloc>(context)
@@ -45,7 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Stack(children: [
       CustomScrollView(
         slivers: [
-          BlocConsumer<UserBloc, UserState>(
+          BlocConsumer<MyUserBloc, MyUserState>(
             listener: (context, state) {
               if (state is UserStateLoaded) {
                 return;

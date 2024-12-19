@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:ia_ma/ui/theme/theme.dart';
+import 'package:ia_ma/ui/widgets/widgets.dart';
 
 class ProfileRatings extends StatelessWidget {
   const ProfileRatings({
@@ -26,16 +27,17 @@ class ProfileRatings extends StatelessWidget {
                 (index) {
                   for (int i = 0; i < rating; i++) {
                     if (i == index) {
-                      return SvgPicture.asset(
-                        'assets/icons/filled-star-icon.svg',
+                      return CustomSvgImage(
+                        assetName: 'assets/icons/filled-star-icon.svg',
+                        color: theme.colorScheme.primary,
                         width: 16.0,
                       );
                     }
                   }
-                  return SvgPicture.asset('assets/icons/filled-star-icon.svg',
+                  return CustomSvgImage(
+                      assetName: 'assets/icons/filled-star-icon.svg',
                       width: 16.0,
-                      colorFilter: ColorFilter.mode(
-                          theme.colorScheme.tertiary, BlendMode.srcIn));
+                      color: theme.colorScheme.tertiary);
                 },
 
               ),
@@ -52,22 +54,24 @@ class ProfileRatings extends StatelessWidget {
         ),
         Row(
           children: [
-            SvgPicture.asset(
-              'assets/icons/recomendations-icon.svg',
+            CustomSvgImage(
+              assetName: 'assets/icons/recomendations-icon.svg',
               width: 16.0,
+              color: warningColor,
             ),
             SizedBox(width: 4.0),
             Text(
-              '$recomendations',
+              '$recomendations рекомендаций',
               style: TextStyle(color: Colors.grey),
             ),
           ],
         ),
         Row(
           children: [
-            SvgPicture.asset(
-              'assets/icons/argues-icon.svg',
+            CustomSvgImage(
+              assetName: 'assets/icons/argues-icon.svg',
               width: 16.0,
+              color: successColor,
             ),
             SizedBox(width: 4.0),
             Text(

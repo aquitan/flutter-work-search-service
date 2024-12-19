@@ -1,16 +1,16 @@
-part of 'user_bloc.dart';
+part of 'my_user_bloc.dart';
 
-class UserState extends Equatable {
-  const UserState();
+class MyUserState extends Equatable {
+  const MyUserState();
   @override
   List<Object> get props => [];
 }
 
-class UserStateInitial extends UserState {}
+class UserStateInitial extends MyUserState {}
 
-class UserStateLoading extends UserState {}
+class UserStateLoading extends MyUserState {}
 
-class UserStateLoaded extends UserState {
+class UserStateLoaded extends MyUserState {
   final MyUser myUser;
 
   const UserStateLoaded({required this.myUser});
@@ -19,7 +19,7 @@ class UserStateLoaded extends UserState {
   List<Object> get props => super.props..add([myUser]);
 }
 
-class UserStateError extends UserState {
+class UserStateError extends MyUserState {
   final Object error;
 
   const UserStateError({required this.error});

@@ -52,9 +52,9 @@ dependencies:
   cookie_jar: ^4.0.8
 
   #LOGGER
-  talker_flutter: ^4.4.1
-  talker_dio_logger: ^4.4.1
-  talker_bloc_logger: ^4.4.1
+  talker_flutter: ^4.5.2
+  talker_dio_logger: ^4.5.2
+  talker_bloc_logger: ^4.5.2
 
   #ROUTING
   auto_route: ^9.2.2
@@ -76,6 +76,7 @@ dependencies:
   #APP DEVICE STORAGE
   path_provider: ^2.1.5
   photo_view: ^0.15.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:

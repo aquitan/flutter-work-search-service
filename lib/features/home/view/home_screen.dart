@@ -26,11 +26,12 @@ class HomeScreen extends StatelessWidget {
           bottomNavigationBar: Container(
             padding: EdgeInsets.only(top: 12.0),
             decoration: BoxDecoration(
+              boxShadow: null,
               color: theme.cardColor,
               border: Border(
                   top: BorderSide(
                 width: 1.0,
-                color: theme.dividerColor,
+                color: theme.colorScheme.tertiary,
               )),
             ),
             child: BottomNavigationBar(

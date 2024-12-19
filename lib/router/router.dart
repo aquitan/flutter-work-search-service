@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ia_ma/features/auth/view/new_password_screen.dart';
 import 'package:ia_ma/features/auth/view/view.dart';
-import 'package:ia_ma/features/blog/view/blog_screen.dart';
+import 'package:ia_ma/features/blog/view/view.dart';
 import 'package:ia_ma/features/filters/filters.dart';
 import 'package:ia_ma/features/home/view/home_screen.dart';
 import 'package:ia_ma/features/publication/publication.dart';
@@ -33,12 +33,25 @@ class AppRouter extends RootStackRouter {
           AutoRoute(page: WorksRoute.page, path: 'works'),
           AutoRoute(page: OrdersRoute.page, path: 'orders'),
           AutoRoute(page: ChatRoute.page, path: 'chat'),
-          AutoRoute(page: BlogRoute.page, path: 'blog'),
+          AutoRoute(page: EmptyShellRoute('blog'), path: 'blog', children: [
+            AutoRoute(page: BlogRoute.page, path: ''),
+            AutoRoute(page: BlogUserRoute.page, path: ':userId'),
+          ]),
         ], guards: [
           AuthGuard()
         ]),
         AutoRoute(page: ProfileRoute.page, path: '/profile'),
         AutoRoute(page: ProfileThemeRoute.page, path: '/profile_theme'),
+        AutoRoute(
+            page: ProfilePersonalDataRoute.page, path: '/profile_personal'),
+        AutoRoute(
+            page: ProfileVerificationRoute.page, path: '/profile_verification'),
+        AutoRoute(
+            page: ProfileNotificationsRoute.page,
+            path: '/profile_notification'),
+        AutoRoute(page: ProfileSettingsRoute.page, path: '/profile_settings'),
+        AutoRoute(page: ProfileMasterRoute.page, path: '/profile_master'),
+        AutoRoute(page: ProfileAboutRoute.page, path: '/profile_about'),
         AutoRoute(page: FiltersRoute.page, path: '/filters'),
         AutoRoute(page: OrderCreationRoute.page, path: '/creation'),
 

@@ -30,7 +30,7 @@ class User {
   String? passwordHash;
 
   @JsonKey(name: 'location_id')
-  Object? locationId;
+  int? locationId;
 
   @JsonKey(name: 'parent_id')
   int? parentId;

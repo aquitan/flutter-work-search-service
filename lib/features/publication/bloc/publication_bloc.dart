@@ -27,7 +27,8 @@ class PublicationBloc extends Bloc<PublicationEvent, PublicationBlocState> {
     on<CreatePublicationResponse>((event, emit) async {
       try {
         final response =
-            await publicationRepository.createPublicationResponse(event.id);
+            await publicationRepository.createPublicationResponse(
+            event.id, event.data!);
         GetIt.I<Talker>().debug(response.data);
       } catch (e, stackTract) {
         GetIt.I<Talker>().error(e, stackTract);

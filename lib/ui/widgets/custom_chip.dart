@@ -14,6 +14,7 @@ class CustomChip extends StatefulWidget {
     this.borderColor,
     this.padding = 8,
     this.selected,
+    this.fontWeight = FontWeight.w500,
   });
 
   final String text;
@@ -26,6 +27,7 @@ class CustomChip extends StatefulWidget {
   final Color? borderColor;
   final double? padding;
   final bool? selected;
+  final FontWeight? fontWeight;
 
   @override
   State<CustomChip> createState() => _CustomChipState();
@@ -52,7 +54,10 @@ class _CustomChipState extends State<CustomChip> {
       label: Text(
         widget.text,
         style:
-            TextStyle(fontSize: widget.fontSize, color: widget.textColor),
+            TextStyle(
+            fontSize: widget.fontSize,
+            color: widget.textColor,
+            fontWeight: widget.fontWeight),
       ),
     );
   }

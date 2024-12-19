@@ -20,6 +20,17 @@ class RepliesBloc extends Bloc<RepliesEvent, RepliesState> {
       }
     });
 
+    on<GetMyReply>((event, emit) async {
+      try {
+        final response =
+            await publicationRepository.getCheckMyResponse(event.id);
+        GetIt.I<Talker>().debug(response);
+        emit(CheckMyReplies(replies: response));
+      } catch (e, stackTract) {
+        GetIt.I<Talker>().error(e, stackTract);
+      }
+    });
+
     on<ClearState>((event, emit) async {
       emit(RepliesInitial());
     });

@@ -5,12 +5,11 @@ import 'package:ia_ma/repository/user/abstract_user_repository.dart';
 import 'package:ia_ma/repository/user/models/user_model.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-part 'user_event.dart';
-part 'user_state.dart';
+part 'my_user_event.dart';
+part 'my_user_state.dart';
 
-class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc(this.userRepository) : super(UserStateInitial()) {
-
+class MyUserBloc extends Bloc<UserEvent, MyUserState> {
+  MyUserBloc(this.userRepository) : super(UserStateInitial()) {
     on<GetMe>((event, emit) async {
       try {
         emit(UserStateLoading());

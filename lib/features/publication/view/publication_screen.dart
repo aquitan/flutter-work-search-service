@@ -3,15 +3,17 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ia_ma/bloc/bloc/categories_bloc.dart';
+import 'package:ia_ma/bloc/myUserBloc/bloc/my_user_bloc.dart';
 import 'package:ia_ma/bloc/publicationReplies/bloc/replies_bloc.dart';
-import 'package:ia_ma/bloc/userBloc/bloc/user_bloc.dart';
+import 'package:ia_ma/features/profile/bloc/profile_bloc.dart';
 import 'package:ia_ma/features/publication/bloc/publication_bloc.dart';
 import 'package:ia_ma/features/publication/methods/show_modal_bottomsheet.dart';
 import 'package:ia_ma/features/publication/widgets/widgets.dart';
 import 'package:ia_ma/helpers/date_parser.dart';
 import 'package:ia_ma/repository/categories/models/categories_model.dart';
+import 'package:ia_ma/router/router.dart';
 import 'package:ia_ma/ui/widgets/widgets.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -37,9 +39,12 @@ class _PublicationScreenState extends State<PublicationScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<UserBloc>(context).add(GetMe());
+    BlocProvider.of<MyUserBloc>(context).add(GetMe());
 
+    BlocProvider.of<ProfileBloc>(context)
+        .add(GetUserById(id: widget.publicationUserId));
 
+    BlocProvider.of<RepliesBloc>(context).add(GetMyReply(id: widget.id));
 
     BlocProvider.of<CategoriesBloc>(context).add(GetAllCategories());
     BlocProvider.of<PublicationBloc>(context)
@@ -49,9 +54,125 @@ class _PublicationScreenState extends State<PublicationScreen> {
   }
 
   void _orderReply() {
-    BlocProvider.of<PublicationBloc>(context).add(CreatePublicationResponse(
-      id: widget.id,
-    ));
+    final pBloc = context.read<PublicationBloc>().state;
+
+    if (pBloc is PublicationBlocStateLoaded) {
+      if (pBloc.publication.data.isTender == 'price_offer') {
+        showOrderEvaluationBottomsheet(context);
+      } else {
+        BlocProvider.of<PublicationBloc>(context).add(CreatePublicationResponse(
+          id: widget.id,
+        ));
+      }
+    }
+  }
+
+  Future<dynamic> showOrderEvaluationBottomsheet(BuildContext context) {
+    final theme = Theme.of(context);
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        context: context,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                    top: 24.0, left: 16.0, right: 16.0, bottom: 30.0),
+                decoration: BoxDecoration(
+                  color: theme.cardTheme.color,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24.0),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      spacing: 8.0,
+                      children: [
+                        CustomSvgImage(
+                            assetName: 'assets/icons/calculator-icon.svg'),
+                        Text(
+                          "Встречное предложение",
+                          style: theme.textTheme.bodyMedium!
+                              .copyWith(color: theme.colorScheme.tertiary),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 10.0),
+                    // TextField for giving some Input
+
+                    Text(
+                      'Рассчитайте заказ',
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 10.0),
+                    TextField(
+                      decoration: InputDecoration(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: CustomSvgImage(
+                            assetName: 'assets/icons/ruble-icon.svg',
+                            width: 8.0,
+                            height: 8.0,
+                          ),
+                        ),
+                        isDense: true,
+                        label: Text(
+                          'Укажите стоимость работ',
+                          style: TextStyle(color: theme.colorScheme.tertiary),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                                width: 1.0, color: theme.colorScheme.tertiary)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide(
+                                width: 1.0, color: theme.colorScheme.tertiary)),
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+
+                    //Button for adding items
+                    FilledButton(
+                        onPressed: () {
+                          var data = {'price': 1000};
+                          BlocProvider.of<PublicationBloc>(context).add(
+                              CreatePublicationResponse(
+                                  id: widget.id, data: data));
+                        },
+                        style: ButtonStyle(
+                            maximumSize: WidgetStatePropertyAll(
+                                Size(double.infinity, 56.0)),
+                            minimumSize: WidgetStatePropertyAll(
+                                Size(double.infinity, 56.0)),
+                            backgroundColor: WidgetStateProperty.all(
+                                theme.colorScheme.primary),
+                            textStyle: WidgetStateProperty.all(
+                                const TextStyle(fontSize: 18))),
+                        child: Row(
+                          spacing: 8.0,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomSvgImage(
+                              assetName: 'assets/icons/lightning-icon.svg',
+                            ),
+                            Text("Подтвердить отклик"),
+                          ],
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
 
@@ -80,7 +201,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
             }
           },
         ),
-        BlocListener<UserBloc, UserState>(
+        BlocListener<MyUserBloc, MyUserState>(
           listener: (context, state) {
             if (state is UserStateLoaded) {
               setState(() {
@@ -103,17 +224,16 @@ class _PublicationScreenState extends State<PublicationScreen> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: SvgPicture.asset(
-                'assets/icons/square-2-stack-icon.svg',
-                colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                icon: CustomSvgImage(
+                  assetName: 'assets/icons/square-2-stack-icon.svg',
+
               ),
             ),
             IconButton(
                 onPressed: () {},
-                icon: SvgPicture.asset(
-                  'assets/icons/elipsis-horizontal.svg',
-                  colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
-                ))
+                  icon: CustomSvgImage(
+                    assetName: 'assets/icons/elipsis-horizontal.svg',
+                  ))
           ],
         ),
           body: PopScope(
@@ -161,8 +281,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                           children: [
                                             Row(
                                               children: [
-                                                SvgPicture.asset(
-                                                    'assets/icons/date-icon.svg'),
+                                                CustomSvgImage(
+                                                    assetName:
+                                                        'assets/icons/date-icon.svg'),
                                                 SizedBox(width: 4.0),
                                                 Text(
                                                   '${parseDate(publication.workBeginDate)} ${publication.workEndDate != null ? '-' : ""} ${publication.workEndDate != null ? parseDate(publication.workEndDate) : ""}',
@@ -175,8 +296,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                             ),
                                             Row(
                                               children: [
-                                                SvgPicture.asset(
-                                                    'assets/icons/eye-icon.svg'),
+                                                CustomSvgImage(
+                                                    assetName:
+                                                        'assets/icons/eye-icon.svg'),
                                                 SizedBox(width: 4.0),
                                                 Text(
                                                   '20',
@@ -213,8 +335,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                           textColor:
                                               theme.colorScheme.secondary,
                                           text: 'В поиске исполнителя',
-                                          avatar: SvgPicture.asset(
-                                              'assets/icons/magnifying-glass-icon.svg'),
+                                          avatar: CustomSvgImage(
+                                              assetName:
+                                                  'assets/icons/magnifying-glass-icon.svg'),
                                         ),
                                       if (publication.state == 2)
                                         CustomChip(
@@ -224,15 +347,17 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                           textColor:
                                               theme.colorScheme.primaryFixedDim,
                                           text: 'Выполняется',
-                                          avatar: SvgPicture.asset(
-                                              'assets/icons/lightning-icon.svg'),
+                                          avatar: CustomSvgImage(
+                                              assetName:
+                                                  'assets/icons/lightning-icon.svg'),
                                         ),
 
                                       CustomChip(
                                         text:
                                             'закрытие ${publication.workEndDate != null ? parseDate(publication.workEndDate) : ""}',
-                                        avatar: SvgPicture.asset(
-                                          'assets/icons/clock-icon.svg',
+                                        avatar: CustomSvgImage(
+                                          assetName:
+                                              'assets/icons/clock-icon.svg',
                                           width: 14.0,
                                           height: 14.0,
                                         ),
@@ -289,8 +414,9 @@ class _PublicationScreenState extends State<PublicationScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SvgPicture.asset(
-                                        'assets/icons/location-mark.svg'),
+                                    CustomSvgImage(
+                                        assetName:
+                                            'assets/icons/location-mark.svg'),
                                     SizedBox(width: 8.0),
                                     Expanded(child: Text(publication.address!))
                                   ],
@@ -304,25 +430,95 @@ class _PublicationScreenState extends State<PublicationScreen> {
                   SizedBox(
                     height: 12.0,
                   ),
-                  BlocBuilder<PublicationBloc, PublicationBlocState>(
-                      builder: (context, state) {
-                    if (state is PublicationBlocStateLoaded) {
-                      final publication = state.publication.data;
+                  Container(
+                    padding: EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: theme.cardTheme.color,
+                      borderRadius: BorderRadius.all(Radius.circular(24.0)),
+                    ),
+                    child: Column(
+                      children: [
+                        BlocBuilder<PublicationBloc, PublicationBlocState>(
+                            builder: (context, state) {
+                          if (state is PublicationBlocStateLoaded) {
+                            final publication = state.publication.data;
 
-                      return Container(
-                        padding: EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          color: theme.cardTheme.color,
-                          borderRadius: BorderRadius.all(Radius.circular(24.0)),
+                            return OrderDetailedTypeIndicator(
+                                isTender: publication.isTender,
+                                startPrice: publication.startPrice ?? '',
+                                price: publication.price);
+                          }
+                          return SizedBox();
+                        }),
+                        SizedBox(
+                          height: 12.0,
                         ),
-                        child: OrderDetailedTypeIndicator(
-                            isTender: publication.isTender,
-                            startPrice: publication.startPrice ?? '',
-                            price: publication.price),
-                      );
-                    }
-                    return SizedBox();
-                  }),
+                        BlocBuilder<ProfileBloc, ProfileState>(
+                            builder: (context, state) {
+                          if (state is ProfileStateLoaded) {
+                            final user = state.user;
+
+                            return GestureDetector(
+                              onTap: () => AutoRouter.of(context)
+                                  .push(ProfileRoute(id: user.id)),
+                              child: SizedBox(
+                                child: Row(
+                                  children: [
+                                    CustomAvatar(
+                                      radius: 20.0,
+                                      bordered: true,
+                                      isOnline: true,
+                                      initials:
+                                          '${user.firstName![0]}${user.lastName?[0] ?? ''}',
+                                      networkImg: user.avatar != null
+                                          ? '${dotenv.env['YA_MA_CDN']}${user.avatar}'
+                                          : null,
+                                    ),
+                                    SizedBox(width: 8.0),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Заказчик',
+                                          style: theme.textTheme.bodySmall!
+                                              .copyWith(
+                                                  color: theme
+                                                      .colorScheme.tertiary),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                                '${user.firstName} ${user.lastName ?? ''}'),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Row(
+                                              children: [
+                                                CustomSvgImage(
+                                                    assetName:
+                                                        'assets/icons/filled-star-icon.svg'),
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text('${user.rating}')
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        })
+                      ],
+                    ),
+                  ),
+
                   SizedBox(
                     height: 24.0,
                   ),
@@ -349,7 +545,7 @@ class _PublicationScreenState extends State<PublicationScreen> {
                   )
                 ],
               ),
-              BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+              BlocBuilder<MyUserBloc, MyUserState>(builder: (context, state) {
                 if (state is UserStateLoaded) {
                   final id = state.myUser.data.id;
                   return PublicationButtons(

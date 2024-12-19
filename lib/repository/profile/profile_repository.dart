@@ -14,7 +14,4 @@ class ProfileRepository implements AbstractProfileRepository {
 
     return Profile.fromJson(response.data);
   }
-
-
-
 }

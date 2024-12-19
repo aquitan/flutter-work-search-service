@@ -1,4 +1,4 @@
-part of 'user_bloc.dart';
+part of 'my_user_bloc.dart';
 
 class UserEvent {}
 

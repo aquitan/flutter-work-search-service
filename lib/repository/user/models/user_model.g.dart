@@ -15,7 +15,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       lastName: json['last_name'] as String?,
       isActiveEmail: json['is_active_email'] as bool,
       isActivePhone: json['is_active_phone'] as bool,
-      locationId: json['location_id'],
+      locationId: (json['location_id'] as num?)?.toInt(),
       nodebbUid: (json['nodebb_uid'] as num?)?.toInt(),
       avatar: json['avatar'] as String?,
       phone: json['phone'] as String?,

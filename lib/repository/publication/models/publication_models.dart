@@ -60,10 +60,10 @@ class PublicationResponseModel {
 
   final String? state;
 
-  final bool isBookmarked;
+  final bool? isBookmarked;
 
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;
 
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
@@ -84,7 +84,7 @@ class PublicationCheckMyResponse {
   final PublicationResponseChat? chat;
 
   @JsonKey(name: 'publication_id')
-  final int publicationId;
+  final int? publicationId;
 
   @JsonKey(name: 'user_id')
   final int? userId;
@@ -97,10 +97,10 @@ class PublicationCheckMyResponse {
 
   final String? state;
 
-  final bool isBookmarked;
+  final bool? isBookmarked;
 
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;
 
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
@@ -144,7 +144,7 @@ class PublicationResponseChat {
   final int? publicationId;
 
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;
 
   @JsonKey(name: 'publication_response_id')
   final int? publicationResponseId;
@@ -214,12 +214,12 @@ class CandidateModel {
 
   final int? price;
 
-  final bool isBookmarked;
+  final bool? isBookmarked;
 
   @JsonKey(name: 'publication_id')
-  final int publicationId;
+  final int? publicationId;
 
-  final String state;
+  final String? state;
 
   final String? text;
 
@@ -235,6 +235,30 @@ class CandidateModel {
       _$CandidateModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CandidateModelToJson(this);
+}
+
+@JsonSerializable()
+class ReplyData {
+  final ReplyConfirmModel? data;
+
+  factory ReplyData.fromJson(Map<String, dynamic> json) =>
+      _$ReplyDataFromJson(json);
+
+  ReplyData({required this.data});
+
+  Map<String, dynamic> toJson() => _$ReplyDataToJson(this);
+}
+
+@JsonSerializable()
+class ReplyConfirmModel {
+  final int? price;
+
+  ReplyConfirmModel({required this.price});
+
+  factory ReplyConfirmModel.fromJson(Map<String, dynamic> json) =>
+      _$ReplyConfirmModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReplyConfirmModelToJson(this);
 }
 
 // // RepliesModel

@@ -36,8 +36,8 @@ PublicationResponseModel _$PublicationResponseModelFromJson(
       (json['price'] as num?)?.toInt(),
       (json['id'] as num?)?.toInt(),
       json['state'] as String?,
-      json['isBookmarked'] as bool,
-      json['created_at'] as String,
+      json['isBookmarked'] as bool?,
+      json['created_at'] as String?,
       json['updated_at'] as String?,
       json['deleted_at'] as String?,
       publicationId: (json['publication_id'] as num).toInt(),
@@ -65,14 +65,14 @@ PublicationCheckMyResponse _$PublicationCheckMyResponseFromJson(
           ? null
           : PublicationResponseChat.fromJson(
               json['chat'] as Map<String, dynamic>),
-      publicationId: (json['publication_id'] as num).toInt(),
+      publicationId: (json['publication_id'] as num?)?.toInt(),
       userId: (json['user_id'] as num?)?.toInt(),
       text: json['text'] as String?,
       price: (json['price'] as num?)?.toInt(),
       id: (json['id'] as num?)?.toInt(),
       state: json['state'] as String?,
-      isBookmarked: json['isBookmarked'] as bool,
-      createdAt: json['created_at'] as String,
+      isBookmarked: json['isBookmarked'] as bool?,
+      createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       deletedAt: json['deleted_at'] as String?,
     );
@@ -100,7 +100,7 @@ PublicationResponseChat _$PublicationResponseChatFromJson(
       userId: (json['user_id'] as num?)?.toInt(),
       executorUserId: (json['executor_user_id'] as num?)?.toInt(),
       publicationId: (json['publication_id'] as num?)?.toInt(),
-      createdAt: json['created_at'] as String,
+      createdAt: json['created_at'] as String?,
       publicationResponseId: (json['publication_response_id'] as num?)?.toInt(),
       updatedAt: json['updated_at'] as String?,
       deletedAt: json['deleted_at'] as String?,
@@ -143,9 +143,9 @@ CandidateModel _$CandidateModelFromJson(Map<String, dynamic> json) =>
       deletedAt: json['deleted_at'] as String?,
       id: (json['id'] as num?)?.toInt(),
       price: (json['price'] as num?)?.toInt(),
-      isBookmarked: json['isBookmarked'] as bool,
-      publicationId: (json['publication_id'] as num).toInt(),
-      state: json['state'] as String,
+      isBookmarked: json['isBookmarked'] as bool?,
+      publicationId: (json['publication_id'] as num?)?.toInt(),
+      state: json['state'] as String?,
       text: json['text'] as String?,
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       userId: (json['user_id'] as num?)?.toInt(),
@@ -166,4 +166,24 @@ Map<String, dynamic> _$CandidateModelToJson(CandidateModel instance) =>
       'user': instance.user,
       'user_id': instance.userId,
       'updated_at': instance.updatedAt,
+    };
+
+ReplyData _$ReplyDataFromJson(Map<String, dynamic> json) => ReplyData(
+      data: json['data'] == null
+          ? null
+          : ReplyConfirmModel.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ReplyDataToJson(ReplyData instance) => <String, dynamic>{
+      'data': instance.data,
+    };
+
+ReplyConfirmModel _$ReplyConfirmModelFromJson(Map<String, dynamic> json) =>
+    ReplyConfirmModel(
+      price: (json['price'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$ReplyConfirmModelToJson(ReplyConfirmModel instance) =>
+    <String, dynamic>{
+      'price': instance.price,
     };

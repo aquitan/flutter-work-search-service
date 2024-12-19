@@ -33,7 +33,7 @@ class UserModel {
   bool isActivePhone;
 
   @JsonKey(name: 'location_id')
-  Object? locationId;
+  int? locationId;
 
   @JsonKey(name: 'nodebb_uid')
   int? nodebbUid;
