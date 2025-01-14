@@ -1,4 +1,4 @@
-# ia_ma
+# The Logo
 
 A new Flutter project.
 
