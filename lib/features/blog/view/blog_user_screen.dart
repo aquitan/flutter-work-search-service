@@ -140,7 +140,11 @@ class _BlogUserScreenState extends State<BlogUserScreen> {
                               InfoUserChip(child: '0', title: 'Публикации'),
                               InfoUserChip(child: '0', title: 'Подписчики'),
                             ],
-                          )
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          BlogSubscribeButtons(subscribed: false)
                         ],
                       ),
                     ),
@@ -157,6 +161,11 @@ class _BlogUserScreenState extends State<BlogUserScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
                 child: BlogCard(),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 60,
               ),
             )
           ],

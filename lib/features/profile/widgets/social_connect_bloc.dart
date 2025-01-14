@@ -11,7 +11,7 @@ class SocialConnectBloc extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      width: 158.0,
+      width: 165.0,
       height: 172.0,
       padding:
           EdgeInsets.only(top: 16.0, left: 12.0, bottom: 12.0, right: 12.0),
@@ -23,10 +23,17 @@ class SocialConnectBloc extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: 8.0,
         children: [
-          SvgPicture.asset(
+          Container(
+            padding: EdgeInsets.all(4.0),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.tertiary,
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            child: SvgPicture.asset(
             icon,
             height: 30.0,
             width: 30.0,
+          ),
           ),
           // CustomSvgImage(
           //   assetName: icon,
@@ -37,7 +44,12 @@ class SocialConnectBloc extends StatelessWidget {
             name,
             style: theme.textTheme.titleSmall,
           ),
-          OutlinedButton(onPressed: () {}, child: Text('Привязать'))
+          OutlinedButton(
+              onPressed: () {},
+              child: Text(
+                'Привязать',
+                style: theme.textTheme.bodyMedium,
+              ))
         ],
       ),
     );

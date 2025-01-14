@@ -9,7 +9,7 @@ class SocialConnectList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 158.0,
+      width: 165.0,
       height: 172.0,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,

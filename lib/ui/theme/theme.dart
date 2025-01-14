@@ -1,18 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-const primaryColor = Color.fromARGB(255, 234, 100, 43);
+const primaryColor = Color.fromARGB(255, 25, 23, 108);
 const secondaryColor = Color.fromRGBO(110, 119, 129, 1);
 const secondaryFlat = Color.fromRGBO(244, 244, 245, 1);
 const tertiaryFlatLight = Color.fromRGBO(246, 248, 250, 1);
 const tertiaryColor = Color.fromRGBO(175, 184, 193, 1);
 const errorColor = Color.fromRGBO(218, 20, 20, 1);
 
+const primaryDimed = Color.fromRGBO(253, 239, 234, 1);
+
 const iconsBlack = Color.fromRGBO(39, 39, 42, 1);
 
 const layoutBackground = Color.fromRGBO(255, 255, 255, 1);
 
-const primaryColorDark = Color.fromARGB(255, 234, 100, 43);
+const primaryColorDark = Color.fromARGB(255, 14, 14, 104);
 const secondaryColorDark = Color.fromRGBO(110, 119, 129, 1);
 const tertiaryColorDark = Color.fromRGBO(63, 63, 70, 1);
 const secondaryFlatDark = Color.fromRGBO(39, 39, 42, 1);
